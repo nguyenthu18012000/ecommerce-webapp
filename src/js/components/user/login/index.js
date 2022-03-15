@@ -1,4 +1,5 @@
 import { Col, Row } from 'antd';
+import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import { StyleLoginComponent } from './styled';
 import { AiOutlineArrowRight, AiOutlineCheck } from "react-icons/ai";
@@ -43,7 +44,7 @@ const LoginComponent = () => {
                 <Row>
                     <Col span={12} xs={24} xl={12}>
                         <div className="form-register">
-                            <div className="header-form">Đăng ký</div>
+                            <div className="header-form">Đăng nhập</div>
                             <form>
                                 <div className="input-container">
                                     <label className="input-name">Tài khoản</label>
@@ -72,9 +73,9 @@ const LoginComponent = () => {
                             <div className="register-text"><AiOutlineCheck /> Các sản phẩm mới nhất</div>
                             <div className="register-text"><AiOutlineCheck /> Các bộ sưu tập giới hạn và bộ sưu tập theo mùa mới</div>
                             <div className="register-text"><AiOutlineCheck /> Các sự kiện sắp tới</div>
-                            <a href="/register">
-                                <button className="register-button" onClick="location.href='/register'">Đăng Kí<AiOutlineArrowRight /></button>
-                            </a>
+                            <Link to="/register">
+                                <button className="register-button">Đăng Kí<AiOutlineArrowRight /></button>
+                            </Link>
                         </div>
                     </Col>
                 </Row>

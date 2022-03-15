@@ -1,11 +1,12 @@
 import React from 'react';
+import MainLayout from '../../../components/common/main-layout';
 import LoginComponent from '../../../components/user/login';
 
-const Login = () => {
+const Login = ({ match }) => {
     return (
-        <div>
-            <LoginComponent />
-        </div>
+        <MainLayout>
+            <LoginComponent match={match} />
+        </MainLayout>
     );
 };
 

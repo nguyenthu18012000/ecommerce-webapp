@@ -1,10 +1,13 @@
 import React from 'react';
+import MainLayout from '../../../components/common/main-layout';
 import RegisterComponent from '../../../components/user/register';
 
 
-const Register = () => {
+const Register = ({ match }) => {
     return (
-        <RegisterComponent />
+        <MainLayout>
+            <RegisterComponent match={match} />
+        </MainLayout>
     );
 };
 
