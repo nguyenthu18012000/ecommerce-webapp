@@ -1,9 +1,8 @@
 import { Col, Row } from 'antd';
 import React, { useState } from 'react';
 import { StyleLoginComponent } from './styled';
-import { AiOutlineArrowRight, AiOutlineCheck } from "react-icons/ai";
+import { AiOutlineArrowRight,  } from "react-icons/ai";
 import Validator from "hero-validate";
-import authAdminService from "../../../services/admin/auth.service";
 
 const LoginComponent = () => {
 
@@ -43,7 +42,9 @@ const LoginComponent = () => {
     };
 
     return (
+        
         <StyleLoginComponent>
+            <div>duong</div>
             <div className="register-container">
                 <Row>
                     <Col span={12} xs={24} xl={12}>
