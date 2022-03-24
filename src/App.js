@@ -9,8 +9,8 @@ function App() {
     <BrowserRouter>
       <div>
         <Switch>
-          <Route path="/admin" exact component={AdminComponent} />
-          <Route path="/" exacr component={UserComponent} />
+          <Route path="/admin" component={AdminComponent} />
+          <Route path="/" component={UserComponent} />
         </Switch>
       </div>
     </BrowserRouter>
