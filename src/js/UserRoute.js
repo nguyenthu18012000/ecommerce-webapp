@@ -10,7 +10,7 @@ const UserComponent = () => {
         <>
             <Route path="/login" exact component={Login} />
             <Route path="/register" exact component={Register} />
-            <Route path="/product" exact component={Product} />
+            <Route path="/product" component={Product} />
             <Route path="/" exact component={Home} />
         </>
     );
