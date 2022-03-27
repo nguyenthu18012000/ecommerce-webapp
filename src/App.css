@@ -46,3 +46,7 @@
 .site-layout .site-layout-background {
   background: #fff;
 }
+
+.checkbox-none-background .ant-checkbox-inner {
+  background: #00000000;
+}

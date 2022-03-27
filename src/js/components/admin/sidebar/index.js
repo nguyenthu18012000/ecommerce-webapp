@@ -3,18 +3,15 @@ import React, { useState } from "react";
 import { Layout } from "antd";
 import MenuSide from "./menu-side";
 import BreadcrumbCustomer from "./breadcrumb";
-import { useRouteMatch } from "react-router-dom";
 import AddProduct from "../../../pages/admin/productManage/addProduct";
+import ListProduct from "../../../pages/admin/productManage/listProduct";
 import { Switch } from "react-router-dom";
 import { Route } from "react-router-dom";
 const { Header, Content, Footer, Sider } = Layout;
 
 const SideBar = () => {
-    let { path, url } = useRouteMatch();
-    console.log(path)
 
     const [data, setData] = useState({
-        currentPath: window.location.pathname.split("/").at(2),
         collapsed: false,
     });
 
@@ -40,14 +37,14 @@ const SideBar = () => {
                         <BreadcrumbCustomer />
                         <div
                             className="site-layout-background"
-                            style={{ padding: 24, minHeight: "100vh" }}
+                            style={{ padding: 14, minHeight: "100vh" }}
                         >
                             <Switch>
-                                <Route exact path={path}>
-                                    <h3>Please select a topic.</h3>
+                                <Route path='/admin/add-product' >
+                                    <AddProduct/>
                                 </Route>
-                                <Route path={`${path}/add-product`}>
-                                    <h3>Please select a topic sadsad.</h3>
+                                <Route path='/admin/list-product' >
+                                    <ListProduct/>
                                 </Route>
                             </Switch>
                         </div>
