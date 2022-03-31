@@ -55,3 +55,12 @@
 .margin-product {
   margin-right: 5%;
 }
+.checkbox-none-background .ant-checkbox-inner {
+  background: #00000000;
+}
+
+.blue-border {
+  border: 1px solid #00214080;
+  border-radius: 5px;
+  padding: 10px 10px;
+}

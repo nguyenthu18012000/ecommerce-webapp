@@ -10,7 +10,7 @@ import { Link, useLocation } from 'react-router-dom';
 const { SubMenu } = Menu;
 const menu = [
     {
-        key: "tag-manager",
+        key: "/admin/tag-manager",
         title: "Tag manager",
         icon: <TagsOutlined />,
         subMenu: [],
@@ -21,7 +21,7 @@ const menu = [
         icon: <ShoppingOutlined />,
         subMenu: [
             {
-                key: "admin/add-product",
+                key: "/admin/add-product",
                 title: "Add product",
             },
             {
@@ -56,8 +56,9 @@ const MenuItem = (item) => {
 
 const MenuSide = () => {
     const location = useLocation();
+    
     return (
-        <Menu theme="dark"  mode="inline" >
+        <Menu theme="dark" selectedKeys={[location.pathname]}  mode="inline" >
             {menu.map((item) =>
                 item.subMenu && item.subMenu.length > 0 ? (
                     <SubMenu key={item.key} icon={item.icon} title={item.title}>
