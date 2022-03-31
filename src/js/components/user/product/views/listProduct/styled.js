@@ -21,6 +21,7 @@ const StyleListProductComponent = styled.div`
 
         .product-item {
             margin-bottom: 2%;
+            padding-right: 1%;
         }
     }
 `;

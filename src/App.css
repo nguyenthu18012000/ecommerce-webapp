@@ -46,3 +46,12 @@
 .site-layout .site-layout-background {
   background: #fff;
 }
+
+.scale1_5 {
+  transform: scale(1.3);
+  margin-left: 5px;
+}
+
+.margin-product {
+  margin-right: 5%;
+}

@@ -14,7 +14,8 @@ const CartItemComponent = () => {
                     <Col span={16} className="item-information">
                         <div className="item-infor item-name">
                             <span>Giày ultaboost</span>
-                            <span>giá</span></div>
+                            <span>giá</span>
+                        </div>
                         <div className="item-infor item-status">snar phẩm đang sẵn hàng</div>
                         <div className="item-infor item-quantity">
                             <select>

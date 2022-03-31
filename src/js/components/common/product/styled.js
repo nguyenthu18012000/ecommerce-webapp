@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const StyleProductComponent = styled.div`
     .new-arrival-item {
-        margin-right: 5%;
+        /* margin-right: 5%; */
         .product {
 
             .product-image {

@@ -50,9 +50,20 @@ const RegisterComponent = () => {
         "confirmPassword": "",
     });
 
+    const [touch, setTouch] = useState({
+        username: false,
+        email: false,
+        password: false,
+        confirmPassword: false,
+    })
+
     const handleChangeInput = (e) => {
         setDataRegister({
             ...dataRegister,
+            [e.target.name]: true,
+        })
+        setTouch({
+            ...touch,
             [e.target.name]: e.target.value,
         })
     }
@@ -70,24 +81,24 @@ const RegisterComponent = () => {
                                     <label className="input-name">Tài khoản</label>
                                     <input type="text" name="username" onChange={handleChangeInput} placeholder="Nhập tài khoản..." required />
                                 </div>
-                                <div className="invalid-feedback">{result.errors?.username}</div>
+                                <div className="invalid-feedback">{(touch.username && result.errors?.username) && result.errors?.username}</div>
                                 <div className="input-container">
                                     <label className="input-name">Email</label>
                                     <input type="email" name="email" onChange={handleChangeInput} placeholder="Nhập email..." required />
                                 </div>
-                                <div className="invalid-feedback">{result.errors?.email}</div>
+                                <div className="invalid-feedback">{(touch.email && result.errors?.email) && result.errors?.email}</div>
                                 <div className="input-container">
                                     <label className="input-name">Mật khẩu</label>
                                     <input type="password" name="password" onChange={handleChangeInput} placeholder="Nhập mật khẩu..." required />
                                 </div>
-                                <div className="invalid-feedback">{result.errors?.password}</div>
+                                <div className="invalid-feedback">{(touch.password && result.errors?.password) && result.errors?.password}</div>
                                 <div className="input-container">
                                     <label className="input-name">Xác nhận mật khẩu</label>
                                     <input type="password" name="confirmPassword" onChange={handleChangeInput} placeholder="Nhập lại mật khẩu..." required />
                                 </div>
-                                <div className="invalid-feedback">{result.errors?.confirmPassword}</div>
+                                <div className="invalid-feedback">{(touch.confirmPassword && result.errors?.confirmPassword) && result.errors?.confirmPassword}</div>
                                 <div className="input-container">
-                                    <button type="submit">Đăng ký<AiOutlineArrowRight /></button>
+                                    <button type="submit">Đăng ký<AiOutlineArrowRight className="scale1_5" /></button>
                                     {/* <span className="behind-button"></span> */}
                                 </div>
                             </form>

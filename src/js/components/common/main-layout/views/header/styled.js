@@ -1,104 +1,23 @@
 import styled from "styled-components";
 
 const StyleHeaderComponent = styled.div`
-font-family: "Noto Sans","AdihausDIN","Helvetica",Arial,sans-serif !important;
-.header {
-    display: block;
-    width: 100%;
-    border-bottom: 1px solid rgb(230,230,230);
-
-    .top-header {
-        background-color: black;
-
-        .top-label {
-            display: inline-block;
-            color: rgb(255, 255, 255);
-            font-weight: 300;
-            text-align: center;
-            font-size: 15px;
-            letter-spacing: 2px;
-            text-shadow: 1 1 1 rgba(255,255,255,1);
-            margin-top: 3px;
-            margin-bottom : 3px;
-        }
-
+    .web-header {
+        display: block;
     }
 
-    .header-mid {
-        display: inline-block;
-        width: 100%;
-        height: 30px;
-
-        .label {
-            float: right;
-            padding-right: 2rem;
-            margin-top: 0.3rem;
-            margin-bottom: 0.3rem;
-
-            .mid-label {
-                padding-right: 1rem;
-                padding-left: 1rem;
-                color: rgb(255,0,0);
-                font-size: 13px;
-
-                .text-color {
-                    color: black;
-                }
-            }
-        }
-        
+    .mobile-header {
+        display: none;
     }
 
-    .header-bot {
-        display: inline-block;
-        width: 100%;
-        margin-left: 2%;
-        margin-right: 2%;
-        height: 40px;
-
-        .header-logo {
-            .logo {
-                width: 65px;
-                height: auto;
-                margin-top: -30px;
-            }
+    @media (max-width: 1000px) {
+        .web-header {
+            display: none;
         }
 
-        .header-menu {
-            margin-top: 10px;
-
-            .label-bot {
-                border: 0px;
-                font-size: 14px;
-                text-transform: uppercase;
-
-                &:hover {
-                    color: black;
-                    border-radius: 0px;
-                    border-bottom: 2px darkgray solid;
-                }
-            }
-        }
-
-        .search {
-            border: 0px;
-        }
-
-        .wish-list {
-            padding: 10px;
-            font-size: 25px;
-            color: black;
-        }
-
-        .cart {
-            padding: 10px;
-            font-size: 25px;
-            color: black;
+        .mobile-header {
+            display: block;
         }
     }
-}
-
-
 `;
 
 export default StyleHeaderComponent;

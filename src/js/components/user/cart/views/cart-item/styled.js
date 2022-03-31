@@ -3,9 +3,10 @@ import styled from "styled-components";
 const StyleCartItemComponent = styled.div`
 
     .cart-item {
-        border: 1px lightgray solid;
+        border: 1px black solid;
         margin-top: 10px;
         margin-bottom: 15px;
+        margin-right: 5%;
 
         .item-image {
 

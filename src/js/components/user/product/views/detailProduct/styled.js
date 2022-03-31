@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const StyleDetailProductComponent = styled.div`
 font-family: "Noto Sans","AdihausDIN","Helvetica",Arial,sans-serif !important;
+margin: 35px;
     .detail-header {
 
         .breadcrumb {
@@ -47,6 +48,7 @@ font-family: "Noto Sans","AdihausDIN","Helvetica",Arial,sans-serif !important;
         }
 
         .product-information {
+            position: relative;
 
             .nav-bar {
                 height: 50px;
@@ -54,9 +56,13 @@ font-family: "Noto Sans","AdihausDIN","Helvetica",Arial,sans-serif !important;
                 border-bottom: lightgray solid 1px;
                 margin-top: 1%;
                 margin-bottom: 1%;
+                position: sticky;
+                top: 0;
+                background-color: white;
+                padding-left: 40%;
+                padding-right: 40%;
 
                 .nav {
-                    width: 50%;
                     
                     .nav-item {
                         color: black;

@@ -6,7 +6,7 @@ import StyleFooterComponent from './styled';
 const Footer = () => {
     return (
         <StyleFooterComponent>
-            <div className="receive-info">
+            {/* <div className="receive-info">
                 <Row>
                     <Col span={12} xs={24} xl={12}>
                         Đăng kí nhận thông tin cập nhật và ưu đãi qua email
@@ -15,7 +15,7 @@ const Footer = () => {
                         <button>Đăng kí</button>
                     </Col>
                 </Row>
-            </div>
+            </div> */}
             <div className="footer-container">
                 <Row>
                     <Col span={2}></Col>

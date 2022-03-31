@@ -1,3 +1,4 @@
+import { Col, Row } from 'antd';
 import React from 'react';
 import { StyleCartComponent } from './styled';
 import CartItemComponent from './views/cart-item';
@@ -18,11 +19,29 @@ const CartComponent = () => {
                 <span>TỔNG CỘNG ( 2 sản phẩm)</span>
                 <span className="cart-sum"> {numberWithCommas(10000000)}đ</span>
             </div>
-            <div className="cart-product">
-                <CartItemComponent />
-                <CartItemComponent />
-                <CartItemComponent />
-            </div>
+            <Row className="cart-infor">
+                <Col span={16} xs={24} xl={16} className="cart-product">
+                    <CartItemComponent />
+                    <CartItemComponent />
+                    <CartItemComponent />
+                </Col>
+                <Col span={8} xs={24} xl={8} className="cart-detail">
+                    <h1>Tóm tắt đơn hàng</h1>
+                    <div>
+                        <span>2 sản phẩm</span>
+                        <span>{numberWithCommas(10000000)}đ</span>
+                    </div>
+                    <div>
+                        <span>Giao hàng</span>
+                        <span>Miễn phí</span>
+                    </div>
+                    <div>
+                        <span>Tổng (Đã bao gồm thuế)</span>
+                        <span>{numberWithCommas(10000000)}đ</span>
+                    </div>
+                </Col>
+            </Row>
+
             <div className="cart-payment">
                 <button>thanh toán</button>
             </div>

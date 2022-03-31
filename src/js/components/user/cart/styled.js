@@ -20,6 +20,40 @@ const StyleCartComponent = styled.div`
             font-weight: bold;
         }
     }
+
+    .cart-infor {
+
+        .cart-product {
+
+        }
+
+        .cart-detail {
+            margin-top: 10px;
+            padding: 5px;
+            border: 1px solid lightgray;
+            max-height: 200px;
+        }
+    }
+
+    .cart-payment {
+
+        button {
+            background-color: black;
+            color: white;
+            height: 50px;
+            cursor: pointer;
+            margin-top: 10px;
+            height: 50px;
+            border: none;
+            background-color: black;
+            color: white;
+            text-transform: uppercase;
+
+            &:hover {
+                color: gray;
+            }
+        }
+    }
 `;
 
 export { StyleCartComponent };

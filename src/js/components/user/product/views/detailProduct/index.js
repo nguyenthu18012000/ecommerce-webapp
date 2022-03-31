@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { StyleDetailProductComponent } from './styled';
 import { Carousel } from 'antd';
 import { AiOutlineArrowRight } from "react-icons/ai";
@@ -8,7 +8,14 @@ const ratingChanged = (newRating) => {
     console.log(newRating);
 };
 
+
 const DetailProductComponent = () => {
+    const ref = useRef();
+
+    const handleClickBtnDescription = () => {
+        ref.current.scrollIntoView({ behavior: "smooth" });
+    }
+
     return (
         <StyleDetailProductComponent>
             <div className="detail-header">
@@ -49,7 +56,7 @@ const DetailProductComponent = () => {
                 </div>
                 <div className="product-information">
                     <div className="nav-bar">
-                        <span className="nav">
+                        <span className="nav" onClick={handleClickBtnDescription}>
                             <a className="nav-item">Mô Tả</a>
                         </span>
                         <span className="nav">
@@ -57,7 +64,7 @@ const DetailProductComponent = () => {
                         </span>
                     </div>
 
-                    <div className="description">
+                    <div className="description" ref={ref}>
                         <div className="desc-title">Đây là mô tả sản phẩm</div>
                         <div className="desc-detail">
                             GIÀY ULTRABOOST 22
@@ -69,7 +76,12 @@ const DetailProductComponent = () => {
                     <div className="comment">
                         <div className="cmt-title">Đây là comment</div>
                         <div className="cmt-detail">
-
+                            <div className="user-name">
+                                Thứ
+                            </div>
+                            <div className="user-comment">
+                                I’m a marathon runner of 7+ years and have tried more than a handful of running shoes. The ultra boost are by far my favorite. I have been a loyal ultra boost runner since the 19 came out.
+                            </div>
                         </div>
                     </div>
                 </div>

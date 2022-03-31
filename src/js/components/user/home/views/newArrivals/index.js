@@ -36,14 +36,27 @@ const NewArrivalsComponent = () => {
                 </div>
             </div>
             <Carousel responsive={responsive}>
-                <ProductComponent />
-                <ProductComponent />
-                <ProductComponent />
-                <ProductComponent />
-                <ProductComponent />
-                <ProductComponent />
-                <ProductComponent />
-                <ProductComponent />
+                <div className="margin-product">
+                    <ProductComponent />
+                </div>
+                <div className="margin-product">
+                    <ProductComponent />
+                </div>
+                <div className="margin-product">
+                    <ProductComponent />
+                </div>
+                <div className="margin-product">
+                    <ProductComponent />
+                </div>
+                <div className="margin-product">
+                    <ProductComponent />
+                </div>
+                <div className="margin-product">
+                    <ProductComponent />
+                </div>
+                <div className="margin-product">
+                    <ProductComponent />
+                </div>
             </Carousel>
         </StyleNewArrivalsComponent>
     );

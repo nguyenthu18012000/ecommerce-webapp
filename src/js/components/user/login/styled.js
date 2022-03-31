@@ -87,6 +87,7 @@ const StyleLoginComponent = styled.div`
     
     .register-button {
         background-color: black;
+        padding: 0 10px;
         color: white;
         height: 50px;
         cursor: pointer;

@@ -30,13 +30,29 @@ const LoginComponent = () => {
         "password": "",
     });
 
+    const [touch, setTouch] = useState({
+        username: false,
+        password: false,
+    })
+
     const handleChangeInput = (e) => {
         setDataLogin({
             ...dataLogin,
             [e.target.name]: e.target.value,
+        });
+        setTouch({
+            ...touch,
+            [e.target.name]: true,
         })
     }
     const result = Validator.validate(dataLogin, rules);
+
+    const handleClickBtnSubmit = (e) => {
+        e.preventDefault();
+        if (!result.hasError) {
+            console.log("login success");
+        }
+    }
 
     return (
         <StyleLoginComponent>
@@ -50,16 +66,17 @@ const LoginComponent = () => {
                                     <label className="input-name">Tài khoản</label>
                                     <input type="text" name="username" onChange={handleChangeInput} placeholder="Nhập tài khoản..." required />
                                 </div>
-                                <div className="invalid-feedback">{result.errors?.username}</div>
+                                <div className="invalid-feedback">{(touch.username && result.errors?.username) && result.errors?.username}</div>
                                 <div className="input-container">
                                     <label className="input-name">Mật khẩu</label>
                                     <input type="password" name="password" onChange={handleChangeInput} placeholder="Nhập mật khẩu..." required />
                                 </div>
-                                <div className="invalid-feedback">{result.errors?.password}</div>
+                                <div className="invalid-feedback">{(touch.password && result.errors?.password) && result.errors?.password}</div>
                                 <div className="input-container">
-                                    <button type="submit">Đăng nhập<AiOutlineArrowRight /></button>
+                                    <button onClick={handleClickBtnSubmit}>Đăng nhập<AiOutlineArrowRight className="scale1_5" /></button>
                                     {/* <span className="behind-button"></span> */}
                                 </div>
+                                {console.log(result)}
                             </form>
                         </div>
                     </Col>
@@ -74,7 +91,7 @@ const LoginComponent = () => {
                             <div className="register-text"><AiOutlineCheck /> Các bộ sưu tập giới hạn và bộ sưu tập theo mùa mới</div>
                             <div className="register-text"><AiOutlineCheck /> Các sự kiện sắp tới</div>
                             <Link to="/register">
-                                <button className="register-button">Đăng Kí<AiOutlineArrowRight /></button>
+                                <button className="register-button">Đăng Ký <AiOutlineArrowRight className="scale1_5" /></button>
                             </Link>
                         </div>
                     </Col>
