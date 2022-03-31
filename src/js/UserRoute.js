@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import Login from './pages/user/login';
 import Register from './pages/user/register';
 import Product from './pages/user/product';
+import Cart from './pages/user/cart';
 import Home from './pages/user/home';
 
 const UserComponent = () => {
@@ -11,6 +12,7 @@ const UserComponent = () => {
             <Route path="/login" exact component={Login} />
             <Route path="/register" exact component={Register} />
             <Route path="/product" component={Product} />
+            <Route path="/cart" exact component={Cart} />
             <Route path="/" exact component={Home} />
         </>
     );
