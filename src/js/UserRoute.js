@@ -5,6 +5,7 @@ import Register from './pages/user/register';
 import Product from './pages/user/product';
 import Cart from './pages/user/cart';
 import Home from './pages/user/home';
+import Order from './pages/user/order';
 
 const UserComponent = () => {
     return (
@@ -13,6 +14,7 @@ const UserComponent = () => {
             <Route path="/register" exact component={Register} />
             <Route path="/product" component={Product} />
             <Route path="/cart" exact component={Cart} />
+            <Route path="/order" component={Order} />
             <Route path="/" exact component={Home} />
         </>
     );

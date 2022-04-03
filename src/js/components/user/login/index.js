@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { StyleLoginComponent } from './styled';
 import { AiOutlineArrowRight, AiOutlineCheck } from "react-icons/ai";
 import Validator from "hero-validate";
+import userAuth from '../../../services/user/auth.service';
+import { useHistory } from 'react-router-dom';
 
 const LoginComponent = () => {
 
@@ -45,12 +47,20 @@ const LoginComponent = () => {
             [e.target.name]: true,
         })
     }
+
     const result = Validator.validate(dataLogin, rules);
+
+    const history = useHistory();
 
     const handleClickBtnSubmit = (e) => {
         e.preventDefault();
         if (!result.hasError) {
-            console.log("login success");
+            userAuth.authorizeUser(
+                dataLogin,
+                () => { },
+                () => { }
+            );
+            history.push("/");
         }
     }
 

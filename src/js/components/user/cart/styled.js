@@ -29,9 +29,10 @@ const StyleCartComponent = styled.div`
 
         .cart-detail {
             margin-top: 10px;
-            padding: 5px;
             border: 1px solid lightgray;
             max-height: 200px;
+            padding-left: 2%;
+            padding-right: 2%;
         }
     }
 

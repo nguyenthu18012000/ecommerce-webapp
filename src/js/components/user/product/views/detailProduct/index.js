@@ -10,10 +10,16 @@ const ratingChanged = (newRating) => {
 
 
 const DetailProductComponent = () => {
-    const ref = useRef();
+    const desc = useRef();
 
     const handleClickBtnDescription = () => {
-        ref.current.scrollIntoView({ behavior: "smooth" });
+        desc.current.scrollIntoView({ behavior: "smooth" });
+    }
+
+    const cmt = useRef();
+
+    const handleClickBtnComment = () => {
+        cmt.current.scrollIntoView({ behavior: "smooth" });
     }
 
     return (
@@ -29,6 +35,8 @@ const DetailProductComponent = () => {
                     count={5}
                     onChange={ratingChanged}
                     size={24}
+                    isHalf={true}
+                    value={3.5}
                     activeColor="#ffd700"
                 />
             </div>
@@ -51,7 +59,7 @@ const DetailProductComponent = () => {
                 </div>
                 <div className="sidebar-wrapper">
                     <div>
-                        <button>Thêm vào giỏ hàng <AiOutlineArrowRight /></button>
+                        <button>Thêm vào giỏ hàng<AiOutlineArrowRight className="scale1_5" /></button>
                     </div>
                 </div>
                 <div className="product-information">
@@ -59,13 +67,15 @@ const DetailProductComponent = () => {
                         <span className="nav" onClick={handleClickBtnDescription}>
                             <a className="nav-item">Mô Tả</a>
                         </span>
-                        <span className="nav">
+                        <span className="nav" onClick={handleClickBtnComment}>
                             <a className="nav-item">Bình luận</a>
                         </span>
                     </div>
 
-                    <div className="description" ref={ref}>
-                        <div className="desc-title">Đây là mô tả sản phẩm</div>
+                    <div className="product-information-space-line" ref={desc}></div>
+
+                    <div className="description">
+                        <div className="title">mô tả</div>
                         <div className="desc-detail">
                             GIÀY ULTRABOOST 22
                             KHẢ NĂNG HOÀN TRẢ NĂNG LƯỢNG TẠI MŨI GIÀY TĂNG 4% SO VỚI ULTRABOOST 21 VỚI ĐỘ ÔM CẢI THIỆN 360° CHO BÀN CHÂN NỮ GIỚI
@@ -73,14 +83,62 @@ const DetailProductComponent = () => {
                         </div>
                     </div>
 
+                    <div className="product-information-space-line" ref={cmt}></div>
+
                     <div className="comment">
-                        <div className="cmt-title">Đây là comment</div>
+                        <div className="title">Bình luận và đánh giá</div>
+                        <div className="your-rate">
+                            <div className="rate-title">Đánh giá của bạn</div>
+                            <ReactStars classNames="rate-star"
+                                count={5}
+                                onChange={ratingChanged}
+                                size={24}
+                                isHalf={true}
+                                value={3.5}
+                                activeColor="#ffd700"
+                            />
+                        </div>
                         <div className="cmt-detail">
-                            <div className="user-name">
-                                Thứ
+                            <div className="comment-title">
+                                Đánh giá của khách hàng
+                            </div>
+                            <div>
+                                <span className="user-name">
+                                    Thứ
+                                </span>
+                                <span><ReactStars classNames="number-star"
+                                    count={5}
+                                    onChange={ratingChanged}
+                                    size={24}
+                                    isHalf={true}
+                                    value={3.5}
+                                    activeColor="#ffd700"
+                                />
+                                </span>
                             </div>
                             <div className="user-comment">
                                 I’m a marathon runner of 7+ years and have tried more than a handful of running shoes. The ultra boost are by far my favorite. I have been a loyal ultra boost runner since the 19 came out.
+                            </div>
+                            <div>
+                                <span className="user-name">
+                                    Thứ
+                                </span>
+                                <span><ReactStars classNames="number-star"
+                                    count={5}
+                                    onChange={ratingChanged}
+                                    size={24}
+                                    isHalf={true}
+                                    value={3.5}
+                                    activeColor="#ffd700"
+                                />
+                                </span>
+                            </div>
+                            <div className="user-comment">
+                                I’m a marathon runner of 7+ years and have tried more than a handful of running shoes. The ultra boost are by far my favorite. I have been a loyal ultra boost runner since the 19 came out.
+                            </div>
+                            <div className="add-comment">
+                                <textarea className="new-comment" />
+                                <button className="add-new-comment">Thêm<AiOutlineArrowRight className="scale1_5" /></button>
                             </div>
                         </div>
                     </div>

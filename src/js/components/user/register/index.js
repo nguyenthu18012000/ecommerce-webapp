@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { StyleRegisterComponent } from './styled';
 import { AiOutlineArrowRight, AiOutlineCheck } from "react-icons/ai";
 import Validator from "hero-validate";
+import userRegister from '../../../services/user/register.service';
+import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const RegisterComponent = () => {
 
@@ -57,17 +60,38 @@ const RegisterComponent = () => {
         confirmPassword: false,
     })
 
+    const history = useHistory();
     const handleChangeInput = (e) => {
         setDataRegister({
             ...dataRegister,
-            [e.target.name]: true,
+            [e.target.name]: e.target.value,
         })
         setTouch({
             ...touch,
-            [e.target.name]: e.target.value,
+            [e.target.name]: true,
         })
     }
+
+    const handleClickInput = (e) => {
+        // setTouch({
+        //     ...touch,
+        //     [e.target.name]: true,
+        // })
+    }
+
     const result = Validator.validate(dataRegister, rules);
+
+    const handleClickBtnSubmit = (e) => {
+        e.preventDefault();
+        if (!result.hasError) {
+            userRegister.registerUser(
+                dataRegister,
+                () => { },
+                () => { }
+            );
+            history.push("/login");
+        }
+    }
 
     return (
         <StyleRegisterComponent>
@@ -76,29 +100,29 @@ const RegisterComponent = () => {
                     <Col span={12} xs={24} xl={12}>
                         <div className="form-register">
                             <div className="header-form">Đăng ký</div>
-                            <form>
+                            <form method='post'>
                                 <div className="input-container">
                                     <label className="input-name">Tài khoản</label>
-                                    <input type="text" name="username" onChange={handleChangeInput} placeholder="Nhập tài khoản..." required />
+                                    <input type="text" name="username" onClick={handleClickInput} onChange={handleChangeInput} placeholder="Nhập tài khoản..." required />
                                 </div>
-                                <div className="invalid-feedback">{(touch.username && result.errors?.username) && result.errors?.username}</div>
+                                <div className="invalid-feedback">{(touch.username && result.errors?.username)}</div>
                                 <div className="input-container">
                                     <label className="input-name">Email</label>
-                                    <input type="email" name="email" onChange={handleChangeInput} placeholder="Nhập email..." required />
+                                    <input type="email" name="email" onClick={handleClickInput} onChange={handleChangeInput} placeholder="Nhập email..." required />
                                 </div>
                                 <div className="invalid-feedback">{(touch.email && result.errors?.email) && result.errors?.email}</div>
                                 <div className="input-container">
                                     <label className="input-name">Mật khẩu</label>
-                                    <input type="password" name="password" onChange={handleChangeInput} placeholder="Nhập mật khẩu..." required />
+                                    <input type="password" name="password" onClick={handleClickInput} onChange={handleChangeInput} placeholder="Nhập mật khẩu..." required />
                                 </div>
                                 <div className="invalid-feedback">{(touch.password && result.errors?.password) && result.errors?.password}</div>
                                 <div className="input-container">
                                     <label className="input-name">Xác nhận mật khẩu</label>
-                                    <input type="password" name="confirmPassword" onChange={handleChangeInput} placeholder="Nhập lại mật khẩu..." required />
+                                    <input type="password" name="confirmPassword" onClick={handleClickInput} onChange={handleChangeInput} placeholder="Nhập lại mật khẩu..." required />
                                 </div>
                                 <div className="invalid-feedback">{(touch.confirmPassword && result.errors?.confirmPassword) && result.errors?.confirmPassword}</div>
                                 <div className="input-container">
-                                    <button type="submit">Đăng ký<AiOutlineArrowRight className="scale1_5" /></button>
+                                    <button onClick={handleClickBtnSubmit}>Đăng ký<AiOutlineArrowRight className="scale1_5" /></button>
                                     {/* <span className="behind-button"></span> */}
                                 </div>
                             </form>

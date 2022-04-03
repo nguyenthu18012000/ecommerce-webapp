@@ -20,23 +20,24 @@ const CartComponent = () => {
                 <span className="cart-sum"> {numberWithCommas(10000000)}đ</span>
             </div>
             <Row className="cart-infor">
-                <Col span={16} xs={24} xl={16} className="cart-product">
-                    <CartItemComponent />
-                    <CartItemComponent />
-                    <CartItemComponent />
+                <Col xs={24} xl={16} className="cart-product">
+                    <CartItemComponent numberWithCommas={numberWithCommas} />
+                    <CartItemComponent numberWithCommas={numberWithCommas} />
+                    <CartItemComponent numberWithCommas={numberWithCommas} />
                 </Col>
-                <Col span={8} xs={24} xl={8} className="cart-detail">
+                <Col xs={0} xl={1}></Col>
+                <Col xs={24} xl={7} className="cart-detail">
                     <h1>Tóm tắt đơn hàng</h1>
                     <div>
-                        <span>2 sản phẩm</span>
+                        <span>2 sản phẩm: </span>
                         <span>{numberWithCommas(10000000)}đ</span>
                     </div>
                     <div>
-                        <span>Giao hàng</span>
+                        <span>Giao hàng: </span>
                         <span>Miễn phí</span>
                     </div>
                     <div>
-                        <span>Tổng (Đã bao gồm thuế)</span>
+                        <span>Tổng (Đã bao gồm thuế): </span>
                         <span>{numberWithCommas(10000000)}đ</span>
                     </div>
                 </Col>
