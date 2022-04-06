@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-const OrderManager = () => {
+const OrderDetail = () => {
 
     return (
         <div>
-            order manage
+            order detail
         </div>
     )
 }
 
-export default OrderManager;
+export default OrderDetail;

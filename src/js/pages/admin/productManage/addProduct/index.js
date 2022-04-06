@@ -1,16 +1,16 @@
 
-import { Row, Col, Space, Divider } from 'antd';
+import { Row, Col, Space, Divider, InputNumber } from 'antd';
 import UploadImageModal from "../../../../components/admin/modal/upload-image-modal";
 
 import React, { useState } from 'react';
 import { Form, Input, Button, Radio } from 'antd';
+import productService from '../../../../services/admin/product.service';
 
 
 
 const AddProduct = () => {
     const [form] = Form.useForm();
     const [formCategory] = Form.useForm();
-    const [formLayout, setFormLayout] = useState('horizontal');
     const listCategory = [
         { id: 1, name: "Shoe" },
         { id: 2, name: "Shirt" },
@@ -18,6 +18,16 @@ const AddProduct = () => {
         { id: 0, name: "Unknown" }
     ]
     const [category, setCategory] = useState(0);
+    const [mainImage, setMainImage] = useState([]);
+    const [extendImage, setExtendImage] = useState([]);
+
+    const getMainImage = (images) => {
+        setMainImage(images)
+    }
+
+    const getExtendImage = (images) => {
+        setExtendImage(images)
+    }
 
     const FormCategoryProduct = () => {
 
@@ -77,9 +87,20 @@ const AddProduct = () => {
     }
 
     const FormInfoProduct = () => {
-        const onFinish = (value) => {
-            console.log(value)
-            console.log(category)
+        const onFinish = async (value) => {
+            const product = {
+                name: value.name,
+                descript: value.descript,
+                price: value.price,
+                total: value.total,
+                imageBg: mainImage[0],
+                images: extendImage,
+                categoryId: category,
+            };
+            await productService.addProduct(product).then((res) => {
+                console.log(res);
+            })
+            console.log(product);
         }
         const formItemLayout = {
             labelCol: {
@@ -121,7 +142,7 @@ const AddProduct = () => {
                     <Input placeholder="input placeholder" />
                 </Form.Item>
                 <Form.Item
-                    label="PRICE"
+                    label="PRICE (VNĐ)"
                     name="price"
                     rules={[
                         {
@@ -130,7 +151,7 @@ const AddProduct = () => {
                         },
                     ]}
                 >
-                    <Input placeholder="input placeholder" />
+                    <InputNumber min={0} style={{ width: '50%' }} placeholder="input placeholder" />
                 </Form.Item>
                 <Form.Item
                     label="TOTAL"
@@ -142,7 +163,7 @@ const AddProduct = () => {
                         },
                     ]}
                 >
-                    <Input placeholder="input placeholder" />
+                    <InputNumber min={0} placeholder="input placeholder" />
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit">Submit</Button>
@@ -172,7 +193,7 @@ const AddProduct = () => {
                             <Divider style={{ margin: 3 }} />
                         </Row>
 
-                        <UploadImageModal />
+                        <UploadImageModal getImage={getMainImage} />
                     </div>
                     <div className='blue-border' style={{ marginBottom: 10 }}>
                         <Row
@@ -183,7 +204,7 @@ const AddProduct = () => {
                             <label>EXTEND IMAGE</label>
                             <Divider style={{ margin: 3 }} />
                         </Row>
-                        <UploadImageModal />
+                        <UploadImageModal getImage={getExtendImage} />
                     </div>
                 </Col>
             </Row>

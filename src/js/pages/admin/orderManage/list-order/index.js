@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-const OrderManager = () => {
+const ListOrder = () => {
 
     return (
         <div>
-            order manage
+            list order
         </div>
     )
 }
 
-export default OrderManager;
+export default ListOrder;

@@ -35,13 +35,12 @@ const UploadImage = () => {
             previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
         });
     };
-
-    const handleChange = ({ fileList }) => {
-        console.log(fileList);
-        setState({ fileList })
-    };
-
     const { previewVisible, previewImage, fileList, previewTitle } = state;
+
+    const handleChange = (e) => {
+        setState({ fileList: e.target.files })
+    };
+    
     const uploadButton = (
         <div>
             <PlusOutlined />
@@ -49,20 +48,23 @@ const UploadImage = () => {
         </div>
     );
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log(fileList);
-        // await imageService.uploadImage(file);
+        const fomrData = new FormData();
+        fomrData.append('image', fileList[0]);
+        await imageService.uploadImage(fomrData);
     }
 
     return (
         <>
-            <Form onSubmit={handleSubmit}>
-                <FormItem>
-                    <Upload
+            {/* <Form onSubmit={handleSubmit}>
+                <FormItem> */}
+            {/* <Upload
                         name='image'
-                        action={'http://localhost:4000/api/admin/image/upload'}
-                        onChange={handleChange}
-                        onPreview={handlePreview}
+                        customRequest={handleSubmit}
+                        // action={'http://localhost:4000/api/admin/image/upload'}
+                        // onChange={handleChange}
+                        // onPreview={handlePreview}
                         listType="picture-card"
                         maxCount={10}
                         multiple
@@ -71,17 +73,21 @@ const UploadImage = () => {
                     </Upload>
                     <Button type="primary" htmlType="submit">
                         Register tenant
-                    </Button>
-                </FormItem>
-            </Form>
-            <Modal
-                visible={previewVisible}
-                title={previewTitle}
-                footer={null}
-                onCancel={handleCancel}
-            >
-                <img alt="example" style={{ width: '100%' }} src={previewImage} />
-            </Modal>
+                    </Button> */}
+            {/* </FormItem>
+            </Form> */}
+            <div>
+                <input type="file" multiple onChange={handleChange} />
+                <button onClick={handleSubmit}>Upload</button>
+                <Modal
+                    visible={previewVisible}
+                    title={previewTitle}
+                    footer={null}
+                    onCancel={handleCancel}
+                >
+                    <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                </Modal>
+            </div>
         </>
     );
 
