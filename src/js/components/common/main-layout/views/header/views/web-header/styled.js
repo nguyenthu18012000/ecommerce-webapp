@@ -52,8 +52,8 @@ font-family: "Noto Sans","AdihausDIN","Helvetica",Arial,sans-serif !important;
     .header-bot {
         display: inline-block;
         width: 100%;
-        margin-left: 2%;
-        margin-right: 2%;
+        padding-left: 2.5%;
+        padding-right: 2.5%;
         height: 40px;
 
         .header-logo {

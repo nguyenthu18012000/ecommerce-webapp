@@ -88,6 +88,11 @@ const StyleDetailProductComponent = styled.div`
             }
 
             .description {
+
+                .desc-detail {
+                    text-align: justify;
+                    white-space: pre-wrap;
+                }
             }
 
             .comment {
@@ -138,6 +143,7 @@ const StyleDetailProductComponent = styled.div`
 
                         .new-comment {
                             width: 100%;
+                            min-height: 100px;
                             resize: none;
                             margin-top: 10px;
                             margin-bottom: 10px;

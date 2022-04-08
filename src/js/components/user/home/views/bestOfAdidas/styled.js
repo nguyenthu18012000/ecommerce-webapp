@@ -14,6 +14,10 @@ const StyleBestOfAdidasComponent = styled.div`
             text-transform: uppercase;
         }
     }
+
+    .carousel {
+        padding-bottom: 10px;
+    }
 `;
 
 export { StyleBestOfAdidasComponent }

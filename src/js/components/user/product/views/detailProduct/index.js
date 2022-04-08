@@ -1,8 +1,14 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleDetailProductComponent } from './styled';
 import { Carousel } from 'antd';
 import { AiOutlineArrowRight } from "react-icons/ai";
 import ReactStars from "react-rating-stars-component";
+import toastCustom from '../../../../../helpers/toast-custom';
+import numberWithCommas from '../../../../../helpers/formatNumberWithCommas';
+import TextareaAutosize from 'react-textarea-autosize';
+import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import WebData from '../../../../../data/data';
 
 const ratingChanged = (newRating) => {
     console.log(newRating);
@@ -10,27 +16,47 @@ const ratingChanged = (newRating) => {
 
 
 const DetailProductComponent = () => {
-    const desc = useRef();
+    const [newComment, setNewComment] = useState("");
+    const history = useHistory();
 
+    let params = useParams();
+    const id_product = params.id_product;
+
+    const dataProducts = WebData.products;
+    const dataProduct = dataProducts.filter(product => product.id == id_product)[0];
+
+    const desc = useRef();
     const handleClickBtnDescription = () => {
         desc.current.scrollIntoView({ behavior: "smooth" });
     }
 
     const cmt = useRef();
-
     const handleClickBtnComment = () => {
         cmt.current.scrollIntoView({ behavior: "smooth" });
+    }
+
+    const handleChangeInputComment = (e) => {
+        setNewComment(e.target.value);
+    }
+
+    const handleClickBtnAddComment = (e) => {
+        setNewComment("");
+        toastCustom({
+            mess: "thành công",
+            type: "success",
+        });
+        console.log(newComment);
     }
 
     return (
         <StyleDetailProductComponent>
             <div className="detail-header">
                 <div className="breadcrumb">
-                    <span className="breadcrumb-item">Trang chủ</span>
-                    <span className="breadcrumb-item">/Nữ</span>
+                    <span className="breadcrumb-item" onClick={() => { history.push("/") }}>Trang chủ</span>
+                    <span className="breadcrumb-item">/{dataProduct?.category}</span>
                     <span className="breadcrumb-item">/Giày Ultraboost</span>
                 </div>
-                <div className="product-name">Giày nữ ultraboost 22</div>
+                <div className="product-name">{dataProduct?.name}</div>
                 <ReactStars classNames="rate-star"
                     count={5}
                     onChange={ratingChanged}
@@ -58,6 +84,9 @@ const DetailProductComponent = () => {
                     </Carousel>
                 </div>
                 <div className="sidebar-wrapper">
+                    <div className="product-price">
+                        {numberWithCommas(dataProduct?.price)}đ
+                    </div>
                     <div>
                         <button>Thêm vào giỏ hàng<AiOutlineArrowRight className="scale1_5" /></button>
                     </div>
@@ -77,9 +106,7 @@ const DetailProductComponent = () => {
                     <div className="description">
                         <div className="title">mô tả</div>
                         <div className="desc-detail">
-                            GIÀY ULTRABOOST 22
-                            KHẢ NĂNG HOÀN TRẢ NĂNG LƯỢNG TẠI MŨI GIÀY TĂNG 4% SO VỚI ULTRABOOST 21 VỚI ĐỘ ÔM CẢI THIỆN 360° CHO BÀN CHÂN NỮ GIỚI
-                            Với dữ liệu từ 1,2 triệu bản quét hình dáng bàn chân, chúng tôi đã nâng cấp dòng giày Ultraboost tạo nên một phiên bản cải thiện độ ôm 360° cho bàn chân nữ giới. Chưa dừng lại ở đó. Chúng tôi đã cải tiến đế ngoài bằng cao su. Chúng tôi đã thử nghiệm hàng trăm bản mẫu. Chúng tôi nỗ lực không ngừng cho đến khi đạt được những cái thiện rõ rệt về hiệu năng. Thành quả là? Khả hoàn trả năng lượng tại mũi giày tăng 4% so với phiên bản Ultraboost 21 dành cho nữ giới. Thân giày adidas PRIMEKNIT với thiết kế phần gót thon gọn hơn để tránh tuột gót và phồng rộp. Đế giữa BOOST nâng đỡ êm ái với hệ thống Linear Energy Push. Thân giày làm từ loại sợi có chứa 50% chất liệu Parley Ocean Plastic — rác thải nhựa tái chế thu gom từ các vùng đảo xa, bãi biển, khu dân cư ven biển và đường bờ biển, nhằm ngăn chặn ô nhiễm đại dương.
+                            {dataProduct?.desc}
                         </div>
                     </div>
 
@@ -137,8 +164,8 @@ const DetailProductComponent = () => {
                                 I’m a marathon runner of 7+ years and have tried more than a handful of running shoes. The ultra boost are by far my favorite. I have been a loyal ultra boost runner since the 19 came out.
                             </div>
                             <div className="add-comment">
-                                <textarea className="new-comment" />
-                                <button className="add-new-comment">Thêm<AiOutlineArrowRight className="scale1_5" /></button>
+                                <TextareaAutosize className="new-comment" onChange={handleChangeInputComment} value={newComment} />
+                                <button className="add-new-comment" onClick={handleClickBtnAddComment}>Thêm<AiOutlineArrowRight className="scale1_5" /></button>
                             </div>
                         </div>
                     </div>

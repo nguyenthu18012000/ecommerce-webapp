@@ -61,7 +61,7 @@ const WebHeaderComponent = () => {
                                 </Link>
                             </span>
                         </Col>
-                        <Col xs={0} xl={3}></Col>
+                        <Col xs={1} xl={3}></Col>
                         <Col xs={16} xl={12}>
                             <span className="header-menu">
                                 <Space wrap>
@@ -86,7 +86,7 @@ const WebHeaderComponent = () => {
                                 </Space>
                             </span>
                         </Col>
-                        <Col span={1}></Col>
+                        <Col xs={0} xl={2}></Col>
                         <Col span={3}>
                             <span >
                                 <Search className="search" placeholder="Tìm kiếm..." />

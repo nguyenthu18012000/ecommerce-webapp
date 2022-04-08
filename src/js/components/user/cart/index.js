@@ -1,15 +1,8 @@
 import { Col, Row } from 'antd';
 import React from 'react';
+import numberWithCommas from '../../../helpers/formatNumberWithCommas';
 import { StyleCartComponent } from './styled';
 import CartItemComponent from './views/cart-item';
-
-function numberWithCommas(x) {
-    x = x.toString();
-    var pattern = /(-?\d+)(\d{3})/;
-    while (pattern.test(x))
-        x = x.replace(pattern, "$1,$2");
-    return x;
-}
 
 const CartComponent = () => {
     return (
@@ -17,7 +10,7 @@ const CartComponent = () => {
             <div className="cart-header">Giỏ hàng của bạn</div>
             <div className="cart-summary">
                 <span>TỔNG CỘNG ( 2 sản phẩm)</span>
-                <span className="cart-sum"> {numberWithCommas(10000000)}đ</span>
+                <span className="cart-sum"> {numberWithCommas(10000500)}đ</span>
             </div>
             <Row className="cart-infor">
                 <Col xs={24} xl={16} className="cart-product">

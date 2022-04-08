@@ -3,6 +3,7 @@ import styled from "styled-components";
 const StyleProductComponent = styled.div`
     .new-arrival-item {
         /* margin-right: 5%; */
+        border: 1px solid transparent;
         .product {
 
             .product-image {
