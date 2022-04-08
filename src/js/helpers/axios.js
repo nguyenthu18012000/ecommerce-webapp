@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
   baseURL: envApp.API,
   timeout: 30000,
   // headers: {
-  //   "X-Requested-With": "XMLHttpRequest",
+  //   "Content-Type": "multipart/form-data",
   // },
 });
 
@@ -20,7 +20,7 @@ axiosInstance.interceptors.request.use(
   (config) => {
     // eslint-disable-next-line no-param-reassign
     const { pathname } = window?.location;
-    if (pathname?.includes("/amdin")) {
+    if (pathname?.includes("/admin")) {
       config.headers.Authorization = `Bearer ${storageFC.getAdminToken()}`;
     } else {
       config.headers.Authorization = `Bearer ${storageFC.getToken()}`;
@@ -54,6 +54,12 @@ export const sendPut = (url = "", params) => axiosInstance.put(url, params).then
 export const sendPatch = (url = "", params) => axiosInstance.patch(url, params).then((res) => res.data);
 export const sendDelete = (url = "", params) => axiosInstance.delete(url, { data: params }).then((res) => res.data);
 export const sendCustom = (params = {}) => axiosInstance(params).then((res) => res.data);
+export const sendImage = (url, params) => axios.post(envApp.API + url, params,
+ {
+   headers: {
+    "Content-Type": "multipart/form-data"
+   }
+ })
 
 export default {
   sendGet,
@@ -61,5 +67,6 @@ export default {
   sendPut,
   sendPatch,
   sendDelete,
-  sendCustom
+  sendCustom,
+  sendImage
 }

@@ -1,11 +1,9 @@
 import React from 'react';
 import LoginComponent from '../../../components/admin/login';
 
-const Login = () => {
+const Login = ({match}) => {
     return (
-        <div>
-            <LoginComponent />
-        </div>
+        <LoginComponent match={match} />
     );
 };
 

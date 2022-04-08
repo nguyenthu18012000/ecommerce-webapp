@@ -1,10 +1,10 @@
 import { Modal, Button, Divider } from 'antd';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ListImage from '../../list-image';
 import UploadImage from '../../upload-image';
 import imageService from '../../../../services/admin/image.service';
 
-const UploadImageModal = () => {
+const UploadImageModal = ({getImage}) => {
     const [visible, setVisible] = useState(false)
     const [isStorage, setIsStorage] = useState(true)
     const [checkList, setCheckList] = useState([])
@@ -27,6 +27,7 @@ const UploadImageModal = () => {
     const sendCheckList = (e) => {
         console.log(e);
         setCheckList(e);
+        getImage(e);
         setVisible(false);
     }
 
@@ -48,9 +49,7 @@ const UploadImageModal = () => {
                 {checkList.length > 0 && <ListImage
                     props={{
                         listImage: checkList,
-                        height: 50,
-                        width: 50,
-                        isSelect: false,
+                        height: 100,
                         isDelete: true,
                         deleteFunction: () => { console.log(isStorage) },
                     }}
@@ -63,13 +62,14 @@ const UploadImageModal = () => {
                 visible={visible}
                 footer={false}
                 width={'80%'}
+                onCancel={handleCancel}
                 style={{ top: 20 }}
                 bodyStyle={{ height: '625px' }}
             >
                 <div style={{ position: 'relative' }}>
                     <div style={{ paddingBottom: 5 }}>
                         <Button onClick={() => { getListImage(); setIsStorage(true) }} style={{ margin: 3 }}>Storage</Button>
-                        <Button onClick={() => { getListImage(); setIsStorage(false) }} style={{ margin: 3 }}>Upload image</Button>
+                        <Button onClick={() => { setIsStorage(false) }} style={{ margin: 3 }}>Upload image</Button>
                         <Divider style={{ margin: 3 }} />
                     </div>
                     {isStorage ?

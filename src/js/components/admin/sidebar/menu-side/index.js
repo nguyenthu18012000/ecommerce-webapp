@@ -13,7 +13,6 @@ const menu = [
         key: "/admin/tag-manager",
         title: "Tag manager",
         icon: <TagsOutlined />,
-        subMenu: [],
     },
     {
         key: "product-manager",
@@ -31,13 +30,24 @@ const menu = [
         ],
     },
     {
-        key: "users",
-        title: "Users",
+        key: "order-manager",
+        title: "Order manager",
         icon: <UserOutlined />,
         subMenu: [
             {
-                key: "userMs",
-                title: "UsersM",
+                key: "/admin/list-order",
+                title: "List order",
+            },
+        ],
+    },
+    {
+        key: "user-manager",
+        title: "User manager",
+        icon: <UserOutlined />,
+        subMenu: [
+            {
+                key: "/admin/list-user",
+                title: "List user",
             },
         ],
     },
