@@ -1,12 +1,16 @@
-import { Modal, Button, Divider } from 'antd';
+import { Modal, Button, Divider, Radio, Spin } from 'antd';
 import { useState } from 'react';
 import ListImage from '../../list-image';
 import UploadImage from '../../upload-image';
 import imageService from '../../../../services/admin/image.service';
 
-const UploadImageModal = ({getImage}) => {
+const UploadImageModal = ({ getImage }) => {
+    const OPTION_MODAL = {
+        STORAGE: 'Storage',
+        UPLOAD_IMAGE: 'Upload image'
+    }
     const [visible, setVisible] = useState(false)
-    const [isStorage, setIsStorage] = useState(true)
+    const [optionModal, setOptionModal] = useState(OPTION_MODAL.STORAGE)
     const [checkList, setCheckList] = useState([])
     const [listImage, setListImage] = useState([])
 
@@ -15,17 +19,12 @@ const UploadImageModal = ({getImage}) => {
         setVisible(true);
     };
 
-    const handleOk = e => {
-        setVisible(false);
-    };
-
     const handleCancel = e => {
-        console.log(e);
+        setOptionModal(OPTION_MODAL.STORAGE);
         setVisible(false);
     };
 
     const sendCheckList = (e) => {
-        console.log(e);
         setCheckList(e);
         getImage(e);
         setVisible(false);
@@ -38,10 +37,15 @@ const UploadImageModal = ({getImage}) => {
     }
 
     const deleteImage = async (id) => {
-        await imageService.deleteImage({id: id}, (res) => {
-            console.log(res)
+        await imageService.deleteImage({ id: id }, (res) => {
+            getListImage();
         })
     }
+
+    const handleOption = ({ target: { value } }) => {
+        getListImage();
+        setOptionModal(value);
+    };
 
     return (
         <>
@@ -51,7 +55,7 @@ const UploadImageModal = ({getImage}) => {
                         listImage: checkList,
                         height: 100,
                         isDelete: true,
-                        deleteFunction: () => { console.log(isStorage) },
+                        deleteFunction: () => { },
                     }}
                 />}
             </div>
@@ -68,25 +72,30 @@ const UploadImageModal = ({getImage}) => {
             >
                 <div style={{ position: 'relative' }}>
                     <div style={{ paddingBottom: 5 }}>
-                        <Button onClick={() => { getListImage(); setIsStorage(true) }} style={{ margin: 3 }}>Storage</Button>
-                        <Button onClick={() => { setIsStorage(false) }} style={{ margin: 3 }}>Upload image</Button>
+                        <Radio.Group onChange={handleOption} value={optionModal} style={{ marginBottom: 3 }}>
+                            <Radio.Button value={OPTION_MODAL.STORAGE}>Storage</Radio.Button>
+                            <Radio.Button value={OPTION_MODAL.UPLOAD_IMAGE}>Upload image</Radio.Button>
+                        </Radio.Group>
                         <Divider style={{ margin: 3 }} />
                     </div>
-                    {isStorage ?
+                    {optionModal === OPTION_MODAL.STORAGE ?
                         <div>
-                            <ListImage
-                                props={{
-                                    listImage: listImage,
-                                    width: 200,
-                                    isSelect: true,
-                                    isDelete: true,
-                                    deleteFunction: deleteImage,
-                                }}
-                                sendCheckList={sendCheckList}
-                            />
+                            {listImage.length !== 0 ?
+                                <ListImage
+                                    props={{
+                                        listImage: listImage,
+                                        width: 200,
+                                        isSelect: true,
+                                        isDelete: true,
+                                        deleteFunction: deleteImage,
+                                        sendCheckList: sendCheckList,
+                                    }}
+                                /> :
+                                <Spin size="large"  />
+                            }
                         </div> :
                         <div>
-                            <UploadImage />
+                            <UploadImage handleCancel={handleCancel} />
                         </div>
                     }
                 </div>

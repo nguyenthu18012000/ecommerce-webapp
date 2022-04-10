@@ -8,19 +8,22 @@ import Auth from '../../../helpers/auth';
 const LoginComponent = () => {
     const [form] = Form.useForm();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(false);
     const { state } = useLocation();
 
     const onFinish = async (value) => {
-        await adminAuth.authorizeAdmin(value, (res) => {
-            storage.setAdminToken(res.token);
-            Auth.authenticated(() => {
-                setIsAuthenticated(true);
-            })
-        })
+        setLoading(false);
+        if (!loading) {
+            await adminAuth.authorizeAdmin(value, (res) => {
+                storage.setAdminToken(res.token);
+                Auth.authenticated(() => {
+                    setIsAuthenticated(true);
+                })
+            }).finally(() => setLoading(true));
+        }
     };
 
     if (isAuthenticated === true) {
-        console.log(state?.from)
         return (<Redirect to={state?.from} />)
     }
 
@@ -75,7 +78,7 @@ const LoginComponent = () => {
                     </Form.Item>
 
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">Submit</Button>
+                        <Button type="primary" htmlType="submit" loading={loading}>Submit</Button>
                     </Form.Item>
                 </Form>
             </div>

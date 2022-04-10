@@ -1,7 +1,8 @@
 import axios from "axios";
 import envApp from "./envApp";
-// import { history } from "../Root";
 import storageFC from "./storage";
+import { toast } from "./toast";
+import { useHistory } from "react-router-dom";
 
 const axiosInstance = axios.create({
   baseURL: envApp.API,
@@ -13,7 +14,7 @@ const axiosInstance = axios.create({
 
 const logout = () => {
   storageFC.clearToken();
-  // history.push("/");
+  window.location.replace("/admin");
 };
 
 axiosInstance.interceptors.request.use(
@@ -31,7 +32,12 @@ axiosInstance.interceptors.request.use(
 );
 
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if (response?.data?.code === 401) {
+      logout();
+    }
+    return response
+  },
   (error) => {
     // if (error.response.status !== 404) {
     //   history.push("/not-found");
@@ -46,20 +52,50 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export const sendGet = (url = "", params) => axiosInstance.get(url, { params }).then((res) => res.data);
-export const sendPost = (url = "", params, queryParams) => axiosInstance
-  .post(url, params, { params: queryParams, timeout: queryParams?.timeout })
-  .then((res) => res.data);
-export const sendPut = (url = "", params) => axiosInstance.put(url, params).then((res) => res.data);
-export const sendPatch = (url = "", params) => axiosInstance.patch(url, params).then((res) => res.data);
-export const sendDelete = (url = "", params) => axiosInstance.delete(url, { data: params }).then((res) => res.data);
-export const sendCustom = (params = {}) => axiosInstance(params).then((res) => res.data);
-export const sendImage = (url, params) => axios.post(envApp.API + url, params,
- {
-   headers: {
-    "Content-Type": "multipart/form-data"
-   }
- })
+export const sendGet = (url = "", params, toast = false) => axiosInstance.get(url, { params })
+  .then((res) => {
+    handleToast(toast, res.data);
+    return res.data
+  });
+
+export const sendPost = (url = "", params, queryParams, toast = false) => axiosInstance
+  .post(url, params, { params: queryParams, timeout: queryParams?.timeout }, toast)
+  .then((res) => {
+    handleToast(toast, res.data);
+    return res.data
+  });
+
+export const sendPut = (url = "", params) => axiosInstance.put(url, params)
+  .then((res) => {
+    handleToast(toast, res.data);
+    return res.data
+  });
+
+export const sendPatch = (url = "", params) => axiosInstance.patch(url, params)
+  .then((res) => {
+    handleToast(toast, res.data);
+    return res.data
+  });
+
+export const sendDelete = (url = "", params, toast = false) => axiosInstance
+  .delete(url, { data: params }, toast)
+  .then((res) => {
+    handleToast(toast, res.data);
+    return res.data
+  });
+
+export const sendCustom = (params = {}) => axiosInstance(params)
+  .then((res) => {
+    handleToast(toast, res.data);
+    return res.data
+  });
+
+function handleToast(isShow, baseResponse) {
+  if (!isShow) {
+    return;
+  }
+  return toast(baseResponse);
+}
 
 export default {
   sendGet,
@@ -68,5 +104,4 @@ export default {
   sendPatch,
   sendDelete,
   sendCustom,
-  sendImage
 }

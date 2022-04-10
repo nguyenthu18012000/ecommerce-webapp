@@ -1,9 +1,7 @@
-import { Upload, Modal, Form, Button } from 'antd';
+import { Upload, Button, Divider, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
-import imageService from '../../../services/admin/image.service';
-
-const FormItem = Form.Item
+import { useState } from 'react';
+import envApp from '../../../helpers/envApp';
 
 function getBase64(file) {
     return new Promise((resolve, reject) => {
@@ -14,7 +12,7 @@ function getBase64(file) {
     });
 }
 
-const UploadImage = () => {
+const UploadImage = ({ handleCancel }) => {
     const [state, setState] = useState({
         previewVisible: false,
         previewImage: '',
@@ -22,7 +20,7 @@ const UploadImage = () => {
         fileList: [],
     });
 
-    const handleCancel = () => setState({ previewVisible: false });
+    const { previewVisible, previewImage, fileList, previewTitle } = state;
 
     const handlePreview = async file => {
         if (!file.url && !file.preview) {
@@ -35,12 +33,15 @@ const UploadImage = () => {
             previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
         });
     };
-    const { previewVisible, previewImage, fileList, previewTitle } = state;
 
-    const handleChange = (e) => {
-        setState({ fileList: e.target.files })
+    const onCancel = () => {
+        setState({ previewVisible: false });
     };
-    
+
+    const handleChange = ({ fileList }) => {
+        setState({ fileList })
+    };
+
     const uploadButton = (
         <div>
             <PlusOutlined />
@@ -48,46 +49,37 @@ const UploadImage = () => {
         </div>
     );
 
-    const handleSubmit = async () => {
-        console.log(fileList);
-        const fomrData = new FormData();
-        fomrData.append('image', fileList[0]);
-        await imageService.uploadImage(fomrData);
-    }
-
     return (
         <>
-            {/* <Form onSubmit={handleSubmit}>
-                <FormItem> */}
-            {/* <Upload
+            <div>
+                <div style={{ overflow: 'auto', height: '500px' }}>
+                    <Upload
                         name='image'
-                        customRequest={handleSubmit}
-                        // action={'http://localhost:4000/api/admin/image/upload'}
-                        // onChange={handleChange}
-                        // onPreview={handlePreview}
+                        action={envApp.API + '/admin/image/upload'}
+                        onChange={handleChange}
+                        onPreview={handlePreview}
+                        fileList={fileList}
                         listType="picture-card"
                         maxCount={10}
                         multiple
                     >
                         {uploadButton}
                     </Upload>
-                    <Button type="primary" htmlType="submit">
-                        Register tenant
-                    </Button> */}
-            {/* </FormItem>
-            </Form> */}
-            <div>
-                <input type="file" multiple onChange={handleChange} />
-                <button onClick={handleSubmit}>Upload</button>
-                <Modal
-                    visible={previewVisible}
-                    title={previewTitle}
-                    footer={null}
-                    onCancel={handleCancel}
-                >
-                    <img alt="example" style={{ width: '100%' }} src={previewImage} />
-                </Modal>
+                    <Modal
+                        visible={previewVisible}
+                        title={previewTitle}
+                        footer={null}
+                        onCancel={onCancel}
+                    >
+                        <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                    </Modal>
+                </div>
+                <div style={{ paddingTop: 5, width: '100%', textAlign: 'end' }}>
+                    <Divider style={{ margin: 3 }} />
+                    <Button type='primary' onClick={handleCancel}>Cancel</Button>
+                </div>
             </div>
+
         </>
     );
 

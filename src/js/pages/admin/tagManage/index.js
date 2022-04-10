@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Table, Form, Button, Input } from 'antd';
 import tagService from "../../../services/admin/tag.service";
+import UploadImageModal from "../../../components/admin/modal/upload-image-modal";
 
 const TagManager = () => {
     const [dataSource, setDataSource] = useState([]);
@@ -22,18 +23,28 @@ const TagManager = () => {
 
     const onFinish = async (value) => {
         const tag = {
-            name: value.name
+            name: value.name,
+            descript: value.descript,
         }
         await tagService.addTag(tag, (res) => {
             console.log(res);
         })
     }
 
+
     const getAllTag = async () => {
-        await tagService.getAll((res) => {
-            console.log(res);
-        })
+        await tagService.getAll({}, (res) => {
+            let data = res.map((item, index) => ({
+                key: index + 1,
+                ...item
+            }))
+            setDataSource(data)
+        });
     }
+
+    useEffect(() => {
+        getAllTag();
+    }, [])
 
     return (
         <div>
@@ -51,7 +62,7 @@ const TagManager = () => {
                         <Form
                             layout='vertical'
                             form={formCategory}
-                            onFinish={(e) => { console.log(e) }}
+                            onFinish={onFinish}
                         >
                             <Form.Item
                                 label="NAME TAG"
@@ -64,6 +75,17 @@ const TagManager = () => {
                                 ]}
                             >
                                 <Input placeholder="input placeholder" />
+                            </Form.Item>
+                            <Form.Item
+                                label="DESCRIPTION"
+                                name="descript"
+                            >
+                                <Input placeholder="input placeholder" />
+                            </Form.Item>
+                            <Form.Item
+                                label="IMAGE"
+                            >
+                                <UploadImageModal getImage={() => console.log("duong")} />
                             </Form.Item>
                             <Form.Item >
                                 <Button type="primary" htmlType="submit">Submit</Button>

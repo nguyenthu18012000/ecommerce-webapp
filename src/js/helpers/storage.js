@@ -2,6 +2,13 @@ export const setAdminToken = (adminToken) => {
     return localStorage.setItem('adminToken', adminToken);
 }
 
+export const isAuthenticated = () => {
+    if (getAdminToken() || getToken()){
+        return true;
+    }
+    return false;
+}
+
 export const setToken = (token) => {
     return localStorage.setItem('token', token);
 }
@@ -24,5 +31,6 @@ export default {
     setToken,
     getAdminToken,
     getToken,
-    clearToken
+    clearToken,
+    isAuthenticated
 }
