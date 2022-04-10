@@ -9,6 +9,7 @@ import { Switch } from "react-router-dom";
 import { Route } from "react-router-dom";
 import TagManager from "../../../pages/admin/tagManage";
 import ListOrder from "../../../pages/admin/orderManage/list-order";
+import ListCustomer from "../../../pages/admin/userManage/list-user";
 const { Header, Content, Footer, Sider } = Layout;
 
 const SideBar = () => {
@@ -53,6 +54,9 @@ const SideBar = () => {
                                 </Route>
                                 <Route path='/admin/list-order' >
                                     <ListOrder/>
+                                </Route>
+                                <Route path='/admin/list-customer' >
+                                    <ListCustomer/>
                                 </Route>
                             </Switch>
                         </div>

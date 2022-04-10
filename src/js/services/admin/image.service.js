@@ -42,7 +42,7 @@ const deleteImage = async (
 ) => {
     try {
         const DELETE_IMAGE_PATH = `/admin/image/${params.id}`
-        const res = await axiosHelper.sendDelete(DELETE_IMAGE_PATH, params);
+        const res = await axiosHelper.sendDelete(DELETE_IMAGE_PATH, params, true);
         if (res?.code === 200) {
             onSucces(res?.data);
         }

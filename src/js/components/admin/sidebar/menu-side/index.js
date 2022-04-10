@@ -41,13 +41,13 @@ const menu = [
         ],
     },
     {
-        key: "user-manager",
-        title: "User manager",
+        key: "customer-manager",
+        title: "Customer manager",
         icon: <UserOutlined />,
         subMenu: [
             {
-                key: "/admin/list-user",
-                title: "List user",
+                key: "/admin/list-customer",
+                title: "List customer",
             },
         ],
     },

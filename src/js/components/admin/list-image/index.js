@@ -1,8 +1,8 @@
-import { Button, Checkbox, Divider, Image, Layout } from 'antd';
+import { Button, Checkbox, Divider, Image, Popconfirm } from 'antd';
 import { useState } from 'react';
 import { DeleteOutlined } from '@ant-design/icons';
 
-const ListImage = ({ props, sendCheckList }) => {
+const ListImage = ({ props }) => {
     const data = {
         listImage: props?.listImage || [],
         multiple: props?.multiple || true,
@@ -12,6 +12,7 @@ const ListImage = ({ props, sendCheckList }) => {
         isPreview: props?.isPreview || false,
         isDelete: props?.isDelete || false,
         deleteFunction: props?.deleteFunction || null,
+        sendCheckList: props?.sendCheckList || null,
     }
 
     const [checkList, setCheckList] = useState([]);
@@ -40,20 +41,26 @@ const ListImage = ({ props, sendCheckList }) => {
                                     ></Checkbox>
                                 }
                                 {data.isDelete &&
-                                    <Button
-                                        className='customer-delete-btn'
-                                        size='small'
-                                        danger
-                                        type='primary'
-                                        style={{
-                                            position: 'absolute',
-                                            zIndex: 2,
-                                            right: 0,
-                                        }}
-                                        onClick={() => data.deleteFunction(item.id)}
+                                    <Popconfirm
+                                        title="Are you sure？"
+                                        onConfirm={() => data.deleteFunction(item.id)}
+                                        okText="Yes"
+                                        cancelText="No"
                                     >
-                                        <DeleteOutlined />
-                                    </Button>
+                                        <Button
+                                            className='customer-delete-btn'
+                                            size='small'
+                                            danger
+                                            type='primary'
+                                            style={{
+                                                position: 'absolute',
+                                                zIndex: 2,
+                                                right: 0,
+                                            }}
+                                        >
+                                            <DeleteOutlined />
+                                        </Button>
+                                    </Popconfirm>
                                 }
                             </div>
                             <div>
@@ -71,7 +78,7 @@ const ListImage = ({ props, sendCheckList }) => {
             {data.isSelect &&
                 <div style={{ paddingTop: 5, width: '100%', textAlign: 'end' }}>
                     <Divider style={{ margin: 3 }} />
-                    <Button type='primary' onClick={() => sendCheckList(checkList)}>Ok</Button>
+                    <Button type='primary' onClick={() => data.sendCheckList(checkList)}>Ok</Button>
                 </div>
             }
         </div>

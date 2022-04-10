@@ -2,7 +2,7 @@ import storage from "./storage";
 import adminAuth from "../services/admin/auth.service";
 
 const Auth = {
-    isAuthenticated: false,
+    isAuthenticated: storage.isAuthenticated(),
     authenticated(cb) {
         this.isAuthenticated = true;
         setTimeout(cb, 100);
