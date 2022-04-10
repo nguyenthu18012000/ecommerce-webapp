@@ -3,6 +3,7 @@ import styled from "styled-components";
 const StyleProductComponent = styled.div`
     .new-arrival-item {
         /* margin-right: 5%; */
+        cursor: pointer;
         border: 1px solid transparent;
         .product {
 
@@ -23,6 +24,8 @@ const StyleProductComponent = styled.div`
             }
 
             .detail {
+                padding-left: 10px;
+                padding-right: 10px;
 
                 .product-name {
                     color: black;

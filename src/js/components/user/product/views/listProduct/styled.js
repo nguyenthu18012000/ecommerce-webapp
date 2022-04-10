@@ -24,6 +24,17 @@ const StyleListProductComponent = styled.div`
             padding-right: 1%;
         }
     }
+
+    .product-pagination {
+        width: auto;
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+    }
 `;
 
 export { StyleListProductComponent }

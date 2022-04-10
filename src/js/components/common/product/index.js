@@ -17,8 +17,8 @@ const ProductComponent = ({ dataProduct = {} }) => {
         <StyleProductComponent>
             <div className="new-arrival-item">
                 <div className="product" onClick={() => handleRedirectDetailProduct(dataProduct.id)}>
-                    <img className="product-image" src={dataProduct.images[0]} alt="product" />
-                    <div>
+                    <img className="product-image" src={dataProduct?.images[0]} alt="product" />
+                    <div className="detail">
                         <span className="price"> {numberWithCommas(dataProduct?.price)}đ </span>
                         <span className="wishlist"><AiOutlineHeart /></span>
                     </div>
