@@ -33,6 +33,10 @@ const StyleStillInterestedComponent = styled.div`
             }
         }
     }
+
+    .carousel {
+        padding-bottom: 10px;
+    }
 `;
 
 export { StyleStillInterestedComponent }

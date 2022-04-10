@@ -22,7 +22,6 @@ const StyleMobileHeaderComponent = styled.div`
         }
 
         .cart {
-            padding: 10px;
             font-size: 25px;
             color: black;
         }

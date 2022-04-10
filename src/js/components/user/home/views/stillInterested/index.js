@@ -25,7 +25,7 @@ const responsive = {
     }
 };
 
-const StillInterestedComponent = () => {
+const StillInterestedComponent = ({ dataProducts }) => {
     return (
         <StyleStillInterestedComponent>
             <div>
@@ -44,29 +44,15 @@ const StillInterestedComponent = () => {
                     </span>
                 </div>
             </div>
-            <Carousel responsive={responsive}>
-                <div className="margin-product">
-                    <ProductComponent />
-                </div>
-                <div className="margin-product">
-                    <ProductComponent />
-                </div>
-                <div className="margin-product">
-                    <ProductComponent />
-                </div>
-                <div className="margin-product">
-                    <ProductComponent />
-                </div>
-                <div className="margin-product">
-                    <ProductComponent />
-                </div>
-                <div className="margin-product">
-                    <ProductComponent />
-                </div>
-                <div className="margin-product">
-                    <ProductComponent />
-                </div>
+
+            <Carousel className='carousel' responsive={responsive}>
+                {dataProducts.map(dataProduct => (
+                    <div key={dataProduct.id} className="margin-product">
+                        <ProductComponent dataProduct={dataProduct} />
+                    </div>
+                ))}
             </Carousel>
+
         </StyleStillInterestedComponent>
     );
 };

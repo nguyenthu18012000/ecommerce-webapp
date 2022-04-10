@@ -6,7 +6,7 @@ import ListProductComponent from './views/listProduct';
 const ProductComponent = ({ match }) => {
     return (
         <div>
-            <Route path={`${match?.url}/detail`} exact component={DetailProductComponent} />
+            <Route path={`${match?.url}/:id_product`} exact component={DetailProductComponent} />
             <Route path={match?.url} exact component={ListProductComponent} />
         </div>
     );

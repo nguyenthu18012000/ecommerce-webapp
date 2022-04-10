@@ -1,4 +1,5 @@
 import React from 'react';
+import numberWithCommas from '../../../../../../../helpers/formatNumberWithCommas';
 import { StyleOrderItemComponent } from './styled';
 
 const OrderItemComponent = () => {
@@ -9,7 +10,7 @@ const OrderItemComponent = () => {
                     2 sản phẩm:
                 </span>
                 <span>
-                    1000000đ
+                    {numberWithCommas(100000000000)}đ
                 </span>
             </div>
             <div>
