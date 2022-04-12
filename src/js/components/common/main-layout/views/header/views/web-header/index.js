@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import StyleWebHeaderComponent from './styled';
 import { Link } from 'react-router-dom';
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineHeart, AiFillCaretDown } from "react-icons/ai";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { Col, Menu, Row, Dropdown, Button, Space, Input } from 'antd';
+import storage from '../../../../../../../helpers/storage';
+import { useHistory } from 'react-router-dom';
 
 const { Search } = Input;
 
@@ -27,7 +29,24 @@ const menu = (
     </Menu>
 );
 
+const accountFeature = (
+    <Menu>
+        <Menu.Item>
+            <div onClick={() => { storage.clearToken() }}>Đăng xuất</div>
+        </Menu.Item>
+    </Menu>
+);
+
 const WebHeaderComponent = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const history = useHistory();
+    useEffect(() => {
+        if (storage.getToken()) {
+            setIsAuthenticated(true);
+        }
+    }, [storage.getToken()])
+
+
     return (
         <StyleWebHeaderComponent>
             <div className="header">
@@ -39,24 +58,31 @@ const WebHeaderComponent = () => {
                 <div className="header-mid">
                     <div className="label">
                         <span className="mid-label">
-                            <Link><span className="text-color">Trợ giúp</span></Link>
+                            <Link to="/"><span className="text-color">Trợ giúp</span></Link>
                         </span>
                         <span className="mid-label">
-                            <Link><span className="text-color">Theo dõi đơn hàng</span></Link>
+                            <Link to="/order"><span className="text-color">Theo dõi đơn hàng</span></Link>
                         </span>
                         <span className="mid-label">
-                            <Link><span className="text-color">Đăng kí bản tin</span></Link>
+                            <Link to="/"><span className="text-color">Đăng ký nhận tin</span></Link>
                         </span>
-                        <span className="mid-label">
-                            <Link to='/login'><span className="text-color">Đăng nhập</span></Link>
-                        </span>
+                        {!isAuthenticated ?
+                            <span className="mid-label">
+                                <Link to='/login'><span className="text-color">Đăng nhập</span></Link>
+                            </span> :
+                            <Space wrap>
+                                <Dropdown overlay={accountFeature}>
+                                    <div className="">Đã đăng nhập <AiFillCaretDown className="scale1_5" /></div>
+                                </Dropdown>
+                            </Space>}
+
                     </div>
                 </div>
                 <div className="header-bot">
                     <Row>
                         <Col span={2}>
                             <span className="header-logo">
-                                <Link >
+                                <Link to="/">
                                     <img className="logo" src="/images/logo.png" alt="logo" />
                                 </Link>
                             </span>
@@ -80,9 +106,6 @@ const WebHeaderComponent = () => {
                                     <Dropdown overlay={menu}>
                                         <Button className="label-bot">Các nhãn hiệu</Button>
                                     </Dropdown>
-                                    {/* <Dropdown overlay={menu}>
-                                        <Button className="label-bot">Release Dates</Button>
-                                    </Dropdown> */}
                                 </Space>
                             </span>
                         </Col>
@@ -96,7 +119,7 @@ const WebHeaderComponent = () => {
                             <Link className="wish-list"><AiOutlineHeart /></Link>
                         </Col>
                         <Col span={1}>
-                            <Link className="cart"><HiOutlineShoppingBag /></Link>
+                            <Link className="cart" onClick={() => { history.push("/cart") }}><HiOutlineShoppingBag /></Link>
                         </Col>
                     </Row>
 

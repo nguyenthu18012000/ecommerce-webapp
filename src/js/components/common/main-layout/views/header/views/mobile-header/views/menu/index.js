@@ -1,15 +1,39 @@
 import { slide as Menu } from 'react-burger-menu';
 import "./styled.css";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import storage from '../../../../../../../../../helpers/storage';
 
 const MenuComponent = () => {
+    const history = useHistory();
+    const [isAuthenticate, setIsAuthenticate] = useState(false);
+
+    const logout = () => {
+        storage.clearToken();
+        setIsAuthenticate(false);
+    }
+
+    useEffect(() => {
+        if (storage.getToken()) {
+            setIsAuthenticate(true);
+        }
+    }, [isAuthenticate]);
     return (
         <div>
-            <Menu >
-                <a id="home" className="menu-item" href="/">Home</a>
-                <a id="about" className="menu-item" href="/about">About</a>
-                <a id="contact" className="menu-item" href="/contact">Contact</a>
-                <a className="menu-item--small" href="">Settings</a>
+            <Menu>
+                <div className="hello">Xin chào</div>
+                <div className="menu-item" onClick={() => { history.push("/") }}>Trang chủ</div>
+                <div className="menu-item" onClick={() => { history.push("/product") }}>Sản phẩm</div>
+                {isAuthenticate ?
+                    <>
+                        <div className="menu-item" onClick={() => { history.push("/cart") }}>Giỏ hàng</div>
+                        <div className="menu-item" onClick={() => { history.push("/order") }}>Đơn của bạn</div>
+                        <div className="menu-item--small" onClick={logout}>Đăng xuất</div>
+                    </> :
+                    <>
+                        <div className="menu-item" onClick={() => { history.push("/login") }}>Đăng nhập</div>
+                    </>
+                }
             </Menu>
         </div>
     );

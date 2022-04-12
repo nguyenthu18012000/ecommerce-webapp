@@ -212,9 +212,53 @@ const products = [
     },
 ]
 
+const productInCart = [
+    {
+        id: 1,
+        image: "/images/shoes1.webp",
+        name: "1giày rách không ai mua",
+        price: 10000000,
+        status: "sản phẩm đang sẵn hàng",
+        quantity: 2,
+    },
+    {
+        id: 2,
+        image: "/images/shoes1.webp",
+        name: "2giày rách không ai mua",
+        price: 10000000,
+        status: "sản phẩm đang sẵn hàng",
+        quantity: 2,
+    },
+    {
+        id: 3,
+        image: "/images/shoes1.webp",
+        name: "3giày rách không ai mua",
+        price: 10000000,
+        status: "sản phẩm đang sẵn hàng",
+        quantity: 2,
+    },
+    {
+        id: 4,
+        image: "/images/shoes1.webp",
+        name: "4giày rách không ai mua",
+        price: 10000000,
+        status: "sản phẩm đang sẵn hàng",
+        quantity: 2,
+    },
+    {
+        id: 5,
+        image: "/images/shoes1.webp",
+        name: "5giày rách không ai mua",
+        price: 10000000,
+        status: "sản phẩm đang sẵn hàng",
+        quantity: 2,
+    },
+]
+
 const WebData = {
     banners,
     products,
+    productInCart,
 }
 
 export default WebData;

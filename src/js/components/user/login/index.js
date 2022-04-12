@@ -6,8 +6,19 @@ import { AiOutlineArrowRight, AiOutlineCheck } from "react-icons/ai";
 import Validator from "hero-validate";
 import userAuth from '../../../services/user/auth.service';
 import { useHistory } from 'react-router-dom';
+import storage from '../../../helpers/storage';
 
 const LoginComponent = () => {
+    const history = useHistory();
+    const [dataLogin, setDataLogin] = useState({
+        "username": "",
+        "password": "",
+    });
+    const [touch, setTouch] = useState({
+        username: false,
+        password: false,
+    });
+    // const [isAuthenticate, setIsAuthenticate] = useState(false);
 
     const rules = {
         username: "required|min:6|max:20",
@@ -26,16 +37,7 @@ const LoginComponent = () => {
             max: "Không được dài hơn :max kí tự",
         },
     });
-
-    const [dataLogin, setDataLogin] = useState({
-        "username": "",
-        "password": "",
-    });
-
-    const [touch, setTouch] = useState({
-        username: false,
-        password: false,
-    })
+    const result = Validator.validate(dataLogin, rules);
 
     const handleChangeInput = (e) => {
         setDataLogin({
@@ -48,16 +50,14 @@ const LoginComponent = () => {
         })
     }
 
-    const result = Validator.validate(dataLogin, rules);
-
-    const history = useHistory();
-
     const handleClickBtnSubmit = (e) => {
         e.preventDefault();
         if (!result.hasError) {
             userAuth.authorizeUser(
                 dataLogin,
-                () => { },
+                (data) => {
+                    storage.setToken(data.token);
+                },
                 () => { }
             );
             history.push("/");
@@ -86,7 +86,6 @@ const LoginComponent = () => {
                                     <button onClick={handleClickBtnSubmit}>Đăng nhập<AiOutlineArrowRight className="scale1_5" /></button>
                                     {/* <span className="behind-button"></span> */}
                                 </div>
-                                {console.log(result)}
                             </form>
                         </div>
                     </Col>

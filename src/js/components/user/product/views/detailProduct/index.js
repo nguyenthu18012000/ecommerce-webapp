@@ -1,44 +1,44 @@
-import React, { useRef, useState } from 'react';
-import { StyleDetailProductComponent } from './styled';
 import { Carousel } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineArrowRight } from "react-icons/ai";
 import ReactStars from "react-rating-stars-component";
-import toastCustom from '../../../../../helpers/toast-custom';
-import numberWithCommas from '../../../../../helpers/formatNumberWithCommas';
+import { useHistory, useParams } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
-import { useHistory } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import WebData from '../../../../../data/data';
+import numberWithCommas from '../../../../../helpers/formatNumberWithCommas';
+import toastCustom from '../../../../../helpers/toast-custom';
+import productService from '../../../../../services/user/product.service';
+import cartService from '../../../../../services/user/cart.service';
+import { StyleDetailProductComponent } from './styled';
+import storage from '../../../../../helpers/storage';
 
 const ratingChanged = (newRating) => {
     console.log(newRating);
 };
 
-
 const DetailProductComponent = () => {
     const [newComment, setNewComment] = useState("");
+    const [images, setImages] = useState([]);
+    const [dataProduct, setDataProduct] = useState({});
     const history = useHistory();
-
     let params = useParams();
-    const id_product = params.id_product;
-
-    const dataProducts = WebData.products;
-    const dataProduct = dataProducts.filter(product => product.id == id_product)[0];
-
     const desc = useRef();
+    const cmt = useRef();
+
+    const id_product = params.id_product;
+    const idArray = [{
+        quantity: 1,
+        productId: id_product,
+    }];
+
     const handleClickBtnDescription = () => {
         desc.current.scrollIntoView({ behavior: "smooth" });
     }
-
-    const cmt = useRef();
     const handleClickBtnComment = () => {
         cmt.current.scrollIntoView({ behavior: "smooth" });
     }
-
     const handleChangeInputComment = (e) => {
         setNewComment(e.target.value);
     }
-
     const handleClickBtnAddComment = (e) => {
         setNewComment("");
         toastCustom({
@@ -47,6 +47,25 @@ const DetailProductComponent = () => {
         });
         console.log(newComment);
     }
+    const handleClickBtnAddProduct = (e) => {
+        console.log(storage.getToken())
+        cartService.addProductToCart(
+            { productOrder: idArray },
+            () => { },
+            () => { }
+        )
+    }
+
+    useEffect(() => {
+        productService.getProductById(
+            id_product,
+            (data) => {
+                setDataProduct(data);
+                setImages(data.images);
+            },
+            () => { }
+        );
+    }, []);
 
     return (
         <StyleDetailProductComponent>
@@ -69,18 +88,11 @@ const DetailProductComponent = () => {
             <div className="detail-container">
                 <div className="content">
                     <Carousel className="carousel">
-                        <div>
-                            <img className="image" src="/images/image1.webp" alt="" />
-                        </div>
-                        <div>
-                            <img className="image" src="/images/image1.webp" alt="" />
-                        </div>
-                        <div>
-                            <img className="image" src="/images/image1.webp" alt="" />
-                        </div>
-                        <div>
-                            <img className="image" src="/images/image1.webp" alt="" />
-                        </div>
+                        {images.map(image => (
+                            <div>
+                                <img className="image" src={image} alt="" />
+                            </div>
+                        ))}
                     </Carousel>
                 </div>
                 <div className="sidebar-wrapper">
@@ -88,7 +100,7 @@ const DetailProductComponent = () => {
                         {numberWithCommas(dataProduct?.price)}đ
                     </div>
                     <div>
-                        <button>Thêm vào giỏ hàng<AiOutlineArrowRight className="scale1_5" /></button>
+                        <button onClick={handleClickBtnAddProduct}>Thêm vào giỏ hàng<AiOutlineArrowRight className="scale1_5" /></button>
                     </div>
                 </div>
                 <div className="product-information">
@@ -106,7 +118,7 @@ const DetailProductComponent = () => {
                     <div className="description">
                         <div className="title">mô tả</div>
                         <div className="desc-detail">
-                            {dataProduct?.desc}
+                            {dataProduct?.descript}
                         </div>
                     </div>
 

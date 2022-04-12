@@ -38,6 +38,57 @@ const StyleBannerComponent = styled.div`
             }
         }
     }
+
+    @media (max-width: 1000px) {
+        .banner-content {
+            bottom: 5%;
+
+            .title {
+                font-size: 30px;
+            }
+
+            .body {
+                font-size: 15px;
+            }
+
+            .register {
+            font-size: 10px;
+            height: 30px;
+
+            &:hover {
+                color: gray;
+            }
+        }
+        }
+    }
+
+    @media (max-width: 800px) {
+        .banner-content {
+            bottom: 2%;
+
+            .title {
+                font-size: 20px;
+            }
+
+            .body {
+                font-size: 10px;
+            }
+        }
+    }
+
+    @media (max-width: 600px) {
+        .banner-content {
+            bottom: 3%;
+
+            .title {
+                font-size: 10px;
+            }
+
+            .body {
+                font-size: 10px;
+            }
+        }
+    }
 }
 `;
 
