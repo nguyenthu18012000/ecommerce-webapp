@@ -36,12 +36,12 @@ const StyleCartItemComponent = styled.div`
 
             .item-quantity {
 
-                .number {
-                    /* appearance: none; */
-                    align-items: center;
-                    border: 1px solid gray;
-                    border-radius: 0;
-                    justify-content: space-between;
+                .quantityInput {
+                    width: 30px;
+                }
+
+                .changeQuantityBtn {
+                   width: 30px;
                 }
             }
         }

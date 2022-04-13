@@ -1,10 +1,26 @@
 import { Col, Row } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import numberWithCommas from '../../../helpers/formatNumberWithCommas';
 import { StyleCartComponent } from './styled';
 import CartItemComponent from './views/cart-item';
+import WebData from '../../../data/data';
 
 const CartComponent = () => {
+    const [dataCartProduct, setDataCartProduct] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
+    const dataCart = WebData.productInCart;
+
+    const getListProductInCart = () => {
+        setDataCartProduct(dataCart);
+    }
+
+    const updateQuantity = (id, quantity) => {
+        console.log(id + " " + quantity);
+    }
+
+    useEffect(() => {
+        getListProductInCart();
+    }, []);
     return (
         <StyleCartComponent>
             <div className="cart-header">Giỏ hàng của bạn</div>
@@ -14,9 +30,14 @@ const CartComponent = () => {
             </div>
             <Row className="cart-infor">
                 <Col xs={24} xl={16} className="cart-product">
-                    <CartItemComponent numberWithCommas={numberWithCommas} />
-                    <CartItemComponent numberWithCommas={numberWithCommas} />
-                    <CartItemComponent numberWithCommas={numberWithCommas} />
+                    {dataCartProduct.map(dataProduct => (
+                        <CartItemComponent
+                            key={dataProduct.id}
+                            dataProduct={dataProduct}
+                            updateQuantity={updateQuantity}
+                            numberWithCommas={numberWithCommas}
+                        />
+                    ))}
                 </Col>
                 <Col xs={0} xl={1}></Col>
                 <Col xs={24} xl={7} className="cart-detail">
