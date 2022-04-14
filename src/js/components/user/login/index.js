@@ -57,10 +57,10 @@ const LoginComponent = () => {
                 dataLogin,
                 (data) => {
                     storage.setToken(data.token);
+                    history.push("/");
                 },
                 () => { }
             );
-            history.push("/");
         }
     }
 

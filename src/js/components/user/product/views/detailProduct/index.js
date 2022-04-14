@@ -25,10 +25,10 @@ const DetailProductComponent = () => {
     const cmt = useRef();
 
     const id_product = params.id_product;
-    const idArray = [{
+    const product = {
         quantity: 1,
         productId: id_product,
-    }];
+    };
 
     const handleClickBtnDescription = () => {
         desc.current.scrollIntoView({ behavior: "smooth" });
@@ -48,10 +48,21 @@ const DetailProductComponent = () => {
         console.log(newComment);
     }
     const handleClickBtnAddProduct = (e) => {
-        console.log(storage.getToken())
         cartService.addProductToCart(
-            { productOrder: idArray },
-            () => { },
+            { productOrder: product },
+            (code) => {
+                if (code === 200) {
+                    toastCustom({
+                        mess: "Sản phẩm đã được thêm vào giỏ hàng.",
+                        type: "success",
+                    });
+                } else {
+                    toastCustom({
+                        mess: "Sản phẩm đã tồn tại trong giỏ hàng",
+                        type: "info",
+                    });
+                }
+            },
             () => { }
         )
     }

@@ -29,23 +29,27 @@ const menu = (
     </Menu>
 );
 
-const accountFeature = (
-    <Menu>
-        <Menu.Item>
-            <div onClick={() => { storage.clearToken() }}>Đăng xuất</div>
-        </Menu.Item>
-    </Menu>
-);
 
 const WebHeaderComponent = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(!!storage.getToken());
     const history = useHistory();
+    const token = storage.getToken();
+
+    const accountFeature = (
+        <Menu>
+            <Menu.Item>
+                <div onClick={() => { storage.clearToken(); history.push("/") }}>Đăng xuất</div>
+            </Menu.Item>
+        </Menu>
+    );
     useEffect(() => {
         if (storage.getToken()) {
             setIsAuthenticated(true);
         }
-    }, [storage.getToken()])
-
+        else {
+            setIsAuthenticated(false);
+        }
+    }, [token])
 
     return (
         <StyleWebHeaderComponent>

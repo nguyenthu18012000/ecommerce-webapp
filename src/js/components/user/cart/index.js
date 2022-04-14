@@ -3,30 +3,92 @@ import React, { useEffect, useState } from 'react';
 import numberWithCommas from '../../../helpers/formatNumberWithCommas';
 import { StyleCartComponent } from './styled';
 import CartItemComponent from './views/cart-item';
-import WebData from '../../../data/data';
+import cartService from '../../../services/user/cart.service';
+import { cloneDeep } from 'lodash';
+import { useHistory } from 'react-router-dom';
 
 const CartComponent = () => {
     const [dataCartProduct, setDataCartProduct] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
-    const dataCart = WebData.productInCart;
+    const [listProductSelected, setListProductSelected] = useState([]);
 
-    const getListProductInCart = () => {
-        setDataCartProduct(dataCart);
-    }
+    var productQuantity = dataCartProduct?.length;
+    const history = useHistory();
 
     const updateQuantity = (id, quantity) => {
-        console.log(id + " " + quantity);
+        cartService.updateQuantityProductToCart(
+            {
+                productOrder: {
+                    quantity: quantity,
+                    productId: id
+                }
+            },
+            () => {
+                let data = cloneDeep(dataCartProduct);
+                for (let i = 0; i < productQuantity; i++) {
+                    if (data[i].productId === id) {
+                        data[i].quantity = quantity;
+                    }
+                }
+                setDataCartProduct(data);
+            },
+            () => { }
+        )
+    }
+    const getAllProductInCart = () => {
+        cartService.getAllProductInCart(
+            "",
+            (data) => {
+                setDataCartProduct(data);
+            },
+            () => { }
+        );
+    }
+    const deleteProductFromCart = (productId) => {
+        cartService.deleteProductFromCart(
+            { productIdDelete: productId },
+            () => {
+                let cartProducts = cloneDeep(dataCartProduct);
+                setDataCartProduct(cartProducts.filter(item => item.productId !== productId));
+            },
+            () => { }
+        );
+    }
+    const selectProductOrder = (id, price) => {
+        let listId = cloneDeep(listProductSelected);
+        let addProduct = true;
+        const findId = listId.find((element) => element.id === id);
+        if (findId?.id === id) {
+            setListProductSelected(listId.filter(item => item.id !== id));
+            addProduct = false;
+        } else {
+            listId.push({ id, price });
+            setListProductSelected(listId);
+            addProduct = true;
+        }
+    }
+    const createOrder = () => {
+        console.log(listProductSelected);
     }
 
     useEffect(() => {
-        getListProductInCart();
+        getAllProductInCart();
     }, []);
+    useEffect(() => {
+        let newTotalPrice = 0;
+        listProductSelected.forEach(item => {
+            const cartProduct = dataCartProduct.find(product => product.id === item.id);
+            newTotalPrice += cartProduct.quantity * item.price;
+        });
+        setTotalPrice(newTotalPrice);
+        console.log(listProductSelected);
+    }, [dataCartProduct, listProductSelected]);
     return (
         <StyleCartComponent>
             <div className="cart-header">Giỏ hàng của bạn</div>
             <div className="cart-summary">
-                <span>TỔNG CỘNG ( 2 sản phẩm)</span>
-                <span className="cart-sum"> {numberWithCommas(10000500)}đ</span>
+                <span>TỔNG CỘNG ( {listProductSelected.length} sản phẩm được chọn)</span>
+                <span className="cart-sum"> {numberWithCommas(totalPrice)}đ</span>
             </div>
             <Row className="cart-infor">
                 <Col xs={24} xl={16} className="cart-product">
@@ -36,6 +98,8 @@ const CartComponent = () => {
                             dataProduct={dataProduct}
                             updateQuantity={updateQuantity}
                             numberWithCommas={numberWithCommas}
+                            selectProductOrder={selectProductOrder}
+                            deleteProductFromCart={deleteProductFromCart}
                         />
                     ))}
                 </Col>
@@ -43,7 +107,7 @@ const CartComponent = () => {
                 <Col xs={24} xl={7} className="cart-detail">
                     <h1>Tóm tắt đơn hàng</h1>
                     <div>
-                        <span>2 sản phẩm: </span>
+                        <span>{listProductSelected.length} sản phẩm: </span>
                         <span>{numberWithCommas(10000000)}đ</span>
                     </div>
                     <div>
@@ -58,7 +122,7 @@ const CartComponent = () => {
             </Row>
 
             <div className="cart-payment">
-                <button>thanh toán</button>
+                <button onClick={() => createOrder()}>thanh toán</button>
             </div>
         </StyleCartComponent>
     );

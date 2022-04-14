@@ -46,19 +46,33 @@ const StyleCartItemComponent = styled.div`
             }
         }
 
-        .item-delete {
-            cursor: pointer;
-            border: none;
-            background-color: white;
-            transform: scale(1.5);
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            border-radius: 2px;
+        .item-function {
+            position: relative;
 
-            &:hover {
-                background-color: gray;
-                color: white;
+            .item-delete {
+                cursor: pointer;
+                border: none;
+                background-color: white;
+                transform: scale(1.5);
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                border-radius: 2px;
+    
+                &:hover {
+                    background-color: gray;
+                    color: white;
+                }
+            }
+
+            .item-selected {
+                width: 30px;
+                height: 30px;
+                position: absolute;
+                bottom: 10px;
+                right: 10px;
+                cursor: pointer;
+                background-color: green;
             }
         }
     }
