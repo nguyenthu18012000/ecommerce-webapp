@@ -6,10 +6,13 @@ import CartItemComponent from './views/cart-item';
 import cartService from '../../../services/user/cart.service';
 import { cloneDeep } from 'lodash';
 import { useHistory } from 'react-router-dom';
+import orderService from '../../../services/user/order.service';
+import toastCustom from '../../../helpers/toast-custom';
 
 const CartComponent = () => {
     const [dataCartProduct, setDataCartProduct] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
+    const [listIdProductSelected, setListIdProductSelected] = useState([]);
     const [listProductSelected, setListProductSelected] = useState([]);
 
     var productQuantity = dataCartProduct?.length;
@@ -56,20 +59,36 @@ const CartComponent = () => {
     }
     const selectProductOrder = (id, price) => {
         let listId = cloneDeep(listProductSelected);
+        let idOrder = cloneDeep(listIdProductSelected);
         let addProduct = true;
         const findId = listId.find((element) => element.id === id);
         if (findId?.id === id) {
             setListProductSelected(listId.filter(item => item.id !== id));
-            addProduct = false;
+            setListIdProductSelected(idOrder.filter(item => item !== id))
         } else {
             listId.push({ id, price });
+            idOrder.push(id);
             setListProductSelected(listId);
-            addProduct = true;
+            setListIdProductSelected(idOrder);
         }
-    }
-    const createOrder = () => {
         console.log(listProductSelected);
     }
+    const createOrder = () => {
+        orderService.createOrder(
+            {
+                product_order_id: listIdProductSelected,
+                priceTotal: totalPrice,
+            },
+            () => {
+                toastCustom({
+                    mess: "Đặt hàng thành công.",
+                    type: "success",
+                });
+                history.push("/order");
+            },
+            () => { }
+        )
+    };
 
     useEffect(() => {
         getAllProductInCart();

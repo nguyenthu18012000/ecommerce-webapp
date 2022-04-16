@@ -11,6 +11,17 @@ const StyleListOrderComponent = styled.div`
 
     .order-title {
         font-size: 30px;
+        padding: 5px;
+    }
+
+    .order-body {
+
+        .order {
+            display: inline-flex;
+            width: 50%;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
     }
 `;
 
