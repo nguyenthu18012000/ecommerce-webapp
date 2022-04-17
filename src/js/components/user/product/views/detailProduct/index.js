@@ -11,10 +11,12 @@ import cartService from '../../../../../services/user/cart.service';
 import { StyleDetailProductComponent } from './styled';
 import commentService from '../../../../../services/user/comment.service';
 import StarRating from '../../../../../components/common/base/react-star';
+import { cloneDeep } from 'lodash';
 
 const DetailProductComponent = () => {
     const [newComment, setNewComment] = useState("");
     const [dataComment, setDataComment] = useState([]);
+    const [rateStar, setRateStar] = useState(0);
     const [avgStar, setAvgStar] = useState(0);
     const [images, setImages] = useState([]);
     const [dataProduct, setDataProduct] = useState({});
@@ -39,16 +41,26 @@ const DetailProductComponent = () => {
         setNewComment(e.target.value);
     }
     const handleClickBtnAddComment = () => {
-        setNewComment("");
-        toastCustom({
-            mess: "thành công",
-            type: "success",
-        });
-        console.log(newComment);
+        commentService.createNewComment(
+            {
+                productId: id_product,
+                star: rateStar,
+                content: newComment
+            },
+            () => {
+                getDataCommentById();
+                setNewComment("");
+                toastCustom({
+                    mess: "thành công",
+                    type: "success",
+                });
+            },
+            () => { }
+        )
     }
     const ratingChanged = (newRating) => {
-        console.log(newRating);
-    };
+        setRateStar(newRating);
+    }
     const handleClickBtnAddProduct = () => {
         cartService.addProductToCart(
             { productOrder: product },
@@ -95,7 +107,6 @@ const DetailProductComponent = () => {
             sum += parseInt(data[i].star);
         }
         setAvgStar(sum / length);
-        console.log(avgStar);
     }
     useEffect(() => {
         getDataProductById();
@@ -166,7 +177,7 @@ const DetailProductComponent = () => {
                                 onChange={ratingChanged}
                                 size={24}
                                 isHalf={false}
-                                value={3.5}
+                                value={rateStar}
                                 activeColor="#ffd700"
                             />
                         </div>
