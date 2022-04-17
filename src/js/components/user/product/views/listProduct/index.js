@@ -9,6 +9,7 @@ const ListProductComponent = ({ match }) => {
     const history = useHistory();
     const [dataProducts, setDataProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [paramsSearch, setParamsSearch] = useState("");
 
     const productPerPage = 10;
     const numberOfProducts = dataProducts.length;
@@ -32,7 +33,9 @@ const ListProductComponent = ({ match }) => {
         window.scrollTo(0, 0);
         getListProducts();
         const page = paramUrl.get("page") || 1;
+        const search = paramUrl.get("search") || "";
         setCurrentPage(page);
+        setParamsSearch(search);
     }, [params.href])
     var indexOfFirstProduct = (currentPage - 1) * productPerPage;
     var indexOfLastProduct = currentPage * productPerPage - 1;
@@ -41,15 +44,17 @@ const ListProductComponent = ({ match }) => {
     }
 
     const currenDataProduct = dataProducts.filter((item, index) => index >= indexOfFirstProduct && index <= indexOfLastProduct);
-    console.log(currenDataProduct);
+
     return (
         <StyleListProductComponent>
             <div className="breadcrumb">
                 <span className="breadcrumb-item" onClick={() => { history.push("/") }}>Trang chủ </span>
-                <span className="breadcrumb-item">/ Nam </span>
-                <span className="breadcrumb-item">/ giày</span>
+                <span className="breadcrumb-item">/ Sản phẩm</span>
             </div>
-            <div className="header-bar">Giày nam</div>
+            {paramsSearch !== "" ?
+                <div className="header-bar">Từ khóa: {paramsSearch}</div> :
+                <div className="header-bar">Tất cả sản phẩm</div>
+            }
             <div className="list-product">
                 <Row>
                     {currenDataProduct.map(dataProduct => (
@@ -60,7 +65,6 @@ const ListProductComponent = ({ match }) => {
                 </Row>
             </div>
             <div>
-
                 <div className="product-pagination">
                     <Pagination className="pagination"
                         current={+currentPage}

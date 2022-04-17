@@ -7,27 +7,6 @@ import { Col, Menu, Row, Dropdown, Button, Space, Input } from 'antd';
 import storage from '../../../../../../../helpers/storage';
 import { useHistory } from 'react-router-dom';
 
-const { Search } = Input;
-
-const menu = (
-    <Menu>
-        <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-                1st menu item
-            </a>
-        </Menu.Item>
-        <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-                2nd menu item
-            </a>
-        </Menu.Item>
-        <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-                3rd menu item
-            </a>
-        </Menu.Item>
-    </Menu>
-);
 
 
 const WebHeaderComponent = () => {
@@ -35,6 +14,27 @@ const WebHeaderComponent = () => {
     const history = useHistory();
     const token = storage.getToken();
 
+    const { Search } = Input;
+
+    const menu = (
+        <Menu>
+            <Menu.Item key={"all-product"}>
+                <div onClick={() => { history.push("/product") }}>
+                    Tất cả sản phẩm
+                </div>
+            </Menu.Item>
+            <Menu.Item>
+                <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+                    2nd menu item
+                </a>
+            </Menu.Item>
+            <Menu.Item>
+                <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
+                    3rd menu item
+                </a>
+            </Menu.Item>
+        </Menu>
+    );
     const accountFeature = (
         <Menu>
             <Menu.Item>
@@ -42,6 +42,9 @@ const WebHeaderComponent = () => {
             </Menu.Item>
         </Menu>
     );
+    const onSearch = (value) => {
+        history.push(`/product?search=${value}`);
+    }
     useEffect(() => {
         if (storage.getToken()) {
             setIsAuthenticated(true);
@@ -76,7 +79,10 @@ const WebHeaderComponent = () => {
                             </span> :
                             <Space wrap>
                                 <Dropdown overlay={accountFeature}>
-                                    <div className="">Đã đăng nhập <AiFillCaretDown className="scale1_5" /></div>
+                                    <div className="">
+                                        Đã đăng nhập
+                                        <AiFillCaretDown className="scale1_5" />
+                                    </div>
                                 </Dropdown>
                             </Space>}
 
@@ -92,31 +98,38 @@ const WebHeaderComponent = () => {
                             </span>
                         </Col>
                         <Col xs={1} xl={3}></Col>
-                        <Col xs={16} xl={12}>
+                        <Col xs={16} xl={13}>
                             <span className="header-menu">
                                 <Space wrap>
+                                    <span
+                                        className="label-bot"
+                                        onClick={() => { history.push("/") }}
+                                    >
+                                        Trang chủ
+                                    </span>
                                     <Dropdown overlay={menu}>
-                                        <Button className="label-bot">Nam</Button>
+                                        <span className="label-bot">Sản phẩm</span>
                                     </Dropdown>
                                     <Dropdown overlay={menu}>
-                                        <Button className="label-bot">Nữ</Button>
+                                        <span className="label-bot">Tin tức</span>
                                     </Dropdown>
                                     <Dropdown overlay={menu}>
-                                        <Button className="label-bot">Trẻ em</Button>
+                                        <span className="label-bot">Về chúng tôi</span>
                                     </Dropdown>
                                     <Dropdown overlay={menu}>
-                                        <Button className="label-bot">Thể thao</Button>
-                                    </Dropdown>
-                                    <Dropdown overlay={menu}>
-                                        <Button className="label-bot">Các nhãn hiệu</Button>
+                                        <span className="label-bot">Các nhãn hiệu</span>
                                     </Dropdown>
                                 </Space>
                             </span>
                         </Col>
-                        <Col xs={0} xl={2}></Col>
+                        <Col xs={0} xl={1}></Col>
                         <Col span={3}>
                             <span >
-                                <Search className="search" placeholder="Tìm kiếm..." />
+                                <Search
+                                    className="search"
+                                    placeholder="Tìm kiếm..."
+                                    onSearch={onSearch}
+                                />
                             </span>
                         </Col>
                         <Col span={1}>

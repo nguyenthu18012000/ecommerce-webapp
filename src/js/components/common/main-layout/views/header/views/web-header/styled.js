@@ -55,6 +55,7 @@ font-family: "Noto Sans","AdihausDIN","Helvetica",Arial,sans-serif !important;
         padding-left: 2.5%;
         padding-right: 2.5%;
         height: 40px;
+        position: relative;
 
         .header-logo {
             .logo {
@@ -65,12 +66,16 @@ font-family: "Noto Sans","AdihausDIN","Helvetica",Arial,sans-serif !important;
         }
 
         .header-menu {
-            margin-top: 10px;
+            position: absolute;
+            top: 10px;
 
             .label-bot {
                 border: 0px;
                 font-size: 14px;
                 text-transform: uppercase;
+                margin-left: 5px;
+                margin-right: 5px;
+                padding: 10px;
 
                 &:hover {
                     color: black;
