@@ -6,11 +6,24 @@ const getAll = async (
     onError = () => { }
 ) => {
     try {
-        const GET_ALL_PRODUCT_PATH = `/admin/product/all/${params?.page || 0}`
-        const data = {
-            perPage: params?.perPage
+        const GET_ALL_PRODUCT_PATH = `/admin/product/all/${params?.page || 0}`;
+        const res = await axiosHelper.sendPost(GET_ALL_PRODUCT_PATH, params);
+        if (res?.code === 200) {
+            onSucces(res?.data);
         }
-        const res = await axiosHelper.sendGet(GET_ALL_PRODUCT_PATH);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const getMinMaxValue = async (
+    params,
+    onSucces = () => { },
+    onError = () => { }
+) => {
+    try {
+        const GET_ALL_PRODUCT_PATH = `/admin/product/min-max-value`;
+        const res = await axiosHelper.sendPost(GET_ALL_PRODUCT_PATH, params);
         if (res?.code === 200) {
             onSucces(res?.data);
         }
@@ -35,7 +48,10 @@ const addProduct = async (
     }
 };
 
-export default {
+const productService = {
     getAll,
-    addProduct
+    addProduct,
+    getMinMaxValue
 }
+
+export default productService;

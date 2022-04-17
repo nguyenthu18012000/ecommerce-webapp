@@ -1,8 +1,8 @@
 import axios from "axios";
 import envApp from "./envApp";
 import storageFC from "./storage";
-import { toast } from "./toast";
-import { useHistory } from "react-router-dom";
+import toast from "./toast-custom";
+import { HTTP_CODE } from "../constants/constant";
 
 const axiosInstance = axios.create({
   baseURL: envApp.API,
@@ -94,10 +94,20 @@ function handleToast(isShow, baseResponse) {
   if (!isShow) {
     return;
   }
-  return toast(baseResponse);
+  let type = 'default';
+  if (baseResponse.code === HTTP_CODE.SUCCESS) {
+    type = 'success';
+  } else if (baseResponse.code === HTTP_CODE.BAD_REQUEST) {
+    type = 'error';
+  } else if (baseResponse.code === HTTP_CODE.NOT_POUND || baseResponse.code === HTTP_CODE.CONFLIC) {
+    type = 'warning';
+  } else {
+    type = 'info';
+  }
+  return toast({ mess: baseResponse.message, type: type });
 }
 
-export default {
+const axiosCustom = {
   sendGet,
   sendPost,
   sendPut,
@@ -105,3 +115,5 @@ export default {
   sendDelete,
   sendCustom,
 }
+
+export default axiosCustom;

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Table, Tag, Space } from 'antd';
+import { Table, Tag, Space, Input, Row, Col, Button, Form, InputNumber } from 'antd';
 import productService from "../../../../services/admin/product.service";
 
 const ListProduct = () => {
+    const perPage = 20;
+    const defaultPage = 1;
     const columns = [
         {
-            title: 'Id',
-            dataIndex: 'id',
-            key: 'id',
+            title: 'Stt',
+            dataIndex: 'stt',
+            key: 'stt',
             render: text => <a>{text}</a>,
         }, ,
         {
@@ -27,14 +29,15 @@ const ListProduct = () => {
             key: 'Total',
         },
         {
-            title: 'Tags',
-            key: 'categoryId',
-            dataIndex: 'categoryId',
+            title: 'Tag',
+            key: 'tag',
+            dataIndex: 'tag',
             render: tag => (
                 <>
-                    {tag == null && <Tag color="blue" key={tag}>
-                        null
-                    </Tag>}
+                    {tag == null ?
+                        <Tag color="blue" key={tag}>Unknow</Tag> :
+                        <Tag color="blue" key={tag}>{tag}</Tag>
+                    }
                 </>
             ),
         },
@@ -49,20 +52,14 @@ const ListProduct = () => {
             ),
         },
     ]
-    const [dataSource, setDataSource] = useState([
-        { key: 1, id: 1, name: "nullam", price: 69535, total: 49, categoryId: null },
-        { key: 2, id: 2, name: "sodales", price: 61383, total: 2, categoryId: null },
-        { key: 3, id: 3, name: "turpis", price: 34897, total: 49, categoryId: null },
-        { key: 4, id: 4, name: "ante", price: 74413, total: 62, categoryId: null },
-        { key: 5, id: 5, name: "dapibus augue", price: 35097, total: 78, categoryId: null },
-        { key: 6, id: 6, name: "ipsum", price: 56926, total: 60, categoryId: null },
-        { key: 7, id: 7, name: "vivamus vestibulum", price: 55874, total: 84, categoryId: null },
-        { key: 8, id: 7, name: "vivamus vestibulum", price: 55874, total: 84, categoryId: null },
-        { key: 9, id: 7, name: "vivamus vestibulum", price: 55874, total: 84, categoryId: null },
-        { key: 10, id: 7, name: "vivamus vestibulum", price: 55874, total: 84, categoryId: null },
-        { key: 11, id: 7, name: "vivamus vestibulum", price: 55874, total: 84, categoryId: null },
-        { key: 12, id: 7, name: "vivamus vestibulum", price: 55874, total: 84, categoryId: null }
-    ]);
+    const [dataSource, setDataSource] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [count, setCount] = useState(1);
+    const [paginationSearch, setPaginationSearch] = useState({
+        page: defaultPage,
+        perPage: perPage,
+    })
+    const [form] = Form.useForm();
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
@@ -72,29 +69,139 @@ const ListProduct = () => {
 
     useEffect(() => {
         getAllProduct();
-    })
+    }, [])
 
-    const getAllProduct = async () => {
-        await productService.getAll({ page: 0, perPage: 50 }, (res) => {
-            console.log(res);
-        })
+    const getAllProduct = () => {
+        setLoading(true);
+        const search = {
+            ...paginationSearch,
+            name: form.getFieldValue('name'),
+            category: form.getFieldValue('category'),
+            minPrice: form.getFieldValue('minPrice'),
+            maxPrice: form.getFieldValue('maxPrice'),
+            minTotal: form.getFieldValue('minTotal'),
+            maxTotal: form.getFieldValue('maxTotal'),
+        }
+        productService.getAll(search,
+            (res) => {
+                const records = res.rows;
+                const data = records.map(({ id, name, price, total, Category }, index) => (
+                    {
+                        key: index,
+                        id: id,
+                        stt: (paginationSearch.page - 1) * perPage + index + 1,
+                        name: name,
+                        price: price,
+                        total: total,
+                        tag: Category?.name,
+                    }
+                ));
+                setCount(res.count);
+                setDataSource(data);
+                console.log(dataSource)
+            }
+        ).finally(
+            () => setLoading(false)
+        );
     }
 
     const pagination = {
-        current: 1,
-        pageSize: 50,
+        pageSize: perPage,
+        total: count,
+        onChange: (page, pageSize) => {
+            console.log(page)
+            paginationSearch.page = page;
+            setPaginationSearch(paginationSearch);
+            console.log(paginationSearch)
+            getAllProduct();
+        }
+    }
+
+    const clearSeach = () => {
+        form.resetFields();
     }
 
     return (
         <div>
+            <div style={{ marginBottom: '10px' }}>
+                <Form
+                    form={form}
+                    onFinish={getAllProduct}
+                >
+                    <Row>
+                        <Col span={8} style={{ paddingRight: '20px' }}>
+                            <Form.Item
+                                label="NAME"
+                                name="name"
+                            >
+                                <Input placeholder="input name product" />
+                            </Form.Item>
+                        </Col>
+                        <Col span={8} style={{ paddingRight: '20px' }}>
+                            <Form.Item
+                                label="MIN PRICE"
+                                name="minPrice"
+                                layout=""
+                            >
+                                <InputNumber min={0} style={{ width: '100%' }} placeholder="input min price" />
+                            </Form.Item>
+                        </Col>
+                        <Col span={8} >
+                            <Form.Item
+                                label="MAX PRICE"
+                                name="maxPrice"
+                            >
+                                <InputNumber min={0} style={{ width: '100%' }} placeholder="input max price" />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={8} style={{ paddingRight: '20px' }}>
+                            <Form.Item
+                                label="CATEGORY"
+                                name="category"
+                            >
+                                <Input placeholder="input category" />
+                            </Form.Item>
+                        </Col>
+                        <Col span={8} style={{ paddingRight: '20px' }}>
+                            <Form.Item
+                                label="MIN TOTAL"
+                                name="minTotal"
+                            >
+                                <InputNumber min={0} style={{ width: '100%' }} placeholder="input min total" />
+                            </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                            <Form.Item
+                                label="MAX TOTAL"
+                                name="maxTotal"
+                            >
+                                <InputNumber min={0} style={{ width: '100%' }} placeholder="input max total" />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <div style={{ width: '100%', textAlign: 'end' }}>
+                        <Form.Item >
+                            <Button style={{ marginRight: '10px' }}
+                                type="primary"
+                                onClick={clearSeach}
+                            >
+                                Clear
+                            </Button>
+                            <Button type="primary" htmlType="submit">Search</Button>
+                        </Form.Item>
+                    </div>
+                </Form>
+            </div>
             <Table
                 rowSelection={{
                     ...rowSelection,
                 }}
                 dataSource={dataSource}
                 columns={columns}
-                footer={(currentPage) => console.log(currentPage)}
                 pagination={pagination}
+                loading={loading}
             />;
         </div>
     )

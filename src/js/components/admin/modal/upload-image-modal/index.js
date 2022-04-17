@@ -1,10 +1,15 @@
 import { Modal, Button, Divider, Radio, Spin } from 'antd';
-import { useState } from 'react';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 import ListImage from '../../list-image';
 import UploadImage from '../../upload-image';
 import imageService from '../../../../services/admin/image.service';
 
-const UploadImageModal = ({ getImage }) => {
+const UploadImageModal = ({ getImage }, ref) => {
+    useImperativeHandle(ref, () => ({
+        clearImage() {
+            setCheckList([]);
+        }
+    }), []);
     const OPTION_MODAL = {
         STORAGE: 'Storage',
         UPLOAD_IMAGE: 'Upload image'
@@ -54,6 +59,7 @@ const UploadImageModal = ({ getImage }) => {
                     props={{
                         listImage: checkList,
                         height: 100,
+                        width: 100,
                         isDelete: true,
                         deleteFunction: () => { },
                     }}
@@ -85,13 +91,14 @@ const UploadImageModal = ({ getImage }) => {
                                     props={{
                                         listImage: listImage,
                                         width: 200,
+                                        height: 200,
                                         isSelect: true,
                                         isDelete: true,
                                         deleteFunction: deleteImage,
                                         sendCheckList: sendCheckList,
                                     }}
                                 /> :
-                                <Spin size="large"  />
+                                <Spin size="large" />
                             }
                         </div> :
                         <div>
@@ -104,4 +111,4 @@ const UploadImageModal = ({ getImage }) => {
     );
 }
 
-export default UploadImageModal
+export default forwardRef(UploadImageModal);

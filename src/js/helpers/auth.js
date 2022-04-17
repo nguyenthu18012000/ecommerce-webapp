@@ -1,5 +1,4 @@
 import storage from "./storage";
-import adminAuth from "../services/admin/auth.service";
 
 const Auth = {
     isAuthenticated: storage.isAuthenticated(),

@@ -1,32 +1,32 @@
-export const setAdminToken = (adminToken) => {
+const setAdminToken = (adminToken) => {
     return localStorage.setItem('adminToken', adminToken);
 }
 
-export const isAuthenticated = () => {
+const isAuthenticated = () => {
     if (getAdminToken() || getToken()){
         return true;
     }
     return false;
 }
 
-export const setToken = (token) => {
+const setToken = (token) => {
     return localStorage.setItem('token', token);
 }
 
-export const getAdminToken = () => {
+const getAdminToken = () => {
     return localStorage.getItem('adminToken');
 }
 
-export const getToken = () => {
+const getToken = () => {
     return localStorage.getItem('token');
 }
 
-export const clearToken = () => {
+const clearToken = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('adminToken');
 }
 
-export default {
+const storage = {
     setAdminToken,
     setToken,
     getAdminToken,
@@ -34,3 +34,5 @@ export default {
     clearToken,
     isAuthenticated
 }
+
+export default storage;

@@ -12,10 +12,12 @@ const ListCustomer = () => {
     const [dataSource, setDataSource] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isActiveSearch, setIsActiveSearch] = useState(null);
+    const [textSearch, setTextSearch] = useState('');
     const defaultRequest = {
         page: 0,
         perPage: stypeTable.perPage,
         isActive: null,
+        textSearch: "",
     }
     const columns = [
         {
@@ -69,22 +71,17 @@ const ListCustomer = () => {
         },
     ]
 
-    const suffix = (
-        <AudioOutlined
-            style={{
-                fontSize: 16,
-                color: '#1890ff',
-            }}
-        />
-    );
-
-    const onSearch = value => console.log(value);
+    const onSearch = value => {
+        setTextSearch(value);
+        getAllCustomer({ textSearch: value, isActive: isActiveSearch });
+    };
 
     const getAllCustomer = async (search = null) => {
         const request = {
             ...defaultRequest,
             ...search,
         }
+        setLoading(true);
         await userService.getAll(request, (res) => {
             const users = res.rows;
             let data = users.map((item, index) => ({
@@ -102,7 +99,7 @@ const ListCustomer = () => {
 
     const handleOption = ({ target: { value } }) => {
         setIsActiveSearch(value)
-        getAllCustomer({ isActive: value });
+        getAllCustomer({ isActive: value, textSearch: textSearch });
     }
 
     return (
@@ -117,11 +114,11 @@ const ListCustomer = () => {
                                     placeholder="input search text"
                                     enterButton="Search"
                                     size="large"
-                                    suffix={suffix}
+                                    allowClear
                                     onSearch={onSearch}
                                 /></Col>
-                            <Col span={10}>
-                                <Radio.Group onChange={handleOption} value={isActiveSearch} style={{ marginBottom: 3 }}>
+                            <Col span={10} style={{ textAlign: "end" }}>
+                                <Radio.Group size="large" onChange={handleOption} value={isActiveSearch} style={{ marginBottom: 3 }}>
                                     <Radio.Button value={null}>All</Radio.Button>
                                     <Radio.Button value={true}>Active</Radio.Button>
                                     <Radio.Button value={false}>InActive</Radio.Button>
