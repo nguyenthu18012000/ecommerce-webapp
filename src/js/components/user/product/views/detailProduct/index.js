@@ -9,14 +9,13 @@ import toastCustom from '../../../../../helpers/toast-custom';
 import productService from '../../../../../services/user/product.service';
 import cartService from '../../../../../services/user/cart.service';
 import { StyleDetailProductComponent } from './styled';
-import storage from '../../../../../helpers/storage';
-
-const ratingChanged = (newRating) => {
-    console.log(newRating);
-};
+import commentService from '../../../../../services/user/comment.service';
+import StarRating from '../../../../../components/common/base/react-star';
 
 const DetailProductComponent = () => {
     const [newComment, setNewComment] = useState("");
+    const [dataComment, setDataComment] = useState([]);
+    const [avgStar, setAvgStar] = useState(0);
     const [images, setImages] = useState([]);
     const [dataProduct, setDataProduct] = useState({});
     const history = useHistory();
@@ -39,7 +38,7 @@ const DetailProductComponent = () => {
     const handleChangeInputComment = (e) => {
         setNewComment(e.target.value);
     }
-    const handleClickBtnAddComment = (e) => {
+    const handleClickBtnAddComment = () => {
         setNewComment("");
         toastCustom({
             mess: "thành công",
@@ -47,7 +46,10 @@ const DetailProductComponent = () => {
         });
         console.log(newComment);
     }
-    const handleClickBtnAddProduct = (e) => {
+    const ratingChanged = (newRating) => {
+        console.log(newRating);
+    };
+    const handleClickBtnAddProduct = () => {
         cartService.addProductToCart(
             { productOrder: product },
             (code) => {
@@ -66,8 +68,7 @@ const DetailProductComponent = () => {
             () => { }
         )
     }
-
-    useEffect(() => {
+    const getDataProductById = () => {
         productService.getProductById(
             id_product,
             (data) => {
@@ -76,6 +77,29 @@ const DetailProductComponent = () => {
             },
             () => { }
         );
+    }
+    const getDataCommentById = () => {
+        commentService.getAllCommentByIdProduct(
+            id_product,
+            (data) => {
+                setDataComment(data);
+                calculateAverageStar(data);
+            },
+            () => { }
+        );
+    }
+    const calculateAverageStar = (data) => {
+        let length = data.length;
+        let sum = 0;
+        for (let i = 0; i < length; i++) {
+            sum += parseInt(data[i].star);
+        }
+        setAvgStar(sum / length);
+        console.log(avgStar);
+    }
+    useEffect(() => {
+        getDataProductById();
+        getDataCommentById();
     }, []);
 
     return (
@@ -87,20 +111,13 @@ const DetailProductComponent = () => {
                     <span className="breadcrumb-item">/Giày Ultraboost</span>
                 </div>
                 <div className="product-name">{dataProduct?.name}</div>
-                <ReactStars classNames="rate-star"
-                    count={5}
-                    onChange={ratingChanged}
-                    size={24}
-                    isHalf={true}
-                    value={3.5}
-                    activeColor="#ffd700"
-                />
+                <StarRating star={avgStar} />
             </div>
             <div className="detail-container">
                 <div className="content">
                     <Carousel className="carousel">
-                        {images.map(image => (
-                            <div>
+                        {images.map((image, key = 0) => (
+                            <div key={key++}>
                                 <img className="image" src={image} alt="" />
                             </div>
                         ))}
@@ -111,7 +128,12 @@ const DetailProductComponent = () => {
                         {numberWithCommas(dataProduct?.price)}đ
                     </div>
                     <div>
-                        <button onClick={handleClickBtnAddProduct}>Thêm vào giỏ hàng<AiOutlineArrowRight className="scale1_5" /></button>
+                        <button
+                            onClick={handleClickBtnAddProduct}
+                        >
+                            Thêm vào giỏ hàng
+                            <AiOutlineArrowRight className="scale1_5" />
+                        </button>
                     </div>
                 </div>
                 <div className="product-information">
@@ -143,7 +165,7 @@ const DetailProductComponent = () => {
                                 count={5}
                                 onChange={ratingChanged}
                                 size={24}
-                                isHalf={true}
+                                isHalf={false}
                                 value={3.5}
                                 activeColor="#ffd700"
                             />
@@ -152,43 +174,36 @@ const DetailProductComponent = () => {
                             <div className="comment-title">
                                 Đánh giá của khách hàng
                             </div>
-                            <div>
-                                <span className="user-name">
-                                    Thứ
-                                </span>
-                                <span><ReactStars classNames="number-star"
-                                    count={5}
-                                    onChange={ratingChanged}
-                                    size={24}
-                                    isHalf={true}
-                                    value={3.5}
-                                    activeColor="#ffd700"
-                                />
-                                </span>
-                            </div>
-                            <div className="user-comment">
-                                I’m a marathon runner of 7+ years and have tried more than a handful of running shoes. The ultra boost are by far my favorite. I have been a loyal ultra boost runner since the 19 came out.
-                            </div>
-                            <div>
-                                <span className="user-name">
-                                    Thứ
-                                </span>
-                                <span><ReactStars classNames="number-star"
-                                    count={5}
-                                    onChange={ratingChanged}
-                                    size={24}
-                                    isHalf={true}
-                                    value={3.5}
-                                    activeColor="#ffd700"
-                                />
-                                </span>
-                            </div>
-                            <div className="user-comment">
-                                I’m a marathon runner of 7+ years and have tried more than a handful of running shoes. The ultra boost are by far my favorite. I have been a loyal ultra boost runner since the 19 came out.
-                            </div>
+                            {dataComment.map((comment, key = 0) => (
+                                <div key={key++}>
+                                    <div>
+                                        <ReactStars classNames="number-star"
+                                            count={5}
+                                            size={24}
+                                            isHalf={true}
+                                            value={parseInt(comment.star)}
+                                            activeColor="#ffd700"
+                                            edit={false}
+                                        />
+                                    </div>
+                                    <div className="user-comment">
+                                        {comment.content}
+                                    </div>
+                                </div>
+                            ))}
                             <div className="add-comment">
-                                <TextareaAutosize className="new-comment" onChange={handleChangeInputComment} value={newComment} />
-                                <button className="add-new-comment" onClick={handleClickBtnAddComment}>Thêm<AiOutlineArrowRight className="scale1_5" /></button>
+                                <TextareaAutosize
+                                    className="new-comment"
+                                    onChange={handleChangeInputComment}
+                                    value={newComment}
+                                />
+                                <button
+                                    className="add-new-comment"
+                                    onClick={handleClickBtnAddComment}
+                                >
+                                    Thêm
+                                    <AiOutlineArrowRight className="scale1_5" />
+                                </button>
                             </div>
                         </div>
                     </div>
