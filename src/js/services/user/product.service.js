@@ -48,10 +48,27 @@ const getProductById = async (
     }
 }
 
+const search = async (
+    params,
+    onSuccess = () => { },
+    onError = () => { }
+) => {
+    try {
+        const searchPath = `customer/product/search?categoryId=${params.categoryId}&name=${params.name}&minPrice=${params.minPrice}&maxPrice=${params.maxPrice}`;
+        const res = await axiosHelper.sendGet(searchPath);
+        if (res?.code === 200) {
+            onSuccess(res?.data);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const productService = {
     getNewestProduct,
     getListProducts,
     getProductById,
+    search,
 };
 
 export default productService;

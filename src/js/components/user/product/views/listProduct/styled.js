@@ -2,13 +2,30 @@ import styled from "styled-components";
 
 const StyleListProductComponent = styled.div`
     margin: 1.5%;
-    font-family: "Noto Sans","AdihausDIN","Helvetica",Arial,sans-serif !important;
 
     .breadcrumb {
 
         .breadcrumb-item {
             font-size: 16px;
             letter-spacing: 1px;
+        }
+    }
+
+    .product-filter {
+        display: block;
+        margin-top: 10px;
+        margin-bottom: 20px;
+
+        .label {
+            font-size: 15px;
+            margin-right: 10px;
+        }
+
+        .filter {
+            height: 30px;
+            width: 20%;
+            border-radius: 0px;
+            margin-right: 10px;
         }
     }
 

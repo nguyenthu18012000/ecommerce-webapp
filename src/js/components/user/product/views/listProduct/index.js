@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Pagination, Row } from 'antd';
+import { Col, Input, Pagination, Row } from 'antd';
 import ProductComponent from '../../../../common/product';
 import { StyleListProductComponent } from './styled';
 import { useHistory } from 'react-router-dom';
 import productService from '../../../../../services/user/product.service';
+import categoryService from '../../../../../services/user/category.service';
 
 const ListProductComponent = ({ match }) => {
     const history = useHistory();
     const [dataProducts, setDataProducts] = useState([]);
+    const [dataCategory, setDataCategory] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [paramsSearch, setParamsSearch] = useState("");
+    const [categorySearch, setCategorySearch] = useState("");
+    const [minPriceSearch, setMinPriceSearch] = useState(0);
+    const [maxPriceSearch, setMaxPriceSearch] = useState(1000000000);
 
     const productPerPage = 10;
     const numberOfProducts = dataProducts.length;
@@ -17,6 +22,15 @@ const ListProductComponent = ({ match }) => {
     const params = new URL(window.location.href);
     const paramUrl = params.searchParams;
 
+    const handleChangeMinPrice = (e) => {
+        setMinPriceSearch(e.target.value);
+    }
+    const handleChangeMaxPrice = (e) => {
+        setMaxPriceSearch(e.target.value);
+    }
+    const handleChangeCategory = (e) => {
+        setCategorySearch(e.target.value);
+    }
     const getListProducts = () => {
         productService.getListProducts(
             "",
@@ -26,17 +40,43 @@ const ListProductComponent = ({ match }) => {
             () => { }
         );
     }
+    const getListCategory = () => {
+        categoryService.getListCategories(
+            "",
+            (data) => {
+                setDataCategory(data);
+            },
+            () => { }
+        )
+    }
+    const getSearchProduct = () => {
+        productService.search(
+            {
+                categoryId: categorySearch,
+                name: paramsSearch,
+                minPrice: minPriceSearch,
+                maxPrice: maxPriceSearch,
+            },
+            (data) => {
+                setDataProducts(data.rows);
+            },
+            () => { }
+        )
+    }
     const handleClickPage = (page) => {
         history.push(`${match?.url}?page=${page}`)
     }
     useEffect(() => {
         window.scrollTo(0, 0);
-        getListProducts();
+        getListCategory();
+        // getListProducts();
+        // console.log(dataProducts)
+        getSearchProduct();
         const page = paramUrl.get("page") || 1;
         const search = paramUrl.get("search") || "";
         setCurrentPage(page);
         setParamsSearch(search);
-    }, [params.href])
+    }, [params.href, paramsSearch, categorySearch, minPriceSearch, maxPriceSearch])
     var indexOfFirstProduct = (currentPage - 1) * productPerPage;
     var indexOfLastProduct = currentPage * productPerPage - 1;
     if (indexOfLastProduct > numberOfProducts) {
@@ -55,6 +95,33 @@ const ListProductComponent = ({ match }) => {
                 <div className="header-bar">Từ khóa: {paramsSearch}</div> :
                 <div className="header-bar">Tất cả sản phẩm</div>
             }
+            <div className="product-filter">
+                <label className="label">
+                    Danh mục sản phẩm
+                </label>
+                <select className="product-category filter" onChange={handleChangeCategory}>
+                    <option value="">Tất cả</option>
+                    {dataCategory.map(category => (
+                        <option key={category.id} value={category.id}>{category.name}</option>
+                    ))}
+                </select>
+                <label className="label">
+                    Giá
+                </label>
+                <Input
+                    className="min-price filter"
+                    value={minPriceSearch}
+                    onChange={handleChangeMinPrice}
+                />
+                <label className="label">
+                    -
+                </label>
+                <Input
+                    className="max-price filter"
+                    value={maxPriceSearch}
+                    onChange={handleChangeMaxPrice}
+                />
+            </div>
             <div className="list-product">
                 <Row>
                     {currenDataProduct.map(dataProduct => (
