@@ -4,10 +4,23 @@ import { StyleRegisterComponent } from './styled';
 import { AiOutlineArrowRight, AiOutlineCheck } from "react-icons/ai";
 import Validator from "hero-validate";
 import userRegister from '../../../services/user/register.service';
-import { Redirect } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
+import toastCustom from '../../../helpers/toast-custom';
 
 const RegisterComponent = () => {
+    const [dataRegister, setDataRegister] = useState({
+        "username": "",
+        "email": "",
+        "password": "",
+        "confirmPassword": "",
+    });
+    const [touch, setTouch] = useState({
+        username: false,
+        email: false,
+        password: false,
+        confirmPassword: false,
+    })
+    const history = useHistory();
 
     const rules = {
         username: "required|min:6|max:20",
@@ -45,22 +58,8 @@ const RegisterComponent = () => {
         },
 
     });
+    const result = Validator.validate(dataRegister, rules);
 
-    const [dataRegister, setDataRegister] = useState({
-        "username": "",
-        "email": "",
-        "password": "",
-        "confirmPassword": "",
-    });
-
-    const [touch, setTouch] = useState({
-        username: false,
-        email: false,
-        password: false,
-        confirmPassword: false,
-    })
-
-    const history = useHistory();
     const handleChangeInput = (e) => {
         setDataRegister({
             ...dataRegister,
@@ -71,25 +70,33 @@ const RegisterComponent = () => {
             [e.target.name]: true,
         })
     }
-
     const handleClickInput = (e) => {
         // setTouch({
         //     ...touch,
         //     [e.target.name]: true,
         // })
     }
-
-    const result = Validator.validate(dataRegister, rules);
-
     const handleClickBtnSubmit = (e) => {
         e.preventDefault();
         if (!result.hasError) {
             userRegister.registerUser(
                 dataRegister,
-                () => { },
+                (data) => {
+                    if (data.code === 200) {
+                        toastCustom({
+                            mess: "Bạn đã đăng ký tài khoản thành công!",
+                            type: "success",
+                        });
+                        history.push("/login");
+                    } else {
+                        toastCustom({
+                            mess: "Tên đăng nhập đã tồn tại",
+                            type: "error",
+                        });
+                    }
+                },
                 () => { }
             );
-            history.push("/login");
         }
     }
 

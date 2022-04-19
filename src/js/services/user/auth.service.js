@@ -9,8 +9,8 @@ const authorizeUser = async (
 ) => {
     try {
         const res = await axiosHelper.sendPost(authorizeUserPath, params);
-        if (res?.code === 200) {
-            onSuccess(res?.data);
+        if (res?.code === 200 || 400) {
+            onSuccess(res);
         }
     } catch (error) {
         console.log(error);
