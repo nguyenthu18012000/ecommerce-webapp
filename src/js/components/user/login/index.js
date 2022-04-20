@@ -61,7 +61,7 @@ const LoginComponent = () => {
                             mess: "Đăng nhập thành công.",
                             type: "success"
                         });
-                        storage.setToken(data.token);
+                        storage.setToken(data.data.token);
                         history.push("/");
                     } else {
                         toastCustom({
@@ -93,7 +93,7 @@ const LoginComponent = () => {
                                     <input type="password" name="password" onChange={handleChangeInput} placeholder="Nhập mật khẩu..." required />
                                 </div>
                                 <div className="invalid-feedback">{(touch.password && result.errors?.password) && result.errors?.password}</div>
-                                <div className="input-container">
+                                <div className="">
                                     <button onClick={handleClickBtnSubmit}>Đăng nhập<AiOutlineArrowRight className="scale1_5" /></button>
                                     {/* <span className="behind-button"></span> */}
                                 </div>

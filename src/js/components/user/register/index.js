@@ -128,7 +128,7 @@ const RegisterComponent = () => {
                                     <input type="password" name="confirmPassword" onClick={handleClickInput} onChange={handleChangeInput} placeholder="Nhập lại mật khẩu..." required />
                                 </div>
                                 <div className="invalid-feedback">{(touch.confirmPassword && result.errors?.confirmPassword) && result.errors?.confirmPassword}</div>
-                                <div className="input-container">
+                                <div className="">
                                     <button onClick={handleClickBtnSubmit}>Đăng ký<AiOutlineArrowRight className="scale1_5" /></button>
                                     {/* <span className="behind-button"></span> */}
                                 </div>
