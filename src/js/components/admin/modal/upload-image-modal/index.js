@@ -4,7 +4,7 @@ import ListImage from '../../list-image';
 import UploadImage from '../../upload-image';
 import imageService from '../../../../services/admin/image.service';
 
-const UploadImageModal = ({ getImage }, ref) => {
+const UploadImageModal = ({ getImage, isHideListImageChoosed = false }, ref) => {
     useImperativeHandle(ref, () => ({
         clearImage() {
             setCheckList([]);
@@ -55,13 +55,16 @@ const UploadImageModal = ({ getImage }, ref) => {
     return (
         <>
             <div>
-                {checkList.length > 0 && <ListImage
+                {checkList.length > 0 && !isHideListImageChoosed && <ListImage
                     props={{
                         listImage: checkList,
                         height: 100,
                         width: 100,
                         isDelete: true,
-                        deleteFunction: () => { },
+                        deleteFunction: (e) => {
+                            let newlist = checkList.filter((value) => value.id !== e);
+                            setCheckList(newlist);
+                        },
                     }}
                 />}
             </div>

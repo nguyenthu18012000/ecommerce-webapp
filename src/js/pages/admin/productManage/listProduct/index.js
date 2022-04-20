@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Table, Tag, Space, Input, Row, Col, Button, Form, InputNumber } from 'antd';
+import { Table, Tag, Space, Input, Row, Col, Button, Form, InputNumber, Popconfirm } from 'antd';
 import productService from "../../../../services/admin/product.service";
+import { DeleteFilled, EditFilled } from "@ant-design/icons";
 
 const ListProduct = () => {
     const perPage = 20;
@@ -46,8 +47,28 @@ const ListProduct = () => {
             key: 'action',
             render: (text, record) => (
                 <Space size="middle">
-                    <a>Edit</a>
-                    <a>Delete</a>
+                    <Button
+                        size="small"
+                        type='primary'
+                        style={{ background: '#00ff1d', border: 'none' }}
+                        onClick={() => {}}>
+                        <EditFilled />
+                    </Button>
+                    <Popconfirm
+                        title="Are you sure?"
+                        onConfirm={() => {}}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <Button
+                            className='customer-delete-btn'
+                            size='small'
+                            danger
+                            type='primary'
+                        >
+                            <DeleteFilled />
+                        </Button>
+                    </Popconfirm>
                 </Space>
             ),
         },
@@ -98,7 +119,6 @@ const ListProduct = () => {
                 ));
                 setCount(res.count);
                 setDataSource(data);
-                console.log(dataSource)
             }
         ).finally(
             () => setLoading(false)
@@ -109,10 +129,8 @@ const ListProduct = () => {
         pageSize: perPage,
         total: count,
         onChange: (page, pageSize) => {
-            console.log(page)
             paginationSearch.page = page;
             setPaginationSearch(paginationSearch);
-            console.log(paginationSearch)
             getAllProduct();
         }
     }
