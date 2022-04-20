@@ -20,10 +20,17 @@ const StyleLoginComponent = styled.div`
         }
 
         .input-container {
+            border:1px solid;
+            margin-top:15px;
+            margin-bottom:15px;
+            position: relative;
+
             label {
-                display: block;
-                margin-top: 1rem;
                 font-size: 16px;
+                position:absolute;
+                top:-15px;
+                left:20px;
+                background-color:white;
             }
 
             input {
@@ -32,33 +39,27 @@ const StyleLoginComponent = styled.div`
                 margin-top: 0.5rem;
                 padding: 21px;
                 font-size: 16px;
-                height: 50px;
-                border: 1px solid #767677;
-            }
-
-            button {
-                cursor: pointer;
-                margin-top: 10px;
-                height: 50px;
+                height: 40px;
                 border: none;
-                background-color: black;
-                color: white;
-                text-transform: uppercase;
 
-                &:hover {
-                    color: gray;
+                &:focus {
+                    outline: none;
                 }
             }
 
-            
-            /* .behind-button {
-                border: 1px solid black;
-                width: 100px;
-                height: 50px;
-                position: absolute;
-                left: 10.2%;
-                top: 2%;
-            } */
+        }
+        button {
+            cursor: pointer;
+            margin-top: 10px;
+            height: 50px;
+            border: none;
+            background-color: black;
+            color: white;
+            text-transform: uppercase;
+
+            &:hover {
+                color: gray;
+            }
         }
         .invalid-feedback {
             color: red;

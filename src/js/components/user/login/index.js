@@ -7,6 +7,7 @@ import Validator from "hero-validate";
 import userAuth from '../../../services/user/auth.service';
 import { useHistory } from 'react-router-dom';
 import storage from '../../../helpers/storage';
+import toastCustom from '../../../helpers/toast-custom';
 
 const LoginComponent = () => {
     const history = useHistory();
@@ -18,7 +19,6 @@ const LoginComponent = () => {
         username: false,
         password: false,
     });
-    // const [isAuthenticate, setIsAuthenticate] = useState(false);
 
     const rules = {
         username: "required|min:6|max:20",
@@ -56,8 +56,19 @@ const LoginComponent = () => {
             userAuth.authorizeUser(
                 dataLogin,
                 (data) => {
-                    storage.setToken(data.token);
-                    history.push("/");
+                    if (data?.code === 200) {
+                        toastCustom({
+                            mess: "Đăng nhập thành công.",
+                            type: "success"
+                        });
+                        storage.setToken(data.data.token);
+                        history.push("/");
+                    } else {
+                        toastCustom({
+                            mess: "Sai tài khoản hoặc mật khẩu",
+                            type: "error"
+                        });
+                    }
                 },
                 () => { }
             );
@@ -82,7 +93,7 @@ const LoginComponent = () => {
                                     <input type="password" name="password" onChange={handleChangeInput} placeholder="Nhập mật khẩu..." required />
                                 </div>
                                 <div className="invalid-feedback">{(touch.password && result.errors?.password) && result.errors?.password}</div>
-                                <div className="input-container">
+                                <div className="">
                                     <button onClick={handleClickBtnSubmit}>Đăng nhập<AiOutlineArrowRight className="scale1_5" /></button>
                                     {/* <span className="behind-button"></span> */}
                                 </div>

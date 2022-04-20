@@ -3,11 +3,9 @@ import StyleWebHeaderComponent from './styled';
 import { Link } from 'react-router-dom';
 import { AiOutlineHeart, AiFillCaretDown } from "react-icons/ai";
 import { HiOutlineShoppingBag } from "react-icons/hi";
-import { Col, Menu, Row, Dropdown, Button, Space, Input } from 'antd';
+import { Col, Menu, Row, Dropdown, Space, Input } from 'antd';
 import storage from '../../../../../../../helpers/storage';
 import { useHistory } from 'react-router-dom';
-
-
 
 const WebHeaderComponent = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(!!storage.getToken());
@@ -23,12 +21,12 @@ const WebHeaderComponent = () => {
                     Tất cả sản phẩm
                 </div>
             </Menu.Item>
-            <Menu.Item>
+            <Menu.Item key={"1"}>
                 <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
                     2nd menu item
                 </a>
             </Menu.Item>
-            <Menu.Item>
+            <Menu.Item key={"2"}>
                 <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
                     3rd menu item
                 </a>
@@ -37,8 +35,8 @@ const WebHeaderComponent = () => {
     );
     const accountFeature = (
         <Menu>
-            <Menu.Item>
-                <div onClick={() => { storage.clearToken(); history.push("/") }}>Đăng xuất</div>
+            <Menu.Item key={"logout"}>
+                <div onClick={() => { storage.clearToken(); history.push("/"); }}>Đăng xuất</div>
             </Menu.Item>
         </Menu>
     );
@@ -133,10 +131,15 @@ const WebHeaderComponent = () => {
                             </span>
                         </Col>
                         <Col span={1}>
-                            <Link className="wish-list"><AiOutlineHeart /></Link>
+                            <span className="wish-list"><AiOutlineHeart /></span>
                         </Col>
                         <Col span={1}>
-                            <Link className="cart" onClick={() => { history.push("/cart") }}><HiOutlineShoppingBag /></Link>
+                            <span
+                                className="cart"
+                                onClick={() => { history.push("/cart") }}
+                            >
+                                <HiOutlineShoppingBag />
+                            </span>
                         </Col>
                     </Row>
 

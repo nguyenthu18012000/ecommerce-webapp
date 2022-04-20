@@ -11,6 +11,7 @@ const MenuComponent = () => {
     const logout = () => {
         storage.clearToken();
         setIsAuthenticate(false);
+        history.push("/");
     }
 
     useEffect(() => {
