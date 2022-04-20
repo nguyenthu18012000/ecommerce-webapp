@@ -10,8 +10,8 @@ import { Link, useLocation } from 'react-router-dom';
 const { SubMenu } = Menu;
 const menu = [
     {
-        key: "/admin/tag-manager",
-        title: "Tag manager",
+        key: "/admin/category-manager",
+        title: "Category manager",
         icon: <TagsOutlined />,
     },
     {

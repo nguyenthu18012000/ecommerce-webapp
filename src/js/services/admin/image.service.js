@@ -26,7 +26,7 @@ const uploadImage = async (
 ) => {
     try {
         const UPLOAD_IMAGE_PATH = `/admin/image/upload`
-        const res = await axiosHelper.sendPost(UPLOAD_IMAGE_PATH, params);
+        const res = await axiosHelper.sendPost(UPLOAD_IMAGE_PATH, params, null, true);
         if (res?.code === 200) {
             onSucces(res?.data);
         }

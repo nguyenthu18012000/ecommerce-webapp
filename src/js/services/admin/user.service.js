@@ -16,6 +16,8 @@ const getAll = async (
     }
 };
 
-export default {
+const adminUserService =  {
     getAll,
 }
+
+export default adminUserService;

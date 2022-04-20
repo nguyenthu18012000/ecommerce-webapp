@@ -49,7 +49,7 @@ const SideBar = () => {
                                 <Route path='/admin/list-product' >
                                     <ListProduct/>
                                 </Route>
-                                <Route path='/admin/tag-manager' >
+                                <Route path='/admin/category-manager' >
                                     <TagManager/>
                                 </Route>
                                 <Route path='/admin/list-order' >

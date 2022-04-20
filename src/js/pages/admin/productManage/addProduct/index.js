@@ -2,21 +2,17 @@
 import { Row, Col, Space, Divider, InputNumber } from 'antd';
 import UploadImageModal from "../../../../components/admin/modal/upload-image-modal";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, Radio } from 'antd';
 import productService from '../../../../services/admin/product.service';
+import tagService from '../../../../services/admin/tag.service';
 
 
 
 const AddProduct = () => {
     const [form] = Form.useForm();
     const [formCategory] = Form.useForm();
-    const listCategory = [
-        { id: 1, name: "Shoe" },
-        { id: 2, name: "Shirt" },
-        { id: 3, name: "Hat" },
-        { id: 0, name: "Unknown" }
-    ]
+    const [listCategory, setListCategory] = useState([]);
     const [category, setCategory] = useState(0);
     const [mainImage, setMainImage] = useState([]);
     const [extendImage, setExtendImage] = useState([]);
@@ -27,6 +23,27 @@ const AddProduct = () => {
 
     const getExtendImage = (images) => {
         setExtendImage(images)
+    }
+
+    useEffect(() => {
+        getTags();
+    }, [])
+
+    const getTags = () => {
+        tagService.getAll({},
+            (res) => {
+                setListCategory(res);
+                console.log(res);
+            }
+        );
+    }
+
+    const addTag = () => {
+        tagService.addTag({ name: formCategory.getFieldValue('name') },
+            (res) => {
+                console.log(res);
+            }
+        );
     }
 
     const FormCategoryProduct = () => {
@@ -61,7 +78,7 @@ const AddProduct = () => {
                         <Form
                             layout='vertical'
                             form={formCategory}
-                            onFinish={(e) => { console.log(e) }}
+                            onFinish={addTag}
                         >
                             <Form.Item
                                 label="NAME TAG"
