@@ -13,36 +13,29 @@ const WebHeaderComponent = () => {
     const token = storage.getToken();
 
     const { Search } = Input;
-
-    const menu = (
-        <Menu>
-            <Menu.Item key={"all-product"}>
-                <div onClick={() => { history.push("/product") }}>
-                    Tất cả sản phẩm
-                </div>
-            </Menu.Item>
-            <Menu.Item key={"1"}>
-                <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-                    2nd menu item
-                </a>
-            </Menu.Item>
-            <Menu.Item key={"2"}>
-                <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-                    3rd menu item
-                </a>
-            </Menu.Item>
-        </Menu>
-    );
     const accountFeature = (
         <Menu>
+            <Menu.Item key={"user-information"}>
+                <div
+                    onClick={() => { history.push("/user-information"); }}
+                >
+                    Thông tin cá nhân
+                </div>
+            </Menu.Item>
             <Menu.Item key={"logout"}>
-                <div onClick={() => { storage.clearToken(); history.push("/"); }}>Đăng xuất</div>
+                <div
+                    onClick={() => { storage.clearToken(); history.push("/"); }}
+                >
+                    Đăng xuất
+                </div>
             </Menu.Item>
         </Menu>
     );
+
     const onSearch = (value) => {
         history.push(`/product?search=${value}`);
     }
+
     useEffect(() => {
         if (storage.getToken()) {
             setIsAuthenticated(true);
@@ -105,18 +98,15 @@ const WebHeaderComponent = () => {
                                     >
                                         Trang chủ
                                     </span>
-                                    <Dropdown overlay={menu}>
-                                        <span className="label-bot">Sản phẩm</span>
-                                    </Dropdown>
-                                    <Dropdown overlay={menu}>
-                                        <span className="label-bot">Tin tức</span>
-                                    </Dropdown>
-                                    <Dropdown overlay={menu}>
-                                        <span className="label-bot">Về chúng tôi</span>
-                                    </Dropdown>
-                                    <Dropdown overlay={menu}>
-                                        <span className="label-bot">Các nhãn hiệu</span>
-                                    </Dropdown>
+                                    <span
+                                        className="label-bot"
+                                        onClick={() => { history.push("/product") }}
+                                    >
+                                        Sản phẩm
+                                    </span>
+                                    <span className="label-bot">Tin tức</span>
+                                    <span className="label-bot">Về chúng tôi</span>
+                                    <span className="label-bot">Các nhãn hiệu</span>
                                 </Space>
                             </span>
                         </Col>

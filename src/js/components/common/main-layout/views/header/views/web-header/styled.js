@@ -70,6 +70,7 @@ font-family: "Noto Sans","AdihausDIN","Helvetica",Arial,sans-serif !important;
             top: 10px;
 
             .label-bot {
+                cursor: pointer;
                 border: 0px;
                 font-size: 14px;
                 text-transform: uppercase;
@@ -90,12 +91,14 @@ font-family: "Noto Sans","AdihausDIN","Helvetica",Arial,sans-serif !important;
         }
 
         .wish-list {
+            cursor: pointer;
             padding: 10px;
             font-size: 25px;
             color: black;
         }
 
         .cart {
+            cursor: pointer;
             padding: 10px;
             font-size: 25px;
             color: black;
