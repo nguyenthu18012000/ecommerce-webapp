@@ -23,13 +23,16 @@ const MenuComponent = () => {
         <div>
             <Menu>
                 <div className="hello">Xin chào</div>
-                <div className="menu-item" onClick={() => { history.push("/") }}>Trang chủ</div>
-                <div className="menu-item" onClick={() => { history.push("/product") }}>Sản phẩm</div>
+                <>
+                    <div className="menu-item" onClick={() => { history.push("/") }}>Trang chủ</div>
+                    <div className="menu-item" onClick={() => { history.push("/product") }}>Sản phẩm</div>
+                </>
                 {isAuthenticate ?
                     <>
                         <div className="menu-item" onClick={() => { history.push("/cart") }}>Giỏ hàng</div>
                         <div className="menu-item" onClick={() => { history.push("/order") }}>Đơn của bạn</div>
-                        <div className="menu-item--small" onClick={logout}>Đăng xuất</div>
+                        <div className="menu-item" onClick={() => { history.push("/user-information") }}>Thông tin tài khoản</div>
+                        <div className="menu-item" onClick={logout}>Đăng xuất</div>
                     </> :
                     <>
                         <div className="menu-item" onClick={() => { history.push("/login") }}>Đăng nhập</div>

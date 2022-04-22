@@ -64,4 +64,11 @@
   
   .hello {
     font-size: 25px;
+    color: white;
+  }
+  .hello:hover {
+    color: white;
+  }
+  .menu-item {
+    cursor: pointer;
   }
