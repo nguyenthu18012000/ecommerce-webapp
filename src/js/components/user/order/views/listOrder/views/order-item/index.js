@@ -73,9 +73,8 @@ const OrderItemComponent = ({ order }) => {
                 width={500}
             >
                 {order.productOrder.map(product => (
-                    <OrderProductItemComponent product={product} />
+                    <OrderProductItemComponent key={product?.id} product={product} />
                 ))}
-                {/* <OrderProductItemComponent /> */}
             </Modal>
         </StyleOrderItemComponent>
     );

@@ -12,6 +12,44 @@ const StyleCartComponent = styled.div`
         font-weight: 300;
     }
 
+    .not-authenticate {
+        margin-top: 5%;
+        margin-bottom: 5%;
+
+        .auth-notification {
+            font-size: 30px;
+            text-align: center;
+        }
+
+        .login {
+            cursor: pointer;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            height: 50px;
+            border: none;
+            background-color: black;
+            color: white;
+            text-transform: uppercase;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+
+            &:hover {
+                color: gray;
+            }
+        }
+
+        .register {
+            text-align: center;
+            font-size: 16px;
+
+            .register-redirect {
+                text-decoration: underline;
+                margin-left: 4px;
+            }
+        }
+    }
+
     .cart-summary {
         font-size: 20px;
         margin-bottom: 16px;

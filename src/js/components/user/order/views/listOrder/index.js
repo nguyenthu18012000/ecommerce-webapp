@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import storage from '../../../../../helpers/storage';
 import orderService from '../../../../../services/user/order.service';
 import { StyleListOrderComponent } from './styled';
 import OrderItemComponent from './views/order-item';
+import { AiOutlineArrowRight } from "react-icons/ai";
+import { useHistory } from 'react-router-dom';
 
 const ListOrderComponent = () => {
     const [dataOrder, setDataOrder] = useState([]);
+    const [isAuthenticate, setIsAuthenticate] = useState(false);
+    const history = useHistory();
 
     const getAllOrder = () => {
         orderService.getAllOrder(
@@ -17,7 +22,12 @@ const ListOrderComponent = () => {
     }
 
     useEffect(() => {
-        getAllOrder();
+        if (storage.getToken() != undefined) {
+            getAllOrder();
+            setIsAuthenticate(true);
+        } else {
+            setIsAuthenticate(false);
+        }
     }, [])
 
     return (
@@ -30,30 +40,38 @@ const ListOrderComponent = () => {
                     {/* <div className="order-title">
                         Đơn hàng đang trong vẫn chuyển
                     </div> */}
-                    <div className="order-body">
-                        {dataOrder.map(order => (
-                            <div key={order?.id} className="order">
-                                <OrderItemComponent order={order} />
+                    {
+                        isAuthenticate ?
+                            <div className="order-body">
+                                {dataOrder.map(order => (
+                                    <div key={order?.id} className="order">
+                                        <OrderItemComponent order={order} />
+                                    </div>
+                                ))}
+                            </div> :
+                            <div className="not-authenticate">
+                                <div className="auth-notification">
+                                    Vui lòng đăng nhập để xem giỏ hàng của bạn
+                                </div>
+                                <button
+                                    className="login"
+                                    onClick={() => history.push("/login")}
+                                >
+                                    Đăng nhập
+                                    <AiOutlineArrowRight className="scale1_5" />
+                                </button>
+                                <div className="register">
+                                    Chưa có tài khoản?
+                                    <span
+                                        className="register-redirect"
+                                        onClick={() => history.push("/register")}
+                                    >
+                                        Đăng ký ngay
+                                    </span>
+                                </div>
                             </div>
-                        ))}
-                    </div>
+                    }
                 </div>
-                {/* <div className="order-completed">
-                    <div className="order-title">
-                        Đơn hàng đã hoàn thành
-                    </div>
-                    <div className="order-body">
-                        <div className="order">
-                            <OrderItemComponent />
-                        </div>
-                        <div className="order">
-                            <OrderItemComponent />
-                        </div>
-                        <div className="order">
-                            <OrderItemComponent />
-                        </div>
-                    </div>
-                </div> */}
             </div>
         </StyleListOrderComponent>
     );

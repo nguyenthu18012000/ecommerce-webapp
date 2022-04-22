@@ -11,15 +11,19 @@ import cartService from '../../../../../services/user/cart.service';
 import { StyleDetailProductComponent } from './styled';
 import commentService from '../../../../../services/user/comment.service';
 import StarRating from '../../../../../components/common/base/react-star';
-import { cloneDeep } from 'lodash';
+import storage from '../../../../../helpers/storage';
+import { Modal } from 'antd';
+import ModalRedirectComponent from './views/modal-redirect';
 
 const DetailProductComponent = () => {
+    const [isAuthenticate, setIsAuthenticate] = useState(false);
     const [newComment, setNewComment] = useState("");
     const [dataComment, setDataComment] = useState([]);
     const [rateStar, setRateStar] = useState(0);
     const [avgStar, setAvgStar] = useState(0);
     const [images, setImages] = useState([]);
     const [dataProduct, setDataProduct] = useState({});
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const history = useHistory();
     let params = useParams();
     const desc = useRef();
@@ -31,6 +35,15 @@ const DetailProductComponent = () => {
         productId: id_product,
     };
 
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
     const handleClickBtnDescription = () => {
         desc.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -111,6 +124,11 @@ const DetailProductComponent = () => {
     useEffect(() => {
         getDataProductById();
         getDataCommentById();
+        if (storage.getToken() != undefined) {
+            setIsAuthenticate(true);
+        } else {
+            setIsAuthenticate(false);
+        }
     }, []);
 
     return (
@@ -138,14 +156,25 @@ const DetailProductComponent = () => {
                     <div className="product-price">
                         {numberWithCommas(dataProduct?.price)}đ
                     </div>
-                    <div>
-                        <button
-                            onClick={handleClickBtnAddProduct}
-                        >
-                            Thêm vào giỏ hàng
-                            <AiOutlineArrowRight className="scale1_5" />
-                        </button>
-                    </div>
+                    {
+                        isAuthenticate ?
+                            <div>
+                                <button
+                                    onClick={handleClickBtnAddProduct}
+                                >
+                                    Thêm vào giỏ hàng
+                                    <AiOutlineArrowRight className="scale1_5" />
+                                </button>
+                            </div> :
+                            <div>
+                                <button
+                                    onClick={showModal}
+                                >
+                                    Thêm vào giỏ hàng
+                                    <AiOutlineArrowRight className="scale1_5" />
+                                </button>
+                            </div>
+                    }
                 </div>
                 <div className="product-information">
                     <div className="nav-bar">
@@ -202,24 +231,36 @@ const DetailProductComponent = () => {
                                     </div>
                                 </div>
                             ))}
-                            <div className="add-comment">
-                                <TextareaAutosize
-                                    className="new-comment"
-                                    onChange={handleChangeInputComment}
-                                    value={newComment}
-                                />
-                                <button
-                                    className="add-new-comment"
-                                    onClick={handleClickBtnAddComment}
-                                >
-                                    Thêm
-                                    <AiOutlineArrowRight className="scale1_5" />
-                                </button>
-                            </div>
+                            {
+                                isAuthenticate ?
+                                    <div className="add-comment">
+                                        <TextareaAutosize
+                                            className="new-comment"
+                                            onChange={handleChangeInputComment}
+                                            value={newComment}
+                                        />
+                                        <button
+                                            className="add-new-comment"
+                                            onClick={handleClickBtnAddComment}
+                                        >
+                                            Thêm
+                                            <AiOutlineArrowRight className="scale1_5" />
+                                        </button>
+                                    </div> :
+                                    <div></div>
+                            }
                         </div>
                     </div>
                 </div>
             </div>
+            <Modal title="Bạn chưa đăng nhập"
+                visible={isModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                width={500}
+            >
+                <ModalRedirectComponent />
+            </Modal>
         </StyleDetailProductComponent>
     );
 };
