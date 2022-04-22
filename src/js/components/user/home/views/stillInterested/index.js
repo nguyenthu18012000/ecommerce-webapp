@@ -32,7 +32,7 @@ const StillInterestedComponent = ({ dataProducts }) => {
                 <div className="carousel-title">
                     <h3 className='title'>Still interested?</h3>
                 </div>
-                <div className="keyword">
+                {/* <div className="keyword">
                     <span>
                         <Link className="link-keyword">Giày superstar</Link>
                     </span>
@@ -42,7 +42,7 @@ const StillInterestedComponent = ({ dataProducts }) => {
                     <span>
                         <Link className="link-keyword">Giày slip-on superstar</Link>
                     </span>
-                </div>
+                </div> */}
             </div>
 
             <Carousel className='carousel' responsive={responsive}>
