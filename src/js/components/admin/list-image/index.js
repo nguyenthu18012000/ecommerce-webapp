@@ -68,7 +68,7 @@ const ListImage = ({ props }) => {
                                     width={data.width}
                                     height={data.height}
                                     src={item.src}
-                                    style={{objectFit: 'contain'}}
+                                    style={{ objectFit: 'contain' }}
                                 />
                             </div>
                             <div className='wrap-text' style={{ textAlign: 'center', maxWidth: data.width }}>{item.name}</div>

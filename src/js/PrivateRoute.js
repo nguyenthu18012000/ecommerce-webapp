@@ -5,7 +5,6 @@ export const PrivateRouter = ({ children, ...rest }) => {
 
     return (
         <Route {...rest} render={({ location }) => {
-            console.log({ location })
             return Auth.isAuthenticated ?
                 children :
                 <Redirect to={{

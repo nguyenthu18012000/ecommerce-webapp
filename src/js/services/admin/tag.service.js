@@ -16,6 +16,22 @@ const getAll = async (
     }
 };
 
+const getCategoryById = async (
+    params,
+    onSucces = () => { },
+    onError = () => { }
+) => {
+    try {
+        const GET_TAG_BY_ID_PATH = `/admin/category/${params.id}`
+        const res = await axiosHelper.sendGet(GET_TAG_BY_ID_PATH);
+        if (res?.code === 200) {
+            onSucces(res?.data);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const searchCategory = async (
     params,
     onSucces = () => { },
@@ -64,12 +80,30 @@ const deleteTag = async (
     }
 };
 
+const updateCategory = async (
+    params,
+    onSucces = () => { },
+    onError = () => { }
+) => {
+    try {
+        const UPDATE_CATEGORY_PATH = `/admin/category/${params.id}`
+        const res = await axiosHelper.sendPut(UPDATE_CATEGORY_PATH, params, true);
+        if (res?.code === 200) {
+            onSucces(res?.data);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 
 const tagService = {
     getAll,
     addTag,
     searchCategory,
-    deleteTag
+    deleteTag,
+    getCategoryById,
+    updateCategory
 }
 
 export default tagService;

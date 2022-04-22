@@ -65,7 +65,7 @@ export const sendPost = (url = "", params, queryParams, toast = false) => axiosI
     return res.data
   });
 
-export const sendPut = (url = "", params) => axiosInstance.put(url, params)
+export const sendPut = (url = "", params, toast = false) => axiosInstance.put(url, params)
   .then((res) => {
     handleToast(toast, res.data);
     return res.data

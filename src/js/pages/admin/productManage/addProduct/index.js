@@ -33,7 +33,6 @@ const AddProduct = () => {
         tagService.getAll({},
             (res) => {
                 setListCategory(res);
-                console.log(res);
             }
         );
     }
@@ -41,7 +40,6 @@ const AddProduct = () => {
     const addTag = () => {
         tagService.addTag({ name: formCategory.getFieldValue('name') },
             (res) => {
-                console.log(res);
             }
         );
     }
@@ -49,7 +47,6 @@ const AddProduct = () => {
     const FormCategoryProduct = () => {
 
         const onChange = (e) => {
-            console.log('radio checked', e.target.value);
             setCategory(e.target.value);
         };
 

@@ -19,7 +19,6 @@ const SideBar = () => {
     });
 
     const onCollapse = (collapsed) => {
-        console.log(collapsed);
         setData({ collapsed });
     };
 
@@ -40,7 +39,7 @@ const SideBar = () => {
                         <BreadcrumbCustomer />
                         <div
                             className="site-layout-background"
-                            style={{ padding: 14, minHeight: "100vh" }}
+                            style={{ padding: 14, minHeight: "calc(100vh - 70px)" }}
                         >
                             <Switch>
                                 <Route path='/admin/add-product' >

@@ -51,10 +51,27 @@ const deleteImage = async (
     }
 };
 
+const getImageByIds = async (
+    params,
+    onSucces = () => { },
+    onError = () => { }
+) => {
+    try {
+        const GET_IMAGE_BY_IDS_PATH = `/admin/image`
+        const res = await axiosHelper.sendPost(GET_IMAGE_BY_IDS_PATH, params);
+        if (res?.code === 200) {
+            onSucces(res?.data);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const imageService = {
     getAll,
     uploadImage,
     deleteImage,
+    getImageByIds,
 };
 
 export default imageService;

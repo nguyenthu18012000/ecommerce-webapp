@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { Row, Col, Table, Form, Button, Input, Divider, Space, InputNumber, Popconfirm } from 'antd';
 import tagService from "../../../services/admin/tag.service";
 import UploadImageModal from "../../../components/admin/modal/upload-image-modal";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteFilled, EditFilled } from "@ant-design/icons";
+import EditCategoryModal from "../../../components/admin/modal/edit-category-modal";
+import TextArea from "antd/lib/input/TextArea";
 
 const TagManager = () => {
     const [dataSource, setDataSource] = useState([]);
@@ -12,11 +14,12 @@ const TagManager = () => {
     const perPage = 10;
     const [count, setCount] = useState(1);
     const childRef = useRef();
+    const editModalRef = useRef();
     const columns = [
         {
-            title: 'Id',
-            dataIndex: 'id',
-            key: 'id',
+            title: 'Stt',
+            dataIndex: 'stt',
+            key: 'stt',
             render: text => <div>{text}</div>,
         },
         {
@@ -27,8 +30,8 @@ const TagManager = () => {
         },
         {
             title: 'Total',
-            dataIndex: 'total',
-            key: 'total',
+            dataIndex: 'totalProduct',
+            key: 'totalProduct',
             render: text => <div>{text}</div>,
         },
         {
@@ -36,9 +39,17 @@ const TagManager = () => {
             key: 'action',
             render: (text, record) => (
                 <Space size="middle">
-                    <Button size="small">Edit</Button>
+                    <Button
+                        size="small"
+                        type='primary'
+                        style={{ background: '#00ff1d', border: 'none' }}
+                        onClick={() => {
+                            editModalRef.current.showModal(record)
+                        }}>
+                        <EditFilled />
+                    </Button>
                     <Popconfirm
-                        title="Are you sure？"
+                        title={`Are you sure？Now, this caterory have ${record.totalProduct} products!`}
                         onConfirm={() => deleteCategory(record.id)}
                         okText="Yes"
                         cancelText="No"
@@ -49,13 +60,17 @@ const TagManager = () => {
                             danger
                             type='primary'
                         >
-                            <DeleteOutlined />
+                            <DeleteFilled />
                         </Button>
                     </Popconfirm>
                 </Space>
             ),
         },
     ]
+
+    useEffect(() => {
+        getAllTag();
+    }, [])
 
     const onFinish = async (value) => {
         const tag = {
@@ -70,7 +85,7 @@ const TagManager = () => {
         })
     }
 
-    const getAllTag = (page = 0) => {
+    const getAllTag = (page = 1) => {
         const search = {
             page: page,
             perPage: perPage,
@@ -83,16 +98,17 @@ const TagManager = () => {
             setCount(res.count);
             let data = categorys.map((item, index) => ({
                 key: index + 1,
+                stt: index + 1,
                 ...item
             }))
-            setDataSource(data)
+            setDataSource(data);
         });
     }
 
     const deleteCategory = (id) => {
         tagService.deleteTag({ id: id },
             (res) => {
-                getAllTag(0);
+                getAllTag(1);
             }
         )
     }
@@ -100,10 +116,6 @@ const TagManager = () => {
     const getImage = (image) => {
         setImageTag(image);
     }
-
-    useEffect(() => {
-        getAllTag();
-    }, [])
 
     const clearForm = () => {
         formCategory.resetFields();
@@ -113,7 +125,7 @@ const TagManager = () => {
         pageSize: perPage,
         total: count,
         onChange: async (page, pageSize) => {
-            getAllTag(page - 1);
+            getAllTag(page);
         }
     }
 
@@ -187,7 +199,6 @@ const TagManager = () => {
                 <Col span={9} style={{ paddingLeft: 5 }}>
                     <h2>Add Category</h2>
                     <div className='blue-border' style={{ marginBottom: 10 }}>
-
                         <Form
                             layout='vertical'
                             form={formCategory}
@@ -209,7 +220,7 @@ const TagManager = () => {
                                 label="DESCRIPTION"
                                 name="descript"
                             >
-                                <Input placeholder="input description" />
+                                <TextArea rows={9} placeholder="input description about category" />
                             </Form.Item>
                             <Form.Item>
                                 <div className='blue-border' style={{ marginBottom: 10 }}>
@@ -228,10 +239,9 @@ const TagManager = () => {
                                 <Button type="primary" htmlType="submit">Submit</Button>
                             </Form.Item>
                         </Form>
-
                     </div>
-
                 </Col>
+                <EditCategoryModal afterClose={() => getAllTag(1)} ref={editModalRef} />
             </Row>
         </div>
     )
