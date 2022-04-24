@@ -24,8 +24,8 @@ const getAllProductInCart = async (
     try {
         const getAllProductInCartPath = `/customer/cart`;
         const res = await axiosHelper.sendGet(getAllProductInCartPath, params);
-        if (res?.productOrder) {
-            onSuccess(res?.productOrder);
+        if (res?.code === 200) {
+            onSuccess(res?.data.productOrder);
         }
     } catch (error) {
         console.log(error);

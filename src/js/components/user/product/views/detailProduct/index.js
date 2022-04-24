@@ -13,6 +13,8 @@ import commentService from '../../../../../services/user/comment.service';
 import StarRating from '../../../../../components/common/base/react-star';
 import storage from '../../../../../helpers/storage';
 import { Modal } from 'antd';
+import { FaShippingFast } from "react-icons/fa";
+import { ImLoop } from "react-icons/im";
 import ModalRedirectComponent from './views/modal-redirect';
 
 const DetailProductComponent = () => {
@@ -122,6 +124,7 @@ const DetailProductComponent = () => {
         setAvgStar(sum / length);
     }
     useEffect(() => {
+        window.scrollTo(0, 0)
         getDataProductById();
         getDataCommentById();
         if (storage.getToken() != undefined) {
@@ -135,9 +138,17 @@ const DetailProductComponent = () => {
         <StyleDetailProductComponent>
             <div className="detail-header">
                 <div className="breadcrumb">
-                    <span className="breadcrumb-item" onClick={() => { history.push("/") }}>Trang chủ</span>
-                    <span className="breadcrumb-item">/{dataProduct?.category}</span>
-                    <span className="breadcrumb-item">/Giày Ultraboost</span>
+                    <span
+                        className="breadcrumb-item"
+                        onClick={() => { history.push("/") }}
+                    >
+                        Trang chủ
+                    </span>
+                    <span
+                        className="breadcrumb-item"
+                    >
+                        /{dataProduct?.category}
+                    </span>
                 </div>
                 <div className="product-name">{dataProduct?.name}</div>
                 <StarRating star={avgStar} />
@@ -175,6 +186,16 @@ const DetailProductComponent = () => {
                                 </button>
                             </div>
                     }
+                    <div>
+                        <div className="more-info">
+                            <FaShippingFast className="scale1_5" />
+                            Hoàn trả hàng dễ dàng
+                        </div>
+                        <div className="more-info">
+                            <ImLoop className="scale1_5" />
+                            Không phù hợp? Bạn có thể hoàn trả hàng trong 7 ngày từ khi nhận sản phẩm
+                        </div>
+                    </div>
                 </div>
                 <div className="product-information">
                     <div className="nav-bar">
@@ -207,13 +228,20 @@ const DetailProductComponent = () => {
                                 size={24}
                                 isHalf={false}
                                 value={rateStar}
-                                activeColor="#ffd700"
+                                activeColor="black"
                             />
                         </div>
                         <div className="cmt-detail">
                             <div className="comment-title">
                                 Đánh giá của khách hàng
                             </div>
+                            {
+                                dataComment.length === 0 ?
+                                    <div className="no-comment">
+                                        Sản phẩm chưa có đánh giá
+                                    </div> :
+                                    <div></div>
+                            }
                             {dataComment.map((comment, key = 0) => (
                                 <div key={key++}>
                                     <div>
@@ -222,7 +250,7 @@ const DetailProductComponent = () => {
                                             size={24}
                                             isHalf={true}
                                             value={parseInt(comment.star)}
-                                            activeColor="#ffd700"
+                                            activeColor="black"
                                             edit={false}
                                         />
                                     </div>

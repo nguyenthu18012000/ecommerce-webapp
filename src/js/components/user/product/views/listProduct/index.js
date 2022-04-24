@@ -16,7 +16,7 @@ const ListProductComponent = ({ match }) => {
     const [minPriceSearch, setMinPriceSearch] = useState(0);
     const [maxPriceSearch, setMaxPriceSearch] = useState(1000000000);
 
-    const productPerPage = 10;
+    const productPerPage = 12;
     const numberOfProducts = dataProducts.length;
 
     const params = new URL(window.location.href);
@@ -137,6 +137,7 @@ const ListProductComponent = ({ match }) => {
                         current={+currentPage}
                         total={numberOfProducts}
                         onChange={handleClickPage}
+                        showSizeChanger={false}
                     />
                 </div>
             </div>
