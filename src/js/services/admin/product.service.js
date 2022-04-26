@@ -39,7 +39,39 @@ const addProduct = async (
 ) => {
     try {
         const ADD_PRODUCT_PATH = `/admin/product/add`
-        const res = await axiosHelper.sendPost(ADD_PRODUCT_PATH, params);
+        const res = await axiosHelper.sendPost(ADD_PRODUCT_PATH, params, null, true);
+        if (res?.code === 200) {
+            onSucces(res?.data);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const getProductId = async (
+    params,
+    onSucces = () => { },
+    onError = () => { }
+) => {
+    try {
+        const ADD_PRODUCT_PATH = `/admin/product/${params}`
+        const res = await axiosHelper.sendGet(ADD_PRODUCT_PATH, null, false);
+        if (res?.code === 200) {
+            onSucces(res?.data);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const deleteProduct = async (
+    params,
+    onSucces = () => { },
+    onError = () => { }
+) => {
+    try {
+        const ADD_PRODUCT_PATH = `/admin/product/${params}`
+        const res = await axiosHelper.sendDelete(ADD_PRODUCT_PATH, null, true);
         if (res?.code === 200) {
             onSucces(res?.data);
         }
@@ -51,7 +83,9 @@ const addProduct = async (
 const productService = {
     getAll,
     addProduct,
-    getMinMaxValue
+    getMinMaxValue,
+    getProductId,
+    deleteProduct
 }
 
 export default productService;
