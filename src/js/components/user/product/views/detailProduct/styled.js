@@ -16,8 +16,23 @@ const StyleDetailProductComponent = styled.div`
             margin-left: 10px;
             
             .breadcrumb-item {
+                cursor: pointer;
                 font-size: 16px;
                 letter-spacing: 1px;
+                margin-left: 3px;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            .back {
+                margin-left: 5px;
+                margin-right: 10px;
+
+                &:hover {
+                    text-decoration: underline;
+                }
             }
         }
         

@@ -1,6 +1,6 @@
 import { Carousel } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import { AiOutlineArrowRight } from "react-icons/ai";
+import { AiOutlineArrowRight, AiOutlineRollback } from "react-icons/ai";
 import ReactStars from "react-rating-stars-component";
 import { useHistory, useParams } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -35,6 +35,7 @@ const DetailProductComponent = () => {
     const product = {
         quantity: 1,
         productId: id_product,
+        currentPrice: dataProduct.price
     };
 
     const showModal = () => {
@@ -139,6 +140,12 @@ const DetailProductComponent = () => {
             <div className="detail-header">
                 <div className="breadcrumb">
                     <span
+                        className="breadcrumb-item back"
+                        onClick={() => history.goBack()}
+                    >
+                        <AiOutlineRollback />Trở lại
+                    </span>
+                    <span
                         className="breadcrumb-item"
                         onClick={() => { history.push("/") }}
                     >
@@ -147,7 +154,7 @@ const DetailProductComponent = () => {
                     <span
                         className="breadcrumb-item"
                     >
-                        /{dataProduct?.category}
+                        /{dataProduct?.Category?.name}
                     </span>
                 </div>
                 <div className="product-name">{dataProduct?.name}</div>

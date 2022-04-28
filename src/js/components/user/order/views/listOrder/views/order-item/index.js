@@ -16,19 +16,17 @@ const OrderItemComponent = ({ order }) => {
     const handleCancel = () => {
         setIsModalVisible(false);
     };
-    // const convertDateTime = (dateTime = "") => {
-    //     let length = dateTime.length - 5;
-    //     let dateTimeConverted = '';
-    //     for (let i = 0; i <= length; i++) {
-    //         if (dateTime[i] !== 'T') {
-    //             dateTimeConverted[i] = dateTime[i];
-    //         } else {
-    //             dateTimeConverted[i] = " ";
-    //         }
-    //     }
-    //     return dateTimeConverted;
-    // }
-    // console.log(convertDateTime("2022 - 04 - 15T08: 36: 48.000Z"));
+    const convertDateTime = (dateTime = "") => {
+        let year = dateTime.slice(0, 4);
+        let month = dateTime.slice(5, 7);
+        let day = dateTime.slice(8, 10);
+        // let hour = dateTime.slice(15, 17);
+        // hour = hour - 5;
+        // let minute = dateTime.slice(19, 21);
+        // let second = dateTime.slice(23, 25);
+        let newdate = day.concat(" - ", month, " - ", year);
+        return newdate;
+    }
     return (
         <StyleOrderItemComponent>
             <div>
@@ -44,7 +42,7 @@ const OrderItemComponent = ({ order }) => {
                     Ngày đặt hàng:
                 </span>
                 <span>
-                    {order?.createdAt}
+                    {convertDateTime(order?.createdAt)}
                 </span>
             </div>
             <div>
