@@ -48,6 +48,22 @@ const addProduct = async (
     }
 };
 
+const updateProduct = async (
+    params,
+    onSucces = () => { },
+    onError = () => { }
+) => {
+    try {
+        const ADD_PRODUCT_PATH = `/admin/product/${params.id}`
+        const res = await axiosHelper.sendPut(ADD_PRODUCT_PATH, params.product, null, true);
+        if (res?.code === 200) {
+            onSucces(res?.data);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const getProductId = async (
     params,
     onSucces = () => { },
@@ -85,7 +101,8 @@ const productService = {
     addProduct,
     getMinMaxValue,
     getProductId,
-    deleteProduct
+    deleteProduct,
+    updateProduct
 }
 
 export default productService;

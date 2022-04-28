@@ -36,6 +36,12 @@ const FormPromotion = (props) => {
                         style={{ marginLeft: '10px' }}
                         onChange={
                             (checked) => {
+                                if (checked) {
+                                    formPromotion.setFieldsValue({ priceSale: null })
+                                }
+                                else {
+                                    formPromotion.setFieldsValue({ percentSale: null })
+                                }
                                 setIsPercentSale(checked);
                             }
                         }

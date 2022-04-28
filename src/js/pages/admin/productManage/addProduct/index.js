@@ -11,8 +11,16 @@ import FormCategoryProduct from './caterory-product';
 import FormInfoProduct from './info-product';
 import FormPromotion from './promotion-product';
 
+let promotionId = null;
+
 const AddProduct = () => {
     let { id } = useParams();
+    
+    const [pageState, setPageState] = useState({
+        createState: true,
+        title: "Create Product",
+        buttonSumit: "Save product"
+    });
     const [form] = Form.useForm();
     const [formCategory] = Form.useForm();
     const [formPromotion] = Form.useForm();
@@ -22,16 +30,21 @@ const AddProduct = () => {
     const [isPromotion, setIsPromotion] = useState(false);
 
     const getMainImage = (images) => {
-        console.log(images);
         setMainImage(images)
     }
 
     const getExtendImage = (images) => {
-        console.log(images);
         setExtendImage(images)
     }
 
     useEffect(() => {
+        if (id) {
+            setPageState({
+                createState: false,
+                title: "Update Product",
+                buttonSumit: "Update product"
+            })
+        }
         getProductId(id);
     }, [])
 
@@ -54,7 +67,7 @@ const AddProduct = () => {
     }
 
     const fillDataToForm = (data) => {
-        const { name, descript, price, total, imageBg, images, Category, Promotions } = data;
+        const { name, descript, price, total, imageBg, images, Category, promotions } = data;
         form.setFieldsValue({
             name: name,
             descript: descript,
@@ -62,10 +75,11 @@ const AddProduct = () => {
             total: total,
         });
         setCategory(Category?.id);
-        if (Promotions.length) {
-            const promotion = Promotions[0];
+        if (promotions.length) {
+            const promotion = promotions[0];
             setIsPromotion(true);
-
+            promotionId = promotion.id;
+            console.log(promotionId)
             formPromotion.setFieldsValue({
                 dateSale: [moment(promotion.startSale), moment(promotion.endSale)],
                 percentSale: promotion.percentSale,
@@ -92,34 +106,35 @@ const AddProduct = () => {
         )
     }
 
-    const onFinish = () => {
-        if (formPromotion.isFieldValidating() && form.isFieldValidating()) {
-            addProduct();
+    const onFinish = async () => {
+        await form.validateFields(['name', 'total', 'price']);
+        if (isPromotion) {
+            await formPromotion.validateFields(['dateSale', 'priceSale', 'percentSale'])
         }
-
+        submit();
     }
 
-    const addProduct = async () => {
+    const submit = () => {
         const price = form.getFieldValue('price');
         let priceSale = formPromotion.getFieldValue('priceSale');
         let percentSale = formPromotion.getFieldValue('percentSale');
         let promotion = null;
-        console.log(isPromotion)
         if (isPromotion) {
             console.log(priceSale)
             if (priceSale) {
                 percentSale = Math.round(100 - (priceSale / price) * 100);
-                console.log(percentSale)
             } else if (percentSale) {
                 priceSale = Math.round(price * (100 - percentSale));
             }
+            console.log(promotionId)
             promotion = {
+                id: promotionId || null,
                 startSale: formPromotion.getFieldValue('dateSale')[0],
                 endSale: formPromotion.getFieldValue('dateSale')[1],
                 priceSale: priceSale,
                 percentSale: percentSale,
             }
-            console.log(promotion);
+            console.log(promotion)
         }
         const product = {
             name: form.getFieldValue('name'),
@@ -131,15 +146,27 @@ const AddProduct = () => {
             categoryId: category,
             promotion: promotion,
         };
-        await productService.addProduct(product).then((res) => {
-            console.log(res);
-            clearForm();
-        })
+        if (pageState.createState) {
+            productService.addProduct(product,
+                (res) => {
+                    clearForm();
+                }
+            );
+        } else {
+            productService.updateProduct(
+                {
+                    id: id,
+                    product: product
+                }, (res) => {
+                    clearForm();
+                }
+            );
+        }
     }
 
     return (
         <div>
-            <h2>New Product</h2>
+            <h2>{pageState.title}</h2>
             <Row>
                 <Col span={14} style={{ paddingRight: 5 }}>
                     <div className='blue-border' style={{ marginBottom: '10px' }}>
@@ -167,6 +194,7 @@ const AddProduct = () => {
                                 checked={isPromotion}
                                 style={{ marginLeft: 'auto' }}
                                 onChange={(checked) => {
+                                    formPromotion.resetFields();
                                     setIsPromotion(checked);
                                 }} />
                             <Divider style={{ margin: 3 }} />
@@ -178,7 +206,7 @@ const AddProduct = () => {
                         }
                     </div>
                     <div style={{ textAlign: 'end' }}>
-                        <Button type="primary" onClick={onFinish}>Submit</Button>
+                        <Button type="primary" onClick={onFinish}>{pageState.buttonSumit}</Button>
                     </div>
                 </Col>
                 <Col span={10} style={{ paddingLeft: 5 }}>

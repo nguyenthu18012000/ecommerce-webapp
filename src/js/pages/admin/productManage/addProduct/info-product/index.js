@@ -17,6 +17,7 @@ const FormInfoProduct = (props) => {
             <Form.Item
                 label="NAME PRODUCT"
                 name="name"
+                min={0}
                 rules={[
                     {
                         required: true,
@@ -29,6 +30,12 @@ const FormInfoProduct = (props) => {
             <Form.Item
                 label="DESCRIPTION"
                 name="descript"
+                rules={[
+                    {
+                        required: true,
+                        message: 'Input something!',
+                    },
+                ]}
             >
                 <TextArea rows={9} placeholder="input description about product" />
             </Form.Item>
