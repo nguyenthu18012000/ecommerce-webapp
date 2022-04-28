@@ -5,6 +5,7 @@ import UploadImageModal from "../../../components/admin/modal/upload-image-modal
 import { DeleteFilled, EditFilled } from "@ant-design/icons";
 import EditCategoryModal from "../../../components/admin/modal/edit-category-modal";
 import TextArea from "antd/lib/input/TextArea";
+import ListImage from "../../../components/admin/list-image";
 
 const TagManager = () => {
     const [dataSource, setDataSource] = useState([]);
@@ -69,19 +70,19 @@ const TagManager = () => {
     ]
 
     useEffect(() => {
-        getAllTag();
+        getAllTag(1);
     }, [])
 
-    const onFinish = async (value) => {
+    const onFinish = (value) => {
         const tag = {
             name: value.name,
             descript: value.descript,
             image: imageTag[0]
         }
-        await tagService.addTag(tag, (res) => {
+        tagService.addTag(tag, (res) => {
             clearForm();
-            childRef.current.clearImage();
-            getAllTag();
+            setImageTag([]);
+            getAllTag(1);
         })
     }
 
@@ -232,7 +233,23 @@ const TagManager = () => {
                                         <label>IMAGE CATEGORY</label>
                                         <Divider style={{ margin: 3 }} />
                                     </Row>
-                                    <UploadImageModal ref={childRef} getImage={getImage} />
+                                    <div>
+                                        {imageTag.length > 0 && <ListImage
+                                            listImage={imageTag}
+                                            height={100}
+                                            width={100}
+                                            multiple={false}
+                                            deleteFunction={(e) => {
+                                                let newlist = imageTag.filter((value) => value.id !== e);
+                                                setImageTag(newlist);
+                                            }}
+                                        />}
+                                    </div>
+                                    <UploadImageModal
+                                        getImage={getImage}
+                                        currentImages={imageTag}
+                                        isMultipleSelect={false}
+                                    />
                                 </div>
                             </Form.Item>
                             <Form.Item style={{ textAlign: 'end' }}>

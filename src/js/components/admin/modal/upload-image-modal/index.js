@@ -1,22 +1,21 @@
 import { Modal, Button, Divider, Radio, Spin } from 'antd';
-import { forwardRef, useImperativeHandle, useState } from 'react';
+import { useState } from 'react';
 import ListImage from '../../list-image';
 import UploadImage from '../../upload-image';
 import imageService from '../../../../services/admin/image.service';
 
-const UploadImageModal = ({ getImage, isHideListImageChoosed = false }, ref) => {
-    useImperativeHandle(ref, () => ({
-        clearImage() {
-            setCheckList([]);
-        }
-    }), []);
+const UploadImageModal = (props) => {
+    const {
+        getImage,
+        currentImages = [],
+        isMultipleSelect = true,
+    } = props;
     const OPTION_MODAL = {
         STORAGE: 'Storage',
         UPLOAD_IMAGE: 'Upload image'
     }
     const [visible, setVisible] = useState(false)
     const [optionModal, setOptionModal] = useState(OPTION_MODAL.STORAGE)
-    const [checkList, setCheckList] = useState([])
     const [listImage, setListImage] = useState([])
 
     const showModal = () => {
@@ -30,7 +29,6 @@ const UploadImageModal = ({ getImage, isHideListImageChoosed = false }, ref) => 
     };
 
     const sendCheckList = (e) => {
-        setCheckList(e);
         getImage(e);
         setVisible(false);
     }
@@ -54,20 +52,6 @@ const UploadImageModal = ({ getImage, isHideListImageChoosed = false }, ref) => 
 
     return (
         <>
-            <div>
-                {checkList.length > 0 && !isHideListImageChoosed && <ListImage
-                    props={{
-                        listImage: checkList,
-                        height: 100,
-                        width: 100,
-                        isDelete: true,
-                        deleteFunction: (e) => {
-                            let newlist = checkList.filter((value) => value.id !== e);
-                            setCheckList(newlist);
-                        },
-                    }}
-                />}
-            </div>
             <Button type="primary" onClick={showModal}>
                 Add image
             </Button>
@@ -91,15 +75,15 @@ const UploadImageModal = ({ getImage, isHideListImageChoosed = false }, ref) => 
                         <div>
                             {listImage.length !== 0 ?
                                 <ListImage
-                                    props={{
-                                        listImage: listImage,
-                                        width: 200,
-                                        height: 200,
-                                        isSelect: true,
-                                        isDelete: true,
-                                        deleteFunction: deleteImage,
-                                        sendCheckList: sendCheckList,
-                                    }}
+                                    listImage={listImage}
+                                    currentImages={currentImages}
+                                    width={200}
+                                    height={200}
+                                    isSelect={true}
+                                    isDelete={true}
+                                    multiple={isMultipleSelect}
+                                    deleteFunction={deleteImage}
+                                    sendCheckList={sendCheckList}
                                 /> :
                                 <Spin size="large" />
                             }
@@ -114,4 +98,4 @@ const UploadImageModal = ({ getImage, isHideListImageChoosed = false }, ref) => 
     );
 }
 
-export default forwardRef(UploadImageModal);
+export default UploadImageModal;

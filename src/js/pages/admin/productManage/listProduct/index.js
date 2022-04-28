@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Table, Tag, Space, Input, Row, Col, Button, Form, InputNumber, Popconfirm } from 'antd';
 import productService from "../../../../services/admin/product.service";
 import { DeleteFilled, EditFilled } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 const ListProduct = () => {
     const perPage = 20;
@@ -51,12 +52,14 @@ const ListProduct = () => {
                         size="small"
                         type='primary'
                         style={{ background: '#00ff1d', border: 'none' }}
-                        onClick={() => {}}>
-                        <EditFilled />
+                    >
+                        <Link to={'/admin/product/' + record.id}><EditFilled /></Link>
                     </Button>
                     <Popconfirm
                         title="Are you sure?"
-                        onConfirm={() => {}}
+                        onConfirm={() => {
+                            productService.deleteProduct(record.id, (res) => getAllProduct());
+                        }}
                         okText="Yes"
                         cancelText="No"
                     >
@@ -69,7 +72,7 @@ const ListProduct = () => {
                             <DeleteFilled />
                         </Button>
                     </Popconfirm>
-                </Space>
+                </Space >
             ),
         },
     ]

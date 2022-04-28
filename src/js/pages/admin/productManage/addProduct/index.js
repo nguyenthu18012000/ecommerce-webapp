@@ -1,224 +1,242 @@
 
-import { Row, Col, Space, Divider, InputNumber } from 'antd';
-import UploadImageModal from "../../../../components/admin/modal/upload-image-modal";
-
+import { Button, Col, Divider, Form, Row, Switch } from 'antd';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Button, Radio } from 'antd';
+import { useParams } from 'react-router-dom';
+import ListImage from '../../../../components/admin/list-image';
+import UploadImageModal from "../../../../components/admin/modal/upload-image-modal";
+import imageService from '../../../../services/admin/image.service';
 import productService from '../../../../services/admin/product.service';
-import tagService from '../../../../services/admin/tag.service';
-
-
+import FormCategoryProduct from './caterory-product';
+import FormInfoProduct from './info-product';
+import FormPromotion from './promotion-product';
 
 const AddProduct = () => {
+    let { id } = useParams();
     const [form] = Form.useForm();
     const [formCategory] = Form.useForm();
-    const [listCategory, setListCategory] = useState([]);
+    const [formPromotion] = Form.useForm();
     const [category, setCategory] = useState(0);
     const [mainImage, setMainImage] = useState([]);
     const [extendImage, setExtendImage] = useState([]);
+    const [isPromotion, setIsPromotion] = useState(false);
 
     const getMainImage = (images) => {
+        console.log(images);
         setMainImage(images)
     }
 
     const getExtendImage = (images) => {
+        console.log(images);
         setExtendImage(images)
     }
 
     useEffect(() => {
-        getTags();
+        getProductId(id);
     }, [])
 
-    const getTags = () => {
-        tagService.getAll({},
-            (res) => {
-                setListCategory(res);
-            }
-        );
-    }
-
-    const addTag = () => {
-        tagService.addTag({ name: formCategory.getFieldValue('name') },
-            (res) => {
-            }
-        );
-    }
-
-    const FormCategoryProduct = () => {
-
-        const onChange = (e) => {
-            setCategory(e.target.value);
-        };
-
-        return (
-            <div>
-                <Row
-                    style={{
-                        paddingBottom: 10
-                    }}
-                >
-                    <label>CATEGORY</label>
-                    <Divider style={{ margin: 3 }} />
-                </Row>
-                <Row>
-                    <Col span={14}>
-                        <Radio.Group onChange={onChange} value={category}>
-                            <Space direction="vertical" defaultChecked={'0'}>
-                                {
-                                    listCategory.map(item =>
-                                        <Radio key={item.id} value={item.id}>{item.name}</Radio>
-                                    )
-                                }
-                            </Space>
-                        </Radio.Group></Col>
-                    <Col span={10}>
-                        <Form
-                            layout='vertical'
-                            form={formCategory}
-                            onFinish={addTag}
-                        >
-                            <Form.Item
-                                label="NAME TAG"
-                                name="name"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Input something!',
-                                    },
-                                ]}
-                            >
-                                <Input placeholder="input placeholder" />
-                            </Form.Item>
-                            <Form.Item >
-                                <Button type="primary" htmlType="submit">Submit</Button>
-                            </Form.Item>
-                        </Form>
-                    </Col>
-                </Row>
-            </div>
-        );
-
-    }
-
-    const FormInfoProduct = () => {
-        const onFinish = async (value) => {
-            const product = {
-                name: value.name,
-                descript: value.descript,
-                price: value.price,
-                total: value.total,
-                imageBg: mainImage[0],
-                images: extendImage,
-                categoryId: category,
-            };
-            await productService.addProduct(product).then((res) => {
-                console.log(res);
-            })
-            console.log(product);
+    const getProductId = (id) => {
+        if (id) {
+            productService.getProductId(id,
+                (res) => {
+                    fillDataToForm(res);
+                }
+            )
         }
-        const formItemLayout = {
-            labelCol: {
-                span: '100%',
-            },
-            wrapperCol: {
-                span: '100%',
-            },
+    }
+
+    const clearForm = () => {
+        form.resetFields();
+        formCategory.resetFields();
+        formPromotion.resetFields();
+        setExtendImage([]);
+        setMainImage([]);
+    }
+
+    const fillDataToForm = (data) => {
+        const { name, descript, price, total, imageBg, images, Category, Promotions } = data;
+        form.setFieldsValue({
+            name: name,
+            descript: descript,
+            price: price,
+            total: total,
+        });
+        setCategory(Category?.id);
+        if (Promotions.length) {
+            const promotion = Promotions[0];
+            setIsPromotion(true);
+
+            formPromotion.setFieldsValue({
+                dateSale: [moment(promotion.startSale), moment(promotion.endSale)],
+                percentSale: promotion.percentSale,
+                priceSale: promotion.priceSale,
+            });
+        }
+        getMainImages(imageBg);
+        getExtendImages(images);
+    }
+
+    const getMainImages = (imageIds) => {
+        imageService.getImageByIds(imageIds,
+            (res) => {
+                setMainImage(res);
+            }
+        )
+    }
+
+    const getExtendImages = (imageIds) => {
+        imageService.getImageByIds(imageIds,
+            (res) => {
+                setExtendImage(res);
+            }
+        )
+    }
+
+    const onFinish = () => {
+        if (formPromotion.isFieldValidating() && form.isFieldValidating()) {
+            addProduct();
+        }
+
+    }
+
+    const addProduct = async () => {
+        const price = form.getFieldValue('price');
+        let priceSale = formPromotion.getFieldValue('priceSale');
+        let percentSale = formPromotion.getFieldValue('percentSale');
+        let promotion = null;
+        console.log(isPromotion)
+        if (isPromotion) {
+            console.log(priceSale)
+            if (priceSale) {
+                percentSale = Math.round(100 - (priceSale / price) * 100);
+                console.log(percentSale)
+            } else if (percentSale) {
+                priceSale = Math.round(price * (100 - percentSale));
+            }
+            promotion = {
+                startSale: formPromotion.getFieldValue('dateSale')[0],
+                endSale: formPromotion.getFieldValue('dateSale')[1],
+                priceSale: priceSale,
+                percentSale: percentSale,
+            }
+            console.log(promotion);
+        }
+        const product = {
+            name: form.getFieldValue('name'),
+            descript: form.getFieldValue('descript'),
+            price: price,
+            total: form.getFieldValue('total'),
+            imageBg: mainImage[0],
+            images: extendImage,
+            categoryId: category,
+            promotion: promotion,
         };
-        return (
-            <Form
-                {...formItemLayout}
-                layout='vertical'
-                form={form}
-                onFinish={onFinish}
-            >
-                <Form.Item
-                    label="NAME PRODUCT"
-                    name="name"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Input something!',
-                        },
-                    ]}
-                >
-                    <Input placeholder="input placeholder" />
-                </Form.Item>
-                <Form.Item
-                    label="DESCRIPTION"
-                    name="descript"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Input something!',
-                        },
-                    ]}
-                >
-                    <Input placeholder="input placeholder" />
-                </Form.Item>
-                <Form.Item
-                    label="PRICE (VNĐ)"
-                    name="price"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Input something!',
-                        },
-                    ]}
-                >
-                    <InputNumber min={0} style={{ width: '50%' }} placeholder="input placeholder" />
-                </Form.Item>
-                <Form.Item
-                    label="TOTAL"
-                    name="total"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Input something!',
-                        },
-                    ]}
-                >
-                    <InputNumber min={0} placeholder="input placeholder" />
-                </Form.Item>
-                <Form.Item>
-                    <Button type="primary" htmlType="submit">Submit</Button>
-                </Form.Item>
-            </Form>
-        );
-    };
+        await productService.addProduct(product).then((res) => {
+            console.log(res);
+            clearForm();
+        })
+    }
 
     return (
         <div>
             <h2>New Product</h2>
             <Row>
                 <Col span={14} style={{ paddingRight: 5 }}>
-                    <div className='blue-border'>
-                        {FormInfoProduct()}
+                    <div className='blue-border' style={{ marginBottom: '10px' }}>
+                        <Row
+                            style={{
+                                paddingBottom: 10,
+                                fontWeight: 'bold'
+                            }}
+                        >
+                            <label>INFO PRODUCT</label>
+                            <Divider style={{ margin: 3 }} />
+                        </Row>
+                        <FormInfoProduct form={form} />
+                    </div>
+                    <div className='blue-border' style={{ marginBottom: '10px' }}>
+                        <Row
+                            style={{
+                                paddingBottom: 10,
+                                fontWeight: 'bold'
+                            }}
+                        >
+                            <label>INFO PROMOTION</label>
+                            <Switch
+                                defaultChecked={isPromotion}
+                                checked={isPromotion}
+                                style={{ marginLeft: 'auto' }}
+                                onChange={(checked) => {
+                                    setIsPromotion(checked);
+                                }} />
+                            <Divider style={{ margin: 3 }} />
+                        </Row>
+                        {isPromotion &&
+                            <FormPromotion
+                                formPromotion={formPromotion}
+                            />
+                        }
+                    </div>
+                    <div style={{ textAlign: 'end' }}>
+                        <Button type="primary" onClick={onFinish}>Submit</Button>
                     </div>
                 </Col>
                 <Col span={10} style={{ paddingLeft: 5 }}>
-                    <div className='blue-border' style={{ marginBottom: 10 }}>{FormCategoryProduct()}</div>
+                    <div className='blue-border' style={{ marginBottom: 10 }}>
+                        <FormCategoryProduct setCategory={setCategory} category={category} formCategory={formCategory} />
+                    </div>
                     <div className='blue-border' style={{ marginBottom: 10 }}>
                         <Row
                             style={{
-                                paddingBottom: 10
+                                paddingBottom: 10,
+                                fontWeight: 'bold'
                             }}
                         >
                             <label>MAIN IMAGE</label>
                             <Divider style={{ margin: 3 }} />
                         </Row>
-
-                        <UploadImageModal getImage={getMainImage} />
+                        <div>
+                            {mainImage.length > 0 && <ListImage
+                                listImage={mainImage}
+                                height={100}
+                                width={100}
+                                deleteFunction={(e) => {
+                                    let newlist = mainImage.filter((value) => value.id !== e);
+                                    setMainImage(newlist);
+                                }}
+                            />}
+                        </div>
+                        <UploadImageModal
+                            getImage={getMainImage}
+                            currentImages={mainImage}
+                            isMultipleSelect={false}
+                        />
                     </div>
                     <div className='blue-border' style={{ marginBottom: 10 }}>
                         <Row
                             style={{
-                                paddingBottom: 10
+                                paddingBottom: 10,
+                                fontWeight: 'bold'
                             }}
                         >
                             <label>EXTEND IMAGE</label>
                             <Divider style={{ margin: 3 }} />
                         </Row>
-                        <UploadImageModal getImage={getExtendImage} />
+                        <div>
+                            {extendImage.length > 0 && <ListImage
+                                listImage={extendImage}
+                                height={100}
+                                width={100}
+                                deleteFunction={(e) => {
+                                    let newlist = extendImage.filter((value) => value.id !== e);
+                                    setExtendImage(newlist);
+                                }}
+                            />}
+                        </div>
+                        <UploadImageModal
+                            getImage={getExtendImage}
+                            currentImages={extendImage}
+                        />
                     </div>
                 </Col>
             </Row>

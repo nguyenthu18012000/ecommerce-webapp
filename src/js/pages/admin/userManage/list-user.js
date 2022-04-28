@@ -12,7 +12,7 @@ const ListCustomer = () => {
     const [dataSource, setDataSource] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isActiveSearch, setIsActiveSearch] = useState(null);
-    const [textSearch, setTextSearch] = useState('');
+    const [textSearch, setTextSearch] = useState();
     const defaultRequest = {
         page: 0,
         perPage: stypeTable.perPage,

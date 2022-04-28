@@ -11,6 +11,7 @@ const EditCategoryModal = ({ afterClose }, ref) => {
         showModal(record) {
             setCategoryId(record.id);
             getCategory(record.id);
+            console.log(record.image);
             getImageCategory(record.image);
             setVisible(true);
         }
@@ -62,7 +63,7 @@ const EditCategoryModal = ({ afterClose }, ref) => {
     }
 
     const getImageCategory = (imageIds) => {
-        imageService.getImageByIds(imageIds,
+        imageService.getImageByIds([imageIds],
             (res) => {
                 setImageTag(res);
             }
@@ -127,19 +128,22 @@ const EditCategoryModal = ({ afterClose }, ref) => {
                                             </Row>
                                             <div>
                                                 {imageTag.length > 0 && <ListImage
-                                                    props={{
-                                                        listImage: imageTag,
-                                                        height: 100,
-                                                        width: 100,
-                                                        isDelete: true,
-                                                        deleteFunction: (e) => {
-                                                            let newlist = imageTag.filter((value) => value.id !== e);
-                                                            setImageTag(newlist);
-                                                        },
+                                                    listImage={imageTag}
+                                                    height={100}
+                                                    width={100}
+                                                    multiple={false}
+                                                    deleteFunction={(e) => {
+                                                        let newlist = imageTag.filter((value) => value.id !== e);
+                                                        setImageTag(newlist);
                                                     }}
                                                 />}
                                             </div>
-                                            <UploadImageModal ref={childRef} getImage={getImage} isHideListImageChoosed={true} />
+                                            <UploadImageModal
+                                                ref={childRef}
+                                                getImage={getImage}
+                                                currentImages={imageTag}
+                                                isMultipleSelect={false}
+                                            />
                                         </div>
                                     </Form.Item>
                                 </Col>

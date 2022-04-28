@@ -48,6 +48,9 @@ const SideBar = () => {
                                 <Route path='/admin/list-product' >
                                     <ListProduct/>
                                 </Route>
+                                <Route path='/admin/product/:id' exact >
+                                    <AddProduct/>
+                                </Route>
                                 <Route path='/admin/category-manager' >
                                     <TagManager/>
                                 </Route>
