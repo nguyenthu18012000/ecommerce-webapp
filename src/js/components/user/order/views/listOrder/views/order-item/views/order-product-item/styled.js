@@ -7,6 +7,7 @@ const StyleOrderProductItemComponent = styled.div`
         margin-top: 10px;
         margin-bottom: 15px;
         position: relative;
+        cursor: pointer;
 
         .item-image {
 

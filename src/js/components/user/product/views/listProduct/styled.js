@@ -6,8 +6,13 @@ const StyleListProductComponent = styled.div`
     .breadcrumb {
 
         .breadcrumb-item {
+            cursor: pointer;
             font-size: 16px;
             letter-spacing: 1px;
+
+            &:hover {
+                text-decoration: underline;
+            }
         }
     }
 

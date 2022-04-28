@@ -14,7 +14,7 @@ const StyleCartItemComponent = styled.div`
                 width: 200px;
                 height: auto;
                 max-height: 200px;
-
+                cursor: pointer;
             }
         }
 
@@ -25,7 +25,12 @@ const StyleCartItemComponent = styled.div`
                 display: block;
 
                 .item-name {
+                    cursor: pointer;
                     font-size: 20px;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
                 }
 
                 .item-price {

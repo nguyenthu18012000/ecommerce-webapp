@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleCartItemComponent } from './styled';
 import { AiOutlineDelete } from "react-icons/ai";
 import productService from '../../../../../services/user/product.service';
+import { useHistory } from 'react-router-dom';
 
 const CartItemComponent = ({ dataProduct,
     updateQuantity,
@@ -11,6 +12,7 @@ const CartItemComponent = ({ dataProduct,
     deleteProductFromCart }) => {
     const [inforProduct, setInforProduct] = useState({})
     const [quantity, setQuantity] = useState(dataProduct?.quantity || 1);
+    const history = useHistory();
 
     const id_product = dataProduct.productId;
 
@@ -31,6 +33,9 @@ const CartItemComponent = ({ dataProduct,
             () => { }
         );
     }
+    const handleRedirectDetailProduct = () => {
+        history.push(`product/${id_product}`);
+    }
     useEffect(() => {
         getInforProduct(id_product);
         const interval = setInterval(updateQuantity(id_product, quantity), 1000);
@@ -41,13 +46,23 @@ const CartItemComponent = ({ dataProduct,
         <StyleCartItemComponent>
             <div className="cart-item">
                 <Row>
-                    <Col span={7} className="item-image">
+                    <Col
+                        span={7}
+                        className="item-image"
+                        onClick={handleRedirectDetailProduct}
+                    >
                         <img className="image" src={inforProduct?.imageBg} alt="" />
                     </Col>
-                    <Col span={15} className="item-information">
+                    <Col
+                        span={15}
+                        className="item-information"
+                    >
                         <div className="item-infor">
-                            <span className="item-name">{inforProduct?.name}</span>
-                            <span className="item-price">{numberWithCommas(inforProduct?.price)}đ</span>
+                            <span
+                                className="item-name"
+                                onClick={handleRedirectDetailProduct}
+                            >{inforProduct?.name}</span>
+                            <span className="item-price">{numberWithCommas(dataProduct?.currentPrice)}đ</span>
                         </div>
                         <div className="item-infor item-status">{inforProduct?.status}</div>
                         <div className="item-infor item-quantity">
@@ -61,13 +76,17 @@ const CartItemComponent = ({ dataProduct,
                         </div>
                     </Col>
                     <Col span={2} className="item-function">
-                        <button className="item-delete" onClick={() => deleteProductFromCart(inforProduct?.id)}><AiOutlineDelete /></button>
+                        <button
+                            className="item-delete"
+                            onClick={() => deleteProductFromCart(inforProduct?.id)}
+                        >
+                            <AiOutlineDelete />
+                        </button>
                         <div>
                             <input
                                 className="item-selected"
                                 type="checkbox"
                                 onChange={() => selectProductOrder(dataProduct?.id, inforProduct?.price)}
-                            // onClick={() => calculateTotalPriceAndQuantity}
                             />
                         </div>
                     </Col>

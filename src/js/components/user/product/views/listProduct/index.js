@@ -31,15 +31,15 @@ const ListProductComponent = ({ match }) => {
     const handleChangeCategory = (e) => {
         setCategorySearch(e.target.value);
     }
-    const getListProducts = () => {
-        productService.getListProducts(
-            "",
-            (data) => {
-                setDataProducts(data);
-            },
-            () => { }
-        );
-    }
+    // const getListProducts = () => {
+    //     productService.getListProducts(
+    //         "",
+    //         (data) => {
+    //             setDataProducts(data);
+    //         },
+    //         () => { }
+    //     );
+    // }
     const getListCategory = () => {
         categoryService.getListCategories(
             "",
@@ -88,8 +88,18 @@ const ListProductComponent = ({ match }) => {
     return (
         <StyleListProductComponent>
             <div className="breadcrumb">
-                <span className="breadcrumb-item" onClick={() => { history.push("/") }}>Trang chủ </span>
-                <span className="breadcrumb-item">/ Sản phẩm</span>
+                <span
+                    className="breadcrumb-item"
+                    onClick={() => { history.push("/") }}
+                >
+                    Trang chủ
+                </span>
+                <span
+                    className="breadcrumb-item"
+                    onClick={() => { history.push("/product") }}
+                >
+                    / Sản phẩm
+                </span>
             </div>
             {paramsSearch !== "" ?
                 <div className="header-bar">Từ khóa: {paramsSearch}</div> :
@@ -137,6 +147,7 @@ const ListProductComponent = ({ match }) => {
                         current={+currentPage}
                         total={numberOfProducts}
                         onChange={handleClickPage}
+                        defaultPageSize={productPerPage}
                         showSizeChanger={false}
                     />
                 </div>
