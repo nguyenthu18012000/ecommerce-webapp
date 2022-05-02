@@ -60,7 +60,7 @@ const CartComponent = () => {
             () => { }
         );
     }
-    const selectProductOrder = (id, price) => {
+    const selectProductOrder = (id, currentPrice) => {
         let listId = cloneDeep(listProductSelected);
         let idOrder = cloneDeep(listIdProductSelected);
         const findId = listId.find((element) => element.id === id);
@@ -68,16 +68,17 @@ const CartComponent = () => {
             setListProductSelected(listId.filter(item => item.id !== id));
             setListIdProductSelected(idOrder.filter(item => item !== id))
         } else {
-            listId.push({ id, price });
+            listId.push({ id, currentPrice });
             idOrder.push(id);
             setListProductSelected(listId);
             setListIdProductSelected(idOrder);
         }
+        console.log(listProductSelected)
     }
     const createOrder = () => {
         orderService.createOrder(
             {
-                product_order_id: listIdProductSelected,
+                product_order_id: listProductSelected,
                 priceTotal: totalPrice,
             },
             () => {
