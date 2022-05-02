@@ -7,6 +7,7 @@ import Product from './pages/user/product';
 import Cart from './pages/user/cart';
 import Home from './pages/user/home';
 import Order from './pages/user/order';
+import VerifiedMail from './pages/user/verifiedMail';
 
 const UserComponent = () => {
     return (
@@ -17,6 +18,7 @@ const UserComponent = () => {
             <Route path="/product" component={Product} />
             <Route path="/cart" exact component={Cart} />
             <Route path="/order" component={Order} />
+            <Route path="/users/verifiedMail/:token" exact component={VerifiedMail} />
             <Route path="/" exact component={Home} />
         </>
     );
