@@ -7,6 +7,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import numberWithCommas from '../../../../../helpers/formatNumberWithCommas';
 import toastCustom from '../../../../../helpers/toast-custom';
 import productService from '../../../../../services/user/product.service';
+import imageService from '../../../../../services/admin/image.service';
 import cartService from '../../../../../services/user/cart.service';
 import { StyleDetailProductComponent } from './styled';
 import commentService from '../../../../../services/user/comment.service';
@@ -101,7 +102,13 @@ const DetailProductComponent = () => {
             id_product,
             (data) => {
                 setDataProduct(data);
-                setImages(data.images);
+                imageService.getImageByIds(
+                    data.images,
+                    (images) => {
+                        setImages(images);
+                    },
+                    () => { }
+                )
             },
             () => { }
         );
@@ -165,7 +172,7 @@ const DetailProductComponent = () => {
                     <Carousel className="carousel">
                         {images.map((image, key = 0) => (
                             <div key={key++}>
-                                <img className="image" src={image} alt="" />
+                                <img className="image" src={image?.src} alt="" />
                             </div>
                         ))}
                     </Carousel>

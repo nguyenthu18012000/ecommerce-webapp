@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleCartItemComponent } from './styled';
 import { AiOutlineDelete } from "react-icons/ai";
 import productService from '../../../../../services/user/product.service';
+import imageService from '../../../../../services/admin/image.service';
 import { useHistory } from 'react-router-dom';
 
 const CartItemComponent = ({ dataProduct,
@@ -11,6 +12,7 @@ const CartItemComponent = ({ dataProduct,
     selectProductOrder,
     deleteProductFromCart }) => {
     const [inforProduct, setInforProduct] = useState({})
+    const [imageBg, setImageBg] = useState("");
     const [quantity, setQuantity] = useState(dataProduct?.quantity || 1);
     const history = useHistory();
 
@@ -29,6 +31,13 @@ const CartItemComponent = ({ dataProduct,
             id_product,
             (data) => {
                 setInforProduct(data);
+                imageService.getImageByIds(
+                    data.imageBg,
+                    (image) => {
+                        setImageBg(image);
+                    },
+                    () => { }
+                )
             },
             () => { }
         );
@@ -51,7 +60,7 @@ const CartItemComponent = ({ dataProduct,
                         className="item-image"
                         onClick={handleRedirectDetailProduct}
                     >
-                        <img className="image" src={inforProduct?.imageBg} alt="" />
+                        <img className="image" src={imageBg[0]?.src} alt="" />
                     </Col>
                     <Col
                         span={15}
@@ -86,7 +95,7 @@ const CartItemComponent = ({ dataProduct,
                             <input
                                 className="item-selected"
                                 type="checkbox"
-                                onChange={() => selectProductOrder(dataProduct?.id, inforProduct?.price)}
+                                onChange={() => selectProductOrder(dataProduct?.id, dataProduct?.currentPrice)}
                             />
                         </div>
                     </Col>
