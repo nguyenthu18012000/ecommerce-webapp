@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import userAuth from '../../../services/user/auth.service';
 import { StyleVerifiedMailComponent } from './styled';
 import { AiOutlineRollback } from "react-icons/ai";
+import storage from '../../../helpers/storage';
 
 const VerifiedMailComponent = () => {
     const history = useHistory();
@@ -18,7 +19,9 @@ const VerifiedMailComponent = () => {
     useEffect(() => {
         userAuth.verifiedMail(
             token,
-            () => { },
+            (res) => {
+                storage.setToken(token);
+            },
             () => { }
         )
     }, [])

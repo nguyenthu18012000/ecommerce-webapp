@@ -104,7 +104,7 @@ const CartComponent = () => {
         let newTotalPrice = 0;
         listProductSelected.forEach(item => {
             const cartProduct = dataCartProduct.find(product => product.id === item.id);
-            newTotalPrice += cartProduct.quantity * item.price;
+            newTotalPrice += cartProduct.quantity * item.currentPrice;
         });
         setTotalPrice(newTotalPrice);
     }, [dataCartProduct, listProductSelected]);
