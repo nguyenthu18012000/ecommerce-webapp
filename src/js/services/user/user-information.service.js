@@ -23,7 +23,7 @@ const updateUserInformation = async (
 ) => {
     try {
         const updateUserInformationPath = `/customer/auth/profile`;
-        const res = await axiosHelper.sendGet(updateUserInformationPath);
+        const res = await axiosHelper.sendPost(updateUserInformationPath, params);
         if (res?.code === 200) {
             onSuccess(res?.data);
         }

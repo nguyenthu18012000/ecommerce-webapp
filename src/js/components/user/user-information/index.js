@@ -12,6 +12,8 @@ const UserInformationComponent = () => {
         fullname: "",
         phone: "",
         address: "",
+        username: "nguyenasl",
+        email: "nguyenthu@gmail.com"
     });
     const [touch, setTouch] = useState({
         fullname: false,
@@ -45,7 +47,7 @@ const UserInformationComponent = () => {
         },
         phone: {
             required: "Bạn chưa nhập số điện thoại",
-            mycustom: "not be the same password"
+            mycustom: ""
         },
         address: {
             required: "Không được để trống",
@@ -67,8 +69,20 @@ const UserInformationComponent = () => {
     }
     const handleClickBtnSubmit = (e) => {
         e.preventDefault();
-        console.log(dataInfo);
-        console.log(result)
+        if (!result.hasError) {
+            console.log(dataInfo)
+            userInformationService.updateUserInformation(
+                dataInfo,
+                (data) => {
+                    toastCustom({
+                        mess: "Cập nhật thành công",
+                        type: "success",
+                    });
+                    history.push("/");
+                },
+                () => { }
+            )
+        }
     }
     const getUserInformation = () => {
         userInformationService.getUserInformation(
@@ -78,7 +92,9 @@ const UserInformationComponent = () => {
                     fullname: data.fullname,
                     phone: data.phone,
                     address: data.address,
-                })
+                    username: data.username,
+                    email: data.email
+                });
             },
             () => { }
         )
