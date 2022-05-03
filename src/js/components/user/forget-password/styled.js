@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
-const StyleLoginComponent = styled.div`
+const StyleForgetPasswordComponent = styled.div`
 .register-container {
-    font-family: "Noto Sans","AdihausDIN","Helvetica",Arial,sans-serif !important;
     padding-left: 5%;
     padding-right: 5%;
 
@@ -10,7 +9,7 @@ const StyleLoginComponent = styled.div`
         padding-top: 2rem;
         padding-right: 10%;
         padding-left: 10%;
-        /* position: relative; */
+
         .header-form {
             font-size: 36px;
             line-height: 38px;
@@ -20,17 +19,17 @@ const StyleLoginComponent = styled.div`
         }
 
         .input-container {
-            border:1px solid;
-            margin-top:15px;
-            margin-bottom:15px;
+            border: 1px solid;
+            margin-top: 20px;
+            margin-bottom: 15px;
             position: relative;
 
             label {
                 font-size: 16px;
-                position:absolute;
-                top:-15px;
-                left:20px;
-                background-color:white;
+                position: absolute;
+                top: -15px;
+                left: 20px;
+                background-color: white;
             }
 
             input {
@@ -46,7 +45,6 @@ const StyleLoginComponent = styled.div`
                     outline: none;
                 }
             }
-
         }
         button {
             cursor: pointer;
@@ -61,6 +59,7 @@ const StyleLoginComponent = styled.div`
                 color: gray;
             }
         }
+
         .invalid-feedback {
             color: red;
         }
@@ -83,34 +82,9 @@ const StyleLoginComponent = styled.div`
             padding-top: 1rem;
             font-size: 16px;
         }
-        
-    }
-    
-    .register-button {
-        background-color: black;
-        padding: 0 10px;
-        color: white;
-        height: 50px;
-        cursor: pointer;
-        margin-top: 10px;
-        height: 50px;
-        border: none;
-        background-color: black;
-        color: white;
-        text-transform: uppercase;
-
-        &:hover {
-            color: gray;
-        }
     }
 
-    .forget-password {
-        cursor: pointer;
-
-        &:hover {
-            text-decoration: underline;
-        }
-    }
 }
 `;
-export { StyleLoginComponent };
+
+export { StyleForgetPasswordComponent }

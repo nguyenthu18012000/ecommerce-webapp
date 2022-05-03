@@ -32,9 +32,43 @@ const verifiedMail = async (
     }
 }
 
+const ChangePassword = async (
+    params,
+    onSuccess = () => { },
+    onError = () => { }
+) => {
+    try {
+        const changePasswordPath = `/customer/auth/change-password`;
+        const res = await axiosHelper.sendPost(changePasswordPath, params);
+        if (res) {
+            onSuccess(res);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const ForgetPassword = async (
+    params,
+    onSuccess = () => { },
+    onError = () => { }
+) => {
+    try {
+        const changePasswordPath = `/customer/auth/forgot-password`;
+        const res = await axiosHelper.sendPost(changePasswordPath, params);
+        if (res) {
+            onSuccess(res);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const userAuth = {
     authorizeUser,
     verifiedMail,
+    ChangePassword,
+    ForgetPassword,
 };
 
 export default userAuth;

@@ -22,6 +22,13 @@ const WebHeaderComponent = () => {
                     Thông tin cá nhân
                 </div>
             </Menu.Item>
+            <Menu.Item key={"change-password"}>
+                <div
+                    onClick={() => { history.push("/change-password"); }}
+                >
+                    Đổi mật khẩu
+                </div>
+            </Menu.Item>
             <Menu.Item key={"logout"}>
                 <div
                     onClick={() => { storage.clearToken(); history.push("/"); }}
