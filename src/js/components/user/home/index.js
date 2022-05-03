@@ -8,6 +8,7 @@ import WebData from '../../../data/data';
 
 const HomeComponent = () => {
     const [newestProduct, setNewestProduct] = useState([]);
+    const [mostStarProduct, setMostStarProduct] = useState([]);
     const dataBanners = WebData.banners;
     const dataProducts = WebData.products;
 
@@ -21,18 +22,29 @@ const HomeComponent = () => {
         );
 
     }
+    const getMostStarProduct = () => {
+        productService.getMostStarProduct(
+            "",
+            (data) => {
+                setMostStarProduct(data);
+            },
+            () => { }
+        );
+
+    }
     useEffect(() => {
         getNewestProduct();
-    });
+        getMostStarProduct();
+    }, []);
 
     return (
         <>
             {dataBanners?.map(banner => (
                 <BannerComponent key={banner.bannerSrc} dataBanner={banner} />
             ))}
-            <StillInterestedComponent dataProducts={dataProducts} />
-            <NewArrivalsComponent dataProducts={dataProducts} />
-            <BestOfAdidasComponent dataProducts={dataProducts} />
+            {/* <StillInterestedComponent dataProducts={dataProducts} /> */}
+            <NewArrivalsComponent dataProducts={newestProduct} />
+            <BestOfAdidasComponent dataProducts={mostStarProduct} />
         </>
     );
 };

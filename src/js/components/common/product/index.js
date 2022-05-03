@@ -9,7 +9,6 @@ import imageService from '../../../services/admin/image.service';
 const ProductComponent = ({ dataProduct = {} }) => {
     const [imageBg, setImageBg] = useState("");
     const history = useHistory();
-
     const handleRedirectDetailProduct = (idProduct) => {
         history.push(`product/${idProduct}`);
     }

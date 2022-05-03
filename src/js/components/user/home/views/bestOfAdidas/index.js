@@ -39,7 +39,7 @@ const BestOfAdidasComponent = ({ dataProducts }) => {
 
                 {dataProducts.map(dataProduct => (
                     <div key={dataProduct.id} className="margin-product">
-                        <ProductComponent dataProduct={dataProduct} />
+                        <ProductComponent dataProduct={dataProduct.Product} />
                     </div>
                 ))}
 
