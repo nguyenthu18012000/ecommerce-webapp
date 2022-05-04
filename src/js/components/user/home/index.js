@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react';
 import BannerComponent from './views/banner';
 import BestOfAdidasComponent from './views/bestOfAdidas';
 import NewArrivalsComponent from './views/newArrivals';
-import StillInterestedComponent from './views/stillInterested';
+// import StillInterestedComponent from './views/stillInterested';
 import productService from '../../../services/user/product.service';
 import WebData from '../../../data/data';
+import CategoryComponent from './views/category';
+import categoryService from '../../../services/user/category.service';
 
 const HomeComponent = () => {
     const [newestProduct, setNewestProduct] = useState([]);
     const [mostStarProduct, setMostStarProduct] = useState([]);
+    const [dataCategory, setDataCategory] = useState([]);
     const dataBanners = WebData.banners;
-    const dataProducts = WebData.products;
 
     const getNewestProduct = () => {
         productService.getNewestProduct(
@@ -30,11 +32,20 @@ const HomeComponent = () => {
             },
             () => { }
         );
-
+    }
+    const getListCategory = () => {
+        categoryService.getListCategories(
+            "",
+            (data) => {
+                setDataCategory(data.slice(0, 3));
+            },
+            () => { }
+        )
     }
     useEffect(() => {
         getNewestProduct();
         getMostStarProduct();
+        getListCategory();
     }, []);
 
     return (
@@ -44,6 +55,7 @@ const HomeComponent = () => {
             ))}
             {/* <StillInterestedComponent dataProducts={dataProducts} /> */}
             <NewArrivalsComponent dataProducts={newestProduct} />
+            <CategoryComponent categories={dataCategory} />
             <BestOfAdidasComponent dataProducts={mostStarProduct} />
         </>
     );

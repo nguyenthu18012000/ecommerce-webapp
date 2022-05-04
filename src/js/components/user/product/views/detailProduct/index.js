@@ -144,31 +144,36 @@ const DetailProductComponent = () => {
 
     return (
         <StyleDetailProductComponent>
-            <div className="detail-header">
-                <div className="breadcrumb">
-                    <span
-                        className="breadcrumb-item back"
-                        onClick={() => history.goBack()}
-                    >
-                        <AiOutlineRollback />Trở lại
-                    </span>
-                    <span
-                        className="breadcrumb-item"
-                        onClick={() => { history.push("/") }}
-                    >
-                        Trang chủ
-                    </span>
-                    <span
-                        className="breadcrumb-item"
-                    >
-                        /{dataProduct?.Category?.name}
-                    </span>
-                </div>
-                <div className="product-name">{dataProduct?.name}</div>
-                <StarRating star={avgStar} />
+            <div className="breadcrumb">
+                <span
+                    className="breadcrumb-item back"
+                    onClick={() => history.goBack()}
+                >
+                    <AiOutlineRollback />Trở lại
+                </span>
+                <span
+                    className="breadcrumb-item"
+                    onClick={() => { history.push("/") }}
+                >
+                    Trang chủ
+                </span>
+                <span
+                    className="breadcrumb-item"
+                >
+                    /{dataProduct?.Category?.name}
+                </span>
             </div>
             <div className="detail-container">
                 <div className="content">
+                    <div className="detail-header">
+                        <div className="product-name">
+                            {dataProduct?.name}
+                        </div>
+                        <div className="product-price">
+                            {numberWithCommas(dataProduct?.price)}đ
+                        </div>
+                        <StarRating className="product-star" star={avgStar} />
+                    </div>
                     <Carousel className="carousel">
                         {images.map((image, key = 0) => (
                             <div key={key++}>
@@ -178,9 +183,6 @@ const DetailProductComponent = () => {
                     </Carousel>
                 </div>
                 <div className="sidebar-wrapper">
-                    <div className="product-price">
-                        {numberWithCommas(dataProduct?.price)}đ
-                    </div>
                     {
                         isAuthenticate ?
                             <div>
