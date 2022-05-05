@@ -1,4 +1,4 @@
-import { Col, Row } from 'antd';
+import { Col, Row, Modal, Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 import numberWithCommas from '../../../helpers/formatNumberWithCommas';
 import { StyleCartComponent } from './styled';
@@ -10,17 +10,34 @@ import orderService from '../../../services/user/order.service';
 import toastCustom from '../../../helpers/toast-custom';
 import storage from '../../../helpers/storage';
 import { AiOutlineArrowRight } from "react-icons/ai";
+import userInformationService from '../../../services/user/user-information.service';
+import CartModalComponent from './views/cart-modal';
 
 const CartComponent = () => {
     const [isAuthenticate, setIsAuthenticate] = useState(false);
     const [dataCartProduct, setDataCartProduct] = useState([]);
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [address, setAddress] = useState("");
+    const [email, setEmail] = useState("");
     const [totalPrice, setTotalPrice] = useState(0);
     const [listIdProductSelected, setListIdProductSelected] = useState([]);
     const [listProductSelected, setListProductSelected] = useState([]);
+    const [listDataProductSelected, setListDataProductSelected] = useState([]);
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     var productQuantity = dataCartProduct?.length;
     const history = useHistory();
 
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
     const updateQuantity = (id, quantity) => {
         cartService.updateQuantityProductToCart(
             {
@@ -50,6 +67,18 @@ const CartComponent = () => {
             () => { }
         );
     }
+    const getUserInformation = () => {
+        userInformationService.getUserInformation(
+            "",
+            (data) => {
+                setEmail(data.email);
+                setName(data.fullname);
+                setAddress(data.address);
+                setPhone(data.phone);
+            },
+            () => { }
+        )
+    }
     const deleteProductFromCart = (productId) => {
         cartService.deleteProductFromCart(
             { productIdDelete: productId },
@@ -66,19 +95,22 @@ const CartComponent = () => {
         const findId = listId.find((element) => element.id === id);
         if (findId?.id === id) {
             setListProductSelected(listId.filter(item => item.id !== id));
-            setListIdProductSelected(idOrder.filter(item => item !== id))
+            setListIdProductSelected(idOrder.filter(item => item !== id));
         } else {
             listId.push({ id, currentPrice });
             idOrder.push(id);
             setListProductSelected(listId);
             setListIdProductSelected(idOrder);
         }
-        console.log(listProductSelected)
     }
     const createOrder = () => {
         orderService.createOrder(
             {
                 product_order_id: listProductSelected,
+                fullname: name,
+                email: email,
+                phone: phone,
+                address: address,
                 priceTotal: totalPrice,
             },
             () => {
@@ -95,6 +127,7 @@ const CartComponent = () => {
     useEffect(() => {
         if (storage.getToken() != undefined) {
             getAllProductInCart();
+            getUserInformation();
             setIsAuthenticate(true);
         } else {
             setIsAuthenticate(false);
@@ -102,10 +135,13 @@ const CartComponent = () => {
     }, []);
     useEffect(() => {
         let newTotalPrice = 0;
+        let arrProductSelected = [];
         listProductSelected.forEach(item => {
             const cartProduct = dataCartProduct.find(product => product.id === item.id);
             newTotalPrice += cartProduct.quantity * item.currentPrice;
+            arrProductSelected.push(cartProduct);
         });
+        setListDataProductSelected(arrProductSelected);
         setTotalPrice(newTotalPrice);
     }, [dataCartProduct, listProductSelected]);
     return (
@@ -114,7 +150,7 @@ const CartComponent = () => {
             {
                 isAuthenticate ?
                     <div className="cart-summary">
-                        <span>TỔNG CỘNG ( {listProductSelected.length} sản phẩm được chọn)</span>
+                        <span>TỔNG CỘNG ({listProductSelected.length} sản phẩm được chọn)</span>
                         <span className="cart-sum"> {numberWithCommas(totalPrice)}đ</span>
                     </div> :
                     <div className="not-authenticate">
@@ -176,11 +212,37 @@ const CartComponent = () => {
             {
                 isAuthenticate ?
                     <div className="cart-payment">
-                        <button onClick={() => createOrder()}>thanh toán</button>
+                        <button onClick={showModal}>Đặt hàng</button>
                     </div> :
                     <div>
                     </div>
             }
+            <Modal title="Chi tiết"
+                visible={isModalVisible}
+                onCancel={handleCancel}
+                width={500}
+                footer={[
+                    <Button key="back" onClick={handleCancel}>
+                        Quay lại
+                    </Button>,
+                    <Button key="submit" type="primary" onClick={createOrder}>
+                        Đặt hàng
+                    </Button>,
+                ]}
+            >
+                <CartModalComponent
+                    email={email}
+                    setEmail={setEmail}
+                    phone={phone}
+                    setPhone={setPhone}
+                    address={address}
+                    setAddress={setAddress}
+                    name={name}
+                    setName={setName}
+                    totalPrice={totalPrice}
+                    dataCartProduct={listDataProductSelected}
+                />
+            </Modal>
         </StyleCartComponent>
     );
 };
