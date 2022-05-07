@@ -47,8 +47,8 @@ const OrderProductItemComponent = ({ product }) => {
                     </Col>
                     <Col span={15} className="item-information">
                         <div className="item-infor">
-                            <span className="item-name">{inforProduct?.name}</span>
-                            <span className="item-price">{numberWithCommas(product?.currentPrice)}đ</span>
+                            <div className="item-name">{inforProduct?.name}</div>
+                            <div className="item-price">{numberWithCommas(product?.currentPrice)}đ</div>
                         </div>
                         <div className="item-infor item-quantity">
                             <div>x{product.quantity}</div>
