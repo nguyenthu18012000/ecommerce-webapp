@@ -29,20 +29,21 @@ const ProductComponent = ({ dataProduct = {} }) => {
 
     return (
         <StyleProductComponent>
-            <div className="new-arrival-item">
+            <div className="item">
                 <div className="product" onClick={() => handleRedirectDetailProduct(dataProduct.id)}>
                     <img className="product-image" src={imageBg[0]?.src} alt="product" />
-                    <div className="detail">
+                    <div className="product-price">
                         <span className="price"> {numberWithCommas(dataProduct?.price)}đ </span>
-                        <span className="wishlist"><AiOutlineHeart /></span>
+                        <span className="old-price"> {numberWithCommas(dataProduct?.price)}đ </span>
+                        <span className="promotion-price"> {numberWithCommas(dataProduct?.price)}đ </span>
+                        {/* <span className="wishlist"><AiOutlineHeart /></span> */}
                     </div>
                     <div className="detail">
                         <div className="product-name"> {dataProduct?.name} </div>
-                        <div className="product-category"> {dataProduct?.category} </div>
+                        <div className="product-category"> {dataProduct?.category}giày nam </div>
                     </div>
                 </div>
             </div>
-
         </StyleProductComponent>
     );
 };
