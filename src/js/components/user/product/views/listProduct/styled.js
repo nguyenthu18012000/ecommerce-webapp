@@ -31,6 +31,8 @@ const StyleListProductComponent = styled.div`
             width: 15%;
             border-radius: 0px;
             margin-right: 10px;
+            outline: none;
+            box-shadow: none;
         }
     }
 
