@@ -32,9 +32,6 @@ const CartComponent = () => {
     const showModal = () => {
         setIsModalVisible(true);
     };
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
     const handleCancel = () => {
         setIsModalVisible(false);
     };
@@ -125,7 +122,7 @@ const CartComponent = () => {
     };
 
     useEffect(() => {
-        if (storage.getToken() != undefined) {
+        if (storage.getToken() !== undefined) {
             getAllProductInCart();
             getUserInformation();
             setIsAuthenticate(true);
@@ -152,6 +149,7 @@ const CartComponent = () => {
                     <div className="cart-summary">
                         <span>TỔNG CỘNG ({listProductSelected.length} sản phẩm được chọn)</span>
                         <span className="cart-sum"> {numberWithCommas(totalPrice)}đ</span>
+                        <div>Vui lòng kiểm tra kĩ thông tin trước khi đặt hàng</div>
                     </div> :
                     <div className="not-authenticate">
                         <div className="auth-notification">
@@ -192,18 +190,18 @@ const CartComponent = () => {
                         </Col>
                         <Col xs={0} xl={1}></Col>
                         <Col xs={24} xl={7} className="cart-detail">
-                            <h1>Tóm tắt đơn hàng</h1>
-                            <div>
-                                <span>{listProductSelected.length} sản phẩm: </span>
-                                <span>{numberWithCommas(totalPrice)}đ</span>
+                            <h1 className="detail-title">Tóm tắt đơn hàng</h1>
+                            <div className="detail-body">
+                                <span className="body-title">{listProductSelected.length} sản phẩm</span>
+                                <span className="body-content">{numberWithCommas(totalPrice)}đ</span>
                             </div>
-                            <div>
-                                <span>Giao hàng: </span>
-                                <span>Miễn phí</span>
+                            <div className="detail-body">
+                                <span className="body-title">Giao hàng</span>
+                                <span className="body-content">Miễn phí</span>
                             </div>
-                            <div>
-                                <span>Tổng (Đã bao gồm thuế): </span>
-                                <span>{numberWithCommas(totalPrice)}đ</span>
+                            <div className="detail-body summary">
+                                <span className="body-title">Tổng (Đã bao gồm thuế)</span>
+                                <span className="body-content">{numberWithCommas(totalPrice)}đ</span>
                             </div>
                         </Col>
                     </Row> :
@@ -212,7 +210,7 @@ const CartComponent = () => {
             {
                 isAuthenticate ?
                     <div className="cart-payment">
-                        <button onClick={showModal}>Đặt hàng</button>
+                        <button onClick={showModal}>Đặt hàng <AiOutlineArrowRight className="scale1_5" /></button>
                     </div> :
                     <div>
                     </div>

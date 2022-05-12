@@ -1,10 +1,11 @@
-import { Col, Row } from 'antd';
+import { Button, Col, Input, Row, Tooltip } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { StyleCartItemComponent } from './styled';
 import { AiOutlineDelete } from "react-icons/ai";
 import productService from '../../../../../services/user/product.service';
 import imageService from '../../../../../services/admin/image.service';
 import { useHistory } from 'react-router-dom';
+import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
 
 const CartItemComponent = ({ dataProduct,
     updateQuantity,
@@ -73,16 +74,37 @@ const CartItemComponent = ({ dataProduct,
                             >{inforProduct?.name}</span>
                             <span className="item-price">{numberWithCommas(dataProduct?.currentPrice)}đ</span>
                         </div>
-                        <div className="item-infor item-status">{inforProduct?.status}</div>
+                        <div className="item-infor item-category">{inforProduct?.Category?.name}</div>
                         <div className="item-infor item-quantity">
-                            <button className="changeQuantityBtn" onClick={decreaseQuantity}>-</button>
+                            {/* <button className="changeQuantityBtn" onClick={decreaseQuantity}>
+                                <AiOutlineDoubleLeft /> 
+                                -
+                            </button>
                             <input
                                 className="quantityInput"
                                 value={quantity}
                                 disabled
                             />
-                            <button className="changeQuantityBtn" onClick={increaseQuantity}>+</button>
+                            <button className="changeQuantityBtn" onClick={increaseQuantity}>
+                                <AiOutlineDoubleRight />
+                                +
+                            </button> */}
+                            <Input.Group compact>
+                                <Button className="changeQuantityBtn" onClick={decreaseQuantity} icon={<>-</>} />
+                                <Input
+                                    className="quantityInput"
+                                    value={quantity}
+                                // type="number"
+                                // disabled
+                                />
+                                <Button className="changeQuantityBtn" onClick={increaseQuantity} icon={<>+</>} />
+                            </Input.Group>
                         </div>
+                        {
+                            inforProduct?.total == 0 ?
+                                <div className="item-infor item-status">Sản phẩm tạm hết hàng</div> :
+                                <div className="item-infor item-status">Sản phẩm đang sẵn hàng</div>
+                        }
                     </Col>
                     <Col span={2} className="item-function">
                         <button

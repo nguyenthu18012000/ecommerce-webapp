@@ -68,9 +68,34 @@ const StyleCartComponent = styled.div`
         .cart-detail {
             margin-top: 10px;
             border: 1px solid lightgray;
-            max-height: 200px;
+            max-height: 160px;
             padding-left: 2%;
             padding-right: 2%;
+            line-height: 30px;
+
+            .detail-title {
+                margin-top: 10px;
+                text-transform: uppercase;
+                font-size: 20px;
+                font-weight: 600;
+            }
+
+            .detail-body {
+                
+                .body-title {
+                    text-transform: uppercase;
+                    font-size: 14px;
+                }
+
+                .body-content {
+                    float: right;
+                    font-size: 14px;
+                }
+            }
+
+            .summary {
+                font-weight: bold;
+            }
         }
     }
 
