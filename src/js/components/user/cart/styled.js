@@ -57,6 +57,11 @@ const StyleCartComponent = styled.div`
         .cart-sum {
             font-weight: bold;
         }
+
+        .warning {
+            font-size: 16px;
+            margin-top: 10px;
+        }
     }
 
     .cart-infor {
@@ -116,6 +121,11 @@ const StyleCartComponent = styled.div`
             &:hover {
                 color: gray;
             }
+        }
+
+        .warning {
+            font-size: 14px;
+            margin-top: 10px;
         }
     }
 `;

@@ -10,6 +10,7 @@ import orderService from '../../../services/user/order.service';
 import toastCustom from '../../../helpers/toast-custom';
 import storage from '../../../helpers/storage';
 import { AiOutlineArrowRight } from "react-icons/ai";
+import { FaShippingFast } from "react-icons/fa";
 import userInformationService from '../../../services/user/user-information.service';
 import CartModalComponent from './views/cart-modal';
 
@@ -149,7 +150,7 @@ const CartComponent = () => {
                     <div className="cart-summary">
                         <span>TỔNG CỘNG ({listProductSelected.length} sản phẩm được chọn)</span>
                         <span className="cart-sum"> {numberWithCommas(totalPrice)}đ</span>
-                        <div>Vui lòng kiểm tra kĩ thông tin trước khi đặt hàng</div>
+                        <div className="warning">Vui lòng kiểm tra kĩ thông tin trước khi đặt hàng</div>
                     </div> :
                     <div className="not-authenticate">
                         <div className="auth-notification">
@@ -210,7 +211,14 @@ const CartComponent = () => {
             {
                 isAuthenticate ?
                     <div className="cart-payment">
-                        <button onClick={showModal}>Đặt hàng <AiOutlineArrowRight className="scale1_5" /></button>
+                        <button onClick={showModal}>
+                            Đặt hàng
+                            <AiOutlineArrowRight className="scale1_5" />
+                        </button>
+                        <div className="warning">
+                            <FaShippingFast className="scale1_5" />
+                            Giao hàng nhanh chóng
+                        </div>
                     </div> :
                     <div>
                     </div>

@@ -15,7 +15,7 @@ const StyleOrderProductItemComponent = styled.div`
 
             .image {
                 width: 100%;
-                height: auto;
+                height: 100px;
                 display: block;
                 margin-left: auto;
                 margin-right: auto;

@@ -12,9 +12,10 @@ const StyleCartPreviewItemComponent = styled.div`
 
             .image {
                 width: 100px;
-                height: auto;
+                height: 100px;
                 max-height: 200px;
                 cursor: pointer;
+                object-fit: cover;
             }
         }
 
