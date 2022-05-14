@@ -64,7 +64,30 @@ const StyleDetailProductComponent = styled.div`
             z-index: 1;
             padding: 0 10px;
             background-color: rgba(255,255,255,0.5);
+
+            .old-price {
+                text-decoration: line-through;
+            }
+
+            .new-price {
+                color: red;
+            }
         }
+
+        /* .old-price {
+            font-size: 16px;
+            line-height: 36px;
+            letter-spacing: 1px;
+            font-style: normal;
+            font-weight: 300;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            z-index: 1;
+            padding: 0 10px;
+            background-color: rgba(255,255,255,0.5);
+            text-decoration: line-through;
+        } */
 
         .product-star {
             padding: 0 10px;

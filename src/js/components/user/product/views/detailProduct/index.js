@@ -26,6 +26,7 @@ const DetailProductComponent = () => {
     const [avgStar, setAvgStar] = useState(0);
     const [images, setImages] = useState([]);
     const [dataProduct, setDataProduct] = useState({});
+    const [price, setPrice] = useState(0);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const history = useHistory();
     let params = useParams();
@@ -36,7 +37,7 @@ const DetailProductComponent = () => {
     const product = {
         quantity: 1,
         productId: id_product,
-        currentPrice: dataProduct.price
+        currentPrice: price
     };
 
     const showModal = () => {
@@ -102,6 +103,14 @@ const DetailProductComponent = () => {
             id_product,
             (data) => {
                 setDataProduct(data);
+                // if (data?.promotions.length === 0) {
+                //     setPrice(data.price);
+                //     console.log(data.price)
+                // } else {
+                //     setPrice(data?.promotions[0]?.priceSale);
+                //     console.log(data.promotions[0].price)
+                // }
+                console.log(data.promotions)
                 imageService.getImageByIds(
                     data.images,
                     (images) => {
@@ -169,9 +178,24 @@ const DetailProductComponent = () => {
                         <div className="product-name">
                             {dataProduct?.name}
                         </div>
-                        <div className="product-price">
-                            {numberWithCommas(dataProduct?.price)}đ
-                        </div>
+                        {
+                            dataProduct?.promotions?.length === 0 ?
+                                <div className="product-price">
+                                    {numberWithCommas(dataProduct?.price)}đ
+                                </div> :
+                                <div className="product-price">
+                                    <span className="old-price">
+                                        {numberWithCommas(dataProduct?.price)}đ
+                                    </span>
+                                    {
+                                        dataProduct?.promotions ?
+                                            <span className="new-price">
+                                                {numberWithCommas(dataProduct?.promotions[0]?.priceSale)}đ
+                                            </span> :
+                                            <span></span>
+                                    }
+                                </div>
+                        }
                         <StarRating className="product-star" star={avgStar} />
                     </div>
                     <Carousel className="carousel">
