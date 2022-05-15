@@ -178,16 +178,28 @@ const CartComponent = () => {
                 isAuthenticate ?
                     <Row className="cart-infor">
                         <Col xs={24} xl={16} className="cart-product">
-                            {dataCartProduct.map(dataProduct => (
-                                <CartItemComponent
-                                    key={dataProduct.id}
-                                    dataProduct={dataProduct}
-                                    updateQuantity={updateQuantity}
-                                    numberWithCommas={numberWithCommas}
-                                    selectProductOrder={selectProductOrder}
-                                    deleteProductFromCart={deleteProductFromCart}
-                                />
-                            ))}
+                            {
+                                dataCartProduct.length !== 0 ?
+                                    dataCartProduct.map(dataProduct => (
+                                        <CartItemComponent
+                                            key={dataProduct.id}
+                                            dataProduct={dataProduct}
+                                            updateQuantity={updateQuantity}
+                                            numberWithCommas={numberWithCommas}
+                                            selectProductOrder={selectProductOrder}
+                                            deleteProductFromCart={deleteProductFromCart}
+                                        />
+                                    )) :
+                                    <div className="cart-empty">
+                                        Giỏ hàng của bạn trống
+                                        <span
+                                            onClick={() => history.push("/product")}
+                                            className="shop"
+                                        >
+                                            Mua sắm ngay?
+                                        </span>
+                                    </div>
+                            }
                         </Col>
                         <Col xs={0} xl={1}></Col>
                         <Col xs={24} xl={7} className="cart-detail">
@@ -210,18 +222,19 @@ const CartComponent = () => {
             }
             {
                 isAuthenticate ?
-                    <div className="cart-payment">
-                        <button onClick={showModal}>
-                            Đặt hàng
-                            <AiOutlineArrowRight className="scale1_5" />
-                        </button>
-                        <div className="warning">
-                            <FaShippingFast className="scale1_5" />
-                            Giao hàng nhanh chóng
-                        </div>
-                    </div> :
-                    <div>
-                    </div>
+                    dataCartProduct.length !== 0 ?
+                        <div className="cart-payment">
+                            <button onClick={showModal}>
+                                Đặt hàng
+                                <AiOutlineArrowRight className="scale1_5" />
+                            </button>
+                            <div className="warning">
+                                <FaShippingFast className="scale1_5" />
+                                Giao hàng nhanh chóng
+                            </div>
+                        </div> :
+                        <div></div> :
+                    <div></div>
             }
             <Modal title="Chi tiết"
                 visible={isModalVisible}

@@ -78,6 +78,13 @@ const StyleListOrderComponent = styled.div`
             }
         }
     }
+    
+    .order-empty {
+        font-size: 25px;
+        text-align: center;
+        padding: 30px 0;
+
+    }
 `;
 
 export { StyleListOrderComponent };

@@ -44,40 +44,42 @@ const ListOrderComponent = () => {
                 <div className="order-in-transport">
                     {
                         isAuthenticate ?
-                            <Row>
-                                <Col className="left-function" span={4}>
-                                    <div
-                                        className="left-item"
-                                        onClick={() => { history.push("/user-information") }}
-                                    >
-                                        <MdPersonOutline />
-                                        &nbsp;Tài khoản của bạn
-                                    </div>
-                                    <div
-                                        className="left-item"
-                                        onClick={() => { history.push("/cart") }}
-                                    >
-                                        <AiOutlineShoppingCart />
-                                        &nbsp;Giỏ hàng
-                                    </div>
-                                    <div
-                                        className="left-item order-function"
-                                        onClick={() => { history.push("/order") }}
-                                    >
-                                        <RiFileListLine />
-                                        &nbsp;Đơn hàng
-                                    </div>
-                                </Col>
-                                <Col span={20}>
-                                    <div className="order-body">
-                                        {dataOrder.map(order => (
-                                            <div key={order?.id}>
-                                                <OrderItemsCompnent order={order} />
-                                            </div>
-                                        ))}
-                                    </div>
-                                </Col>
-                            </Row> :
+                            dataOrder.length !== 0 ?
+                                <Row>
+                                    <Col className="left-function" span={4}>
+                                        <div
+                                            className="left-item"
+                                            onClick={() => { history.push("/user-information") }}
+                                        >
+                                            <MdPersonOutline />
+                                            &nbsp;Tài khoản của bạn
+                                        </div>
+                                        <div
+                                            className="left-item"
+                                            onClick={() => { history.push("/cart") }}
+                                        >
+                                            <AiOutlineShoppingCart />
+                                            &nbsp;Giỏ hàng
+                                        </div>
+                                        <div
+                                            className="left-item order-function"
+                                            onClick={() => { history.push("/order") }}
+                                        >
+                                            <RiFileListLine />
+                                            &nbsp;Đơn hàng
+                                        </div>
+                                    </Col>
+                                    <Col span={20}>
+                                        <div className="order-body">
+                                            {dataOrder.map(order => (
+                                                <div key={order?.id}>
+                                                    <OrderItemsCompnent order={order} />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </Col>
+                                </Row> :
+                                <div className="order-empty">Bạn chưa có đơn hàng nào</div> :
                             <div className="not-authenticate">
                                 <div className="auth-notification">
                                     Vui lòng đăng nhập để xem giỏ hàng của bạn

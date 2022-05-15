@@ -4,6 +4,7 @@ const StyleCartComponent = styled.div`
     font-family: "Noto Sans","AdihausDIN","Helvetica",Arial,sans-serif !important;
     margin-left: 5%;
     margin-right: 5%;
+    margin-bottom: 10px;
 
     .cart-header {
         font-size: 46px;
@@ -126,6 +127,21 @@ const StyleCartComponent = styled.div`
         .warning {
             font-size: 14px;
             margin-top: 10px;
+        }
+    }
+
+    .cart-empty {
+        font-size: 20px;
+
+        .shop {
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 5px;
+            border-bottom: 1px solid black;
+
+            &:hover {
+                color: #07aee0;
+            }
         }
     }
 `;
