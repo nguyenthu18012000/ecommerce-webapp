@@ -103,16 +103,13 @@ const DetailProductComponent = () => {
             id_product,
             (data) => {
                 setDataProduct(data);
-                // if (data?.promotions.length === 0) {
-                //     setPrice(data.price);
-                //     console.log(data.price)
-                // } else {
-                //     setPrice(data?.promotions[0]?.priceSale);
-                //     console.log(data.promotions[0].price)
-                // }
-                console.log(data.promotions)
+                if (data?.promotions.length === 0) {
+                    setPrice(data?.price);
+                } else {
+                    setPrice(data?.promotions[0]?.priceSale);
+                }
                 imageService.getImageByIds(
-                    data.images,
+                    data?.images,
                     (images) => {
                         setImages(images);
                     },

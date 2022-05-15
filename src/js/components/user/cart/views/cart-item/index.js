@@ -71,31 +71,27 @@ const CartItemComponent = ({ dataProduct,
                             <span
                                 className="item-name"
                                 onClick={handleRedirectDetailProduct}
-                            >{inforProduct?.name}</span>
-                            <span className="item-price">{numberWithCommas(dataProduct?.currentPrice)}đ</span>
+                            >
+                                {inforProduct?.name}
+                            </span>
+                            <span className="item-price">
+                                {numberWithCommas(dataProduct?.currentPrice)}đ
+                            </span>
+                            {
+                                dataProduct?.currentPrice !== inforProduct?.price ?
+                                    <span className="item-old-price">
+                                        {numberWithCommas(inforProduct?.price)}đ
+                                    </span> :
+                                    <></>
+                            }
                         </div>
                         <div className="item-infor item-category">{inforProduct?.Category?.name}</div>
                         <div className="item-infor item-quantity">
-                            {/* <button className="changeQuantityBtn" onClick={decreaseQuantity}>
-                                <AiOutlineDoubleLeft /> 
-                                -
-                            </button>
-                            <input
-                                className="quantityInput"
-                                value={quantity}
-                                disabled
-                            />
-                            <button className="changeQuantityBtn" onClick={increaseQuantity}>
-                                <AiOutlineDoubleRight />
-                                +
-                            </button> */}
                             <Input.Group compact>
                                 <Button className="changeQuantityBtn" onClick={decreaseQuantity} icon={<>-</>} />
                                 <Input
                                     className="quantityInput"
                                     value={quantity}
-                                // type="number"
-                                // disabled
                                 />
                                 <Button className="changeQuantityBtn" onClick={increaseQuantity} icon={<>+</>} />
                             </Input.Group>

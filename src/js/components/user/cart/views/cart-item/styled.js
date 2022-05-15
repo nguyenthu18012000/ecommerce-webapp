@@ -35,6 +35,14 @@ const StyleCartItemComponent = styled.div`
                     }
                 }
 
+                .item-old-price {
+                    font-size: 16px;
+                    float: right;
+                    color: red;
+                    text-decoration: line-through;
+                    margin: 0 5px;
+                }
+
                 .item-price {
                     font-size: 16px;
                     float: right;
