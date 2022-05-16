@@ -23,88 +23,157 @@ const ListProductComponent = () => {
     const paramUrl = params.searchParams;
 
     const setParams = () => {
-        if (paramsSearch != "") {
-            if (categorySearch !== "") {
-                if (minPriceSearch !== "") {
-                    if (maxPriceSearch !== "") {
-                        history.push(`product?search=${paramsSearch}&category=${categorySearch}
-                        &minPrice=${minPriceSearch}&maxPrice=${maxPriceSearch}`);
-                    } else {
-                        history.push(`product?search=${paramsSearch}&category=${categorySearch}
-                        &minPrice=${minPriceSearch}`);
-                    }
-                } else {
-                    if (maxPriceSearch !== "") {
-                        history.push(`product?search=${paramsSearch}&category=${categorySearch}
-                        &maxPrice=${maxPriceSearch}`);
-                    } else {
-                        history.push(`product?search=${paramsSearch}&category=${categorySearch}`);
-                    }
-                }
+        let s = "";
+        let search = paramUrl.get("search") || "";
+        let category = paramUrl.get("category") || "";
+        let minPrice = paramUrl.get("minPrice") || "";
+        let maxPrice = paramUrl.get("maxPrice") || "";
+        let page = paramUrl.get("page") || 1;
+        if (search !== "") {
+            s = s.concat(`?search=${search}`);
+        }
+        if (category !== "") {
+            if (s !== "") {
+                s = s.concat(`&category=${category}`);
             } else {
-                if (minPriceSearch !== "") {
-                    if (maxPriceSearch !== "") {
-                        history.push(`product?search=${paramsSearch}
-                        &minPrice=${minPriceSearch}&maxPrice=${maxPriceSearch}`);
-                    } else {
-                        history.push(`product?search=${paramsSearch}
-                        &minPrice=${minPriceSearch}`);
-                    }
-                } else {
-                    if (maxPriceSearch !== "") {
-                        history.push(`product?search=${paramsSearch}
-                        &maxPrice=${maxPriceSearch}`);
-                    } else {
-                        history.push(`product?search=${paramsSearch}`);
-                    }
-                }
+                s = s.concat(`?category=${category}`);
             }
-        } else {
-            if (categorySearch !== "") {
-                if (minPriceSearch !== "") {
-                    if (maxPriceSearch !== "") {
-                        history.push(`product?category=${categorySearch}
-                        &minPrice=${minPriceSearch}&maxPrice=${maxPriceSearch}`);
-                    } else {
-                        history.push(`product?category=${categorySearch}
-                        &minPrice=${minPriceSearch}`);
-                    }
-                } else {
-                    if (maxPriceSearch !== "") {
-                        history.push(`product?category=${categorySearch}
-                        &maxPrice=${maxPriceSearch}`);
-                    } else {
-                        history.push(`product?category=${categorySearch}`);
-                    }
-                }
+        }
+        if (minPrice !== "") {
+            if (s !== "") {
+                s = s.concat(`&minPrice=${minPrice}`);
             } else {
-                if (minPriceSearch !== "") {
-                    if (maxPriceSearch !== "") {
-                        history.push(`product?minPrice=${minPriceSearch}&maxPrice=${maxPriceSearch}`);
-                    } else {
-                        history.push(`product?minPrice=${minPriceSearch}`);
-                    }
-                } else {
-                    if (maxPriceSearch !== "") {
-                        history.push(`product?maxPrice=${maxPriceSearch}`);
-                    } else {
-                        history.push(`product`);
-                    }
-                }
+                s = s.concat(`?minPrice=${minPrice}`);
+            }
+        }
+        if (maxPrice !== "") {
+            if (s !== "") {
+                s = s.concat(`&maxPrice=${maxPrice}`);
+            } else {
+                s = s.concat(`?maxPrice=${maxPrice}`);
+            }
+        }
+        if (page !== "") {
+            if (s !== "") {
+                s = s.concat(`&page=${page}`);
+            } else {
+                s = s.concat(`?page=${page}`);
             }
         }
     }
     const handleChangeMinPrice = (e) => {
         setMinPriceSearch(e.target.value);
-        // setParams();
+        let s = "";
+        let search = paramUrl.get("search") || "";
+        let category = paramUrl.get("category") || "";
+        let maxPrice = paramUrl.get("maxPrice") || "";
+        let page = paramUrl.get("page") || 1;
+        if (search !== "") {
+            s = s.concat(`?search=${search}`);
+        }
+        if (category !== "") {
+            if (s !== "") {
+                s = s.concat(`&category=${category}`);
+            } else {
+                s = s.concat(`?category=${category}`);
+            }
+        }
+        if (s !== "") {
+            s = s.concat(`&minPrice=${e.target.value}`);
+        } else {
+            s = s.concat(`?minPrice=${e.target.value}`);
+        }
+        if (maxPrice !== "") {
+            if (s !== "") {
+                s = s.concat(`&maxPrice=${maxPrice}`);
+            } else {
+                s = s.concat(`?maxPrice=${maxPrice}`);
+            }
+        }
+        if (page !== "") {
+            if (s !== "") {
+                s = s.concat(`&page=${page}`);
+            } else {
+                s = s.concat(`?page=${page}`);
+            }
+        }
+        history.push(`/product${s}`);
     }
     const handleChangeMaxPrice = (e) => {
         setMaxPriceSearch(e.target.value);
-        // setParams();
+        let s = "";
+        let search = paramUrl.get("search") || "";
+        let category = paramUrl.get("category") || "";
+        let minPrice = paramUrl.get("minPrice") || "";
+        let page = paramUrl.get("page") || 1;
+        if (search !== "") {
+            s = s.concat(`?search=${search}`);
+        }
+        if (category !== "") {
+            if (s !== "") {
+                s = s.concat(`&category=${category}`);
+            } else {
+                s = s.concat(`?category=${category}`);
+            }
+        }
+        if (minPrice !== "") {
+            if (s !== "") {
+                s = s.concat(`&minPrice=${minPrice}`);
+            } else {
+                s = s.concat(`?minPrice=${minPrice}`);
+            }
+        }
+        if (s !== "") {
+            s = s.concat(`&maxPrice=${e.target.value}`);
+        } else {
+            s = s.concat(`?maxPrice=${e.target.value}`);
+        }
+        if (page !== "") {
+            if (s !== "") {
+                s = s.concat(`&page=${page}`);
+            } else {
+                s = s.concat(`?page=${page}`);
+            }
+        }
+        history.push(`/product${s}`);
     }
     const handleChangeCategory = (e) => {
         setCategorySearch(e.target.value);
-        // setParams();
+        let s = "";
+        let search = paramUrl.get("search") || "";
+        let minPrice = paramUrl.get("minPrice") || "";
+        let maxPrice = paramUrl.get("maxPrice") || "";
+        let page = paramUrl.get("page") || 1;
+        if (search !== "") {
+            s = s.concat(`?search=${search}`);
+        }
+        if (s !== "") {
+            s = s.concat(`&category=${e.target.value}`);
+        } else {
+            s = s.concat(`?category=${e.target.value}`);
+        }
+        if (minPrice !== "") {
+            if (s !== "") {
+                s = s.concat(`&minPrice=${minPrice}`);
+            } else {
+                s = s.concat(`?minPrice=${minPrice}`);
+            }
+        }
+        if (maxPrice !== "") {
+            if (s !== "") {
+                s = s.concat(`&maxPrice=${maxPrice}`);
+            } else {
+                s = s.concat(`?maxPrice=${maxPrice}`);
+            }
+        }
+        if (page !== "") {
+            if (s !== "") {
+                s = s.concat(`&page=${page}`);
+            } else {
+                s = s.concat(`?page=${page}`);
+            }
+        }
+        history.push(`/product${s}`);
     }
     // const getListProducts = () => {
     //     productService.getListProducts(
@@ -115,6 +184,7 @@ const ListProductComponent = () => {
     //         () => { }
     //     );
     // }
+
     const getListCategory = () => {
         categoryService.getListCategories(
             "",
@@ -139,30 +209,58 @@ const ListProductComponent = () => {
         )
     }
     const handleClickPage = (page) => {
-        if (paramsSearch == null) {
-            history.push(`product?page=${page}`);
-        } else {
-            history.push(`product?search=${paramsSearch}&page=${page}`);
+        let s = "";
+        let search = paramUrl.get("search") || "";
+        let category = paramUrl.get("category") || "";
+        let minPrice = paramUrl.get("minPrice") || "";
+        let maxPrice = paramUrl.get("maxPrice") || "";
+        if (search !== "") {
+            s = s.concat(`?search=${search}`);
         }
+        if (category !== "") {
+            if (s !== "") {
+                s = s.concat(`&category=${category}`);
+            } else {
+                s = s.concat(`?category=${category}`);
+            }
+        }
+        if (minPrice !== "") {
+            if (s !== "") {
+                s = s.concat(`&minPrice=${minPrice}`);
+            } else {
+                s = s.concat(`?minPrice=${minPrice}`);
+            }
+        }
+        if (maxPrice !== "") {
+            if (s !== "") {
+                s = s.concat(`&maxPrice=${maxPrice}`);
+            } else {
+                s = s.concat(`?maxPrice=${maxPrice}`);
+            }
+        }
+        if (s !== "") {
+            s = s.concat(`&page=${page}`);
+        } else {
+            s = s.concat(`?page=${page}`);
+        }
+        history.push(`/product${s}`);
     }
     useEffect(() => {
         window.scrollTo(0, 0);
         getListCategory();
         // getListProducts();
-        // console.log(dataProducts)
         getSearchProduct();
         const page = paramUrl.get("page") || 1;
         const search = paramUrl.get("search") || "";
-        // const category = paramUrl.get("category") || "";
-        // const minPrice = paramUrl.get("minPrice") || "";
-        // const maxPrice = paramUrl.get("maxPrice") || "";
+        const category = paramUrl.get("category") || "";
+        const minPrice = paramUrl.get("minPrice") || "";
+        const maxPrice = paramUrl.get("maxPrice") || "";
         setCurrentPage(page);
         setParamsSearch(search);
-        // setCategorySearch(category);
-        // setMinPriceSearch(minPrice);
-        // setMaxPriceSearch(maxPrice);
-        // console.log(category);
-    }, [params.href, paramsSearch, categorySearch, minPriceSearch, maxPriceSearch])
+        setCategorySearch(category);
+        setMinPriceSearch(minPrice);
+        setMaxPriceSearch(maxPrice);
+    }, [params.href, categorySearch])
 
     var indexOfFirstProduct = (currentPage - 1) * productPerPage;
     var indexOfLastProduct = currentPage * productPerPage - 1;
@@ -201,7 +299,20 @@ const ListProductComponent = () => {
                 <select className="product-category filter" onChange={handleChangeCategory}>
                     <option value="">Tất cả</option>
                     {dataCategory.map(category => (
-                        <option key={category.id} value={category.id}>{category.name}</option>
+                        category?.id == categorySearch ?
+                            <option
+                                key={category?.id}
+                                value={category?.id}
+                                selected
+                            >
+                                {category?.name}
+                            </option> :
+                            <option
+                                key={category?.id}
+                                value={category?.id}
+                            >
+                                {category?.name}
+                            </option>
                     ))}
                 </select>
                 <label className="label">
