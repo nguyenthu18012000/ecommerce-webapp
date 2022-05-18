@@ -14,6 +14,7 @@ const WebHeaderComponent = () => {
     const history = useHistory();
     const token = storage.getToken();
 
+    let interval;
     const { Search } = Input;
     const accountFeature = (
         <Menu>
@@ -64,12 +65,15 @@ const WebHeaderComponent = () => {
     }, [token])
     useEffect(() => {
         if (storage.getToken()) {
-            const interval = setInterval(getCartNumber(), 1000);
-            return () => clearInterval(interval);
+            if (interval) {
+                clearInterval(interval);
+            }
+            interval = setInterval(getCartNumber, 1000);
         } else {
             setCartNumber(0);
         }
-    }, [])
+        return () => clearInterval(interval);
+    }, [storage.getToken()])
 
     return (
         <StyleWebHeaderComponent>
