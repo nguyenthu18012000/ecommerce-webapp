@@ -55,7 +55,7 @@ const updateProduct = async (
 ) => {
     try {
         const ADD_PRODUCT_PATH = `/admin/product/${params.id}`
-        const res = await axiosHelper.sendPut(ADD_PRODUCT_PATH, params.product, null, true);
+        const res = await axiosHelper.sendPut(ADD_PRODUCT_PATH, params.product, true, true);
         if (res?.code === 200) {
             onSucces(res?.data);
         }

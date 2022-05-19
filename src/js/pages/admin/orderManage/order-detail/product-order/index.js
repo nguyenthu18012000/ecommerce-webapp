@@ -1,4 +1,4 @@
-import { Col, Image, Row } from "antd";
+import { Col, Image, Row, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import imageService from "../../../../../services/admin/image.service";
 import productService from "../../../../../services/admin/product.service";
@@ -10,6 +10,7 @@ const ProductOrder = (props) => {
     } = props;
     const [data, setData] = useState([]);
     const [imageBg, setImageBg] = useState(new Map());
+    const [isLoadingProduct, setIsLoadingProduct] = useState(false);
 
     useEffect(() => {
         console.log(productOrder)
@@ -23,12 +24,11 @@ const ProductOrder = (props) => {
     }, [productOrder]);
 
     const getProducts = (ids) => {
+        setIsLoadingProduct(true);
         productService.getProducts(ids,
             (res) => {
                 setData(res);
-                console.log(res);
                 let images = [];
-                console.log(res.imageBg)
                 if (res && res.length) {
                     images = res.map(item => +item.imageBg[0]);
                     console.log(images)
@@ -36,7 +36,9 @@ const ProductOrder = (props) => {
                 if (images && images.length) {
                     getImageBg(images);
                 }
-            }
+                setIsLoadingProduct(false);
+            },
+            () => { setIsLoadingProduct(false) }
         );
     }
 
@@ -55,26 +57,58 @@ const ProductOrder = (props) => {
 
     return (
         <>
-            {data && data.length && (
-                data.map((item, index) =>
-                    <div className="blue-border"
-                        key={index}
-                        style={{ width: '100%', marginBottom: '10px' }}>
-                        <Col span={12}>
-                            <Row >
-                                <label style={{ width: '100%', textAlign: 'center' }}>{item.name}</label>
-                                <Image
-                                    height={200}
-                                    src={imageBg.get(+item.imageBg[0])}
-                                    style={{ objectFit: 'contain' }}
-                                />
+            {data && data.length && isLoadingProduct ?
+                <div style={{ width: '100%', textAlign: 'center' }}>
+                    <Spin />
+                </div> : (
+                    data.map((item, index) =>
+                        <div className="blue-border"
+                            key={index}
+                            style={{ width: '100%', marginBottom: '10px' }}>
+                            <Row>
+                                <Col span={12}>
+                                    <Row >
+                                        <div style={{ width: '100%', textAlign: 'center' }}>
+                                            <Image
+                                                height={200}
+                                                src={imageBg.get(+item.imageBg[0])}
+                                                style={{ objectFit: 'contain' }}
+                                            />
+                                        </div>
+                                    </Row>
+                                </Col>
+                                <Col span={12} style={{ width: '100%', textAlign: 'center' }}>
+                                    {
+                                        productOrder.map(order =>
+                                            order.productId === item.id &&
+                                            <div key={order.productId}>
+                                                <p style={{
+                                                    width: '100%',
+                                                    textAlign: 'center',
+                                                    fontSize: 'large',
+                                                    fontWeight: 700,
+                                                }}>{item.name}</p>
+                                                <div style={{ display: 'flex' }}>
+                                                    <label style={{ fontWeight: 700 }}>Price: &nbsp;</label>
+                                                    <p>{order.currentPrice}</p>
+                                                </div>
+                                                <div style={{ display: 'flex' }}>
+                                                    <label style={{ fontWeight: 700 }}>Quantity: &nbsp;</label>
+                                                    <p>{order.quantity}</p>
+                                                </div>
+                                                <div style={{ display: 'flex' }}>
+                                                    <label style={{ fontWeight: 700 }}>Into money: &nbsp;</label>
+                                                    <p>{order.currentPrice} * {order.quantity} = {order.quantity * order.currentPrice}</p>
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                    <div>{item.currentPrice}</div>
+                                </Col>
                             </Row>
-                        </Col>
-                        <Col span={12}>
-                        </Col>
-                    </div>
-                )
-            )}
+                        </div >
+                    )
+                )}
         </>
     )
 }

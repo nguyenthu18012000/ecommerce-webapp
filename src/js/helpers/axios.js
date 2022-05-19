@@ -3,6 +3,7 @@ import envApp from "./envApp";
 import storageFC from "./storage";
 import toast from "./toast-custom";
 import { HTTP_CODE } from "../constants/constant";
+import LoadingOverlayCustomer from "./loading-overlay";
 
 const axiosInstance = axios.create({
   baseURL: envApp.API,
@@ -52,41 +53,45 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export const sendGet = (url = "", params, toast = false) => axiosInstance.get(url, { params })
+export const sendGet = (url = "", params, toast = false, loading = false) => axiosInstance.get(url, { params })
   .then((res) => {
     handleToast(toast, res.data);
+    handleLoading(loading, true);
     return res.data
   });
 
-export const sendPost = (url = "", params, queryParams, toast = false) => axiosInstance
+export const sendPost = (url = "", params, queryParams, toast = false, loading = false) => axiosInstance
   .post(url, params, { params: queryParams, timeout: queryParams?.timeout }, toast)
   .then((res) => {
     handleToast(toast, res.data);
+    handleLoading(loading, true);
     return res.data
   });
 
-export const sendPut = (url = "", params, toast = false) => axiosInstance.put(url, params)
+export const sendPut = (url = "", params, toast = false, loading = false) => axiosInstance.put(url, params)
   .then((res) => {
     handleToast(toast, res.data);
+    handleLoading(loading, true);
     return res.data
   });
 
-export const sendPatch = (url = "", params) => axiosInstance.patch(url, params)
+export const sendPatch = (url = "", params, loading = false) => axiosInstance.patch(url, params)
   .then((res) => {
     handleToast(toast, res.data);
+    handleLoading(loading, true);
     return res.data
   });
 
-export const sendDelete = (url = "", params, toast = false) => axiosInstance
+export const sendDelete = (url = "", params, toast = false, loading = false) => axiosInstance
   .delete(url, { data: params }, toast)
   .then((res) => {
     handleToast(toast, res.data);
+    handleLoading(loading, true);
     return res.data
   });
 
 export const sendCustom = (params = {}) => axiosInstance(params)
   .then((res) => {
-    handleToast(toast, res.data);
     return res.data
   });
 
@@ -105,6 +110,13 @@ function handleToast(isShow, baseResponse) {
     type = 'info';
   }
   return toast({ mess: baseResponse.message, type: type });
+}
+
+function handleLoading(isShow, isActive) {
+  if (!isShow) {
+    return;
+  }
+  return;
 }
 
 const axiosCustom = {
