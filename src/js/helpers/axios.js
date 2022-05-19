@@ -33,7 +33,7 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    if (response?.data?.code === 401) {
+    if (response?.data?.code === 401 || response?.data?.code === 403) {
       logout();
     }
     return response
@@ -43,7 +43,7 @@ axiosInstance.interceptors.response.use(
     //   history.push("/not-found");
     // }
     if (error?.response?.status === 401) {
-      // logout();
+      logout();
     }
     if (error?.response?.status === 103) {
       // history.push("/logout");
