@@ -6,9 +6,11 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 import { Col, Menu, Row, Dropdown, Space, Input } from 'antd';
 import storage from '../../../../../../../helpers/storage';
 import { useHistory } from 'react-router-dom';
+import cartService from '../../../../../../../services/user/cart.service';
 
 const WebHeaderComponent = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(!!storage.getToken());
+    const [cartNumber, setCartNumber] = useState(0);
     const history = useHistory();
     const token = storage.getToken();
 
@@ -42,15 +44,32 @@ const WebHeaderComponent = () => {
     const onSearch = (value) => {
         history.push(`/product?search=${value}`);
     }
+    const getCartNumber = () => {
+        cartService.getAllProductInCart(
+            "",
+            (data) => {
+                setCartNumber(data.length);
+            }
+        )
+    }
 
     useEffect(() => {
         if (storage.getToken()) {
             setIsAuthenticated(true);
+            // getCartNumber();
         }
         else {
             setIsAuthenticated(false);
         }
     }, [token])
+    useEffect(() => {
+        if (storage.getToken()) {
+            const interval = setInterval(getCartNumber(), 1000);
+            return () => clearInterval(interval);
+        } else {
+            setCartNumber(0);
+        }
+    }, [])
 
     return (
         <StyleWebHeaderComponent>
@@ -136,6 +155,7 @@ const WebHeaderComponent = () => {
                                 onClick={() => { history.push("/cart") }}
                             >
                                 <HiOutlineShoppingBag />
+                                <span className="number">{cartNumber}</span>
                             </span>
                         </Col>
                     </Row>

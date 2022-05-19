@@ -6,6 +6,7 @@ const StyleElementCategoryComponent = styled.div`
     display: inline-flex;
     position: relative;
     max-height: 300px;
+    cursor: pointer;
 
     .category {
         margin: 5px;
