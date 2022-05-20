@@ -49,10 +49,17 @@ const MobileHeaderComponent = () => {
                     {/* <Link className="wish-list"><AiOutlineHeart /></Link> */}
                 </Col>
                 <Col span={1}>
-                    <Link to="/cart" className="cart">
-                        <HiOutlineShoppingBag />
-                        <span className="number">{cartNumber}</span>
-                    </Link>
+                    {
+                        storage.getToken() ?
+                            <Link to="/cart" className="cart">
+                                <HiOutlineShoppingBag />
+                                <span className="number">{cartNumber}</span>
+                            </Link> :
+                            <Link to="/login" className="cart">
+                                <HiOutlineShoppingBag />
+                                <span className="number">{cartNumber}</span>
+                            </Link>
+                    }
                 </Col>
             </Row>
         </StyleMobileHeaderComponent>
