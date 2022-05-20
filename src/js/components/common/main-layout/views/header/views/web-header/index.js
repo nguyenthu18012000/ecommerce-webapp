@@ -89,7 +89,11 @@ const WebHeaderComponent = () => {
                             <Link to="/"><span className="text-color">Trợ giúp</span></Link>
                         </span>
                         <span className="mid-label">
-                            <Link to="/order"><span className="text-color">Theo dõi đơn hàng</span></Link>
+                            {
+                                storage.getToken() ?
+                                    <Link to="/order"><span className="text-color">Theo dõi đơn hàng</span></Link> :
+                                    <Link to="/login"><span className="text-color">Theo dõi đơn hàng</span></Link>
+                            }
                         </span>
                         <span className="mid-label">
                             <Link to="/"><span className="text-color">Đăng ký nhận tin</span></Link>
@@ -154,13 +158,24 @@ const WebHeaderComponent = () => {
                             <span className="wish-list"><AiOutlineHeart /></span>
                         </Col>
                         <Col span={1}>
-                            <span
-                                className="cart"
-                                onClick={() => { history.push("/cart") }}
-                            >
-                                <HiOutlineShoppingBag />
-                                <span className="number">{cartNumber}</span>
-                            </span>
+                            {
+                                storage.getToken() ?
+                                    <span
+                                        className="cart"
+                                        onClick={() => { history.push("/cart") }}
+                                    >
+                                        <HiOutlineShoppingBag />
+                                        <span className="number">{cartNumber}</span>
+                                    </span> :
+                                    <span
+                                        className="cart"
+                                        onClick={() => { history.push("/login") }}
+                                    >
+                                        <HiOutlineShoppingBag />
+                                        <span className="number">{cartNumber}</span>
+                                    </span>
+
+                            }
                         </Col>
                     </Row>
 
