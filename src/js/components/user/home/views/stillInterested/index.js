@@ -3,7 +3,6 @@ import ProductComponent from '../../../../common/product';
 import { StyleStillInterestedComponent } from './styled';
 import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
-import { Link } from 'react-router-dom';
 
 const responsive = {
     superLargeDesktop: {
@@ -30,7 +29,7 @@ const StillInterestedComponent = ({ dataProducts }) => {
         <StyleStillInterestedComponent>
             <div>
                 <div className="carousel-title">
-                    <h3 className='title'>Still interested?</h3>
+                    <h3 className='title'>Sản phẩm hàng đầu</h3>
                 </div>
                 {/* <div className="keyword">
                     <span>

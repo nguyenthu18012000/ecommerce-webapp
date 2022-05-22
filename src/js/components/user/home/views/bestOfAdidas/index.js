@@ -29,7 +29,7 @@ const BestOfAdidasComponent = ({ dataProducts }) => {
         <StyleBestOfAdidasComponent>
             <div>
                 <div className="carousel-title">
-                    <h3 className='title'>Best Of Adidas</h3>
+                    <h3 className='title'>Được yêu thích nhất</h3>
                 </div>
                 <div className="">
 

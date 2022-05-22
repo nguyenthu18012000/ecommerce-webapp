@@ -29,7 +29,7 @@ const NewArrivalsComponent = ({ dataProducts }) => {
         <StyleNewArrivalsComponent>
             <div>
                 <div className="carousel-title">
-                    <h3 className='title'>New Arrivals</h3>
+                    <h3 className='title'>Mới nhất</h3>
                 </div>
                 <div className="">
 
