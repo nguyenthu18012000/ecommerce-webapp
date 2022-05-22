@@ -5,6 +5,27 @@ const StyleDetailProductComponent = styled.div`
     margin-right: 5%;
     padding-bottom: 20px;
     
+    .mobile {
+        display: none;
+    }
+
+    @media (max-width: 800px) {
+        .web {
+            display: none;
+        }
+
+        .mobile {
+            display: block;
+        }
+    }
+
+    .web {
+        .product-name {
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+    }
+
     .breadcrumb {
         z-index: 1;
         margin-top: 10px;
@@ -30,6 +51,7 @@ const StyleDetailProductComponent = styled.div`
             }
         }
     }
+
     .detail-header {
         position: absolute;
         width: 100%;
@@ -75,26 +97,12 @@ const StyleDetailProductComponent = styled.div`
             }
         }
 
-        /* .old-price {
-            font-size: 16px;
-            line-height: 36px;
-            letter-spacing: 1px;
-            font-style: normal;
-            font-weight: 300;
-            position: absolute;
-            top: 60px;
-            left: 0;
-            z-index: 1;
-            padding: 0 10px;
-            background-color: rgba(255,255,255,0.5);
-            text-decoration: line-through;
-        } */
-
         .product-star {
             padding: 0 10px;
-            background-color: rgba(255,255,255,0.5);
+            background-color: white;
         }
     }
+    
     .detail-container {
         
         .content {
@@ -110,9 +118,47 @@ const StyleDetailProductComponent = styled.div`
             }
         }
         
+        .product-name {
+            width: 100%;
+            font-size: 36px;
+            line-height: 36px;
+            letter-spacing: 1px;
+            font-style: normal;
+            font-weight: 300;
+            z-index: 1;
+            height: 60px;
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.5);
+        }
+
+        .product-price {
+            font-size: 16px;
+            line-height: 36px;
+            letter-spacing: 1px;
+            font-style: normal;
+            font-weight: 300;
+            z-index: 1;
+            padding: 0 10px;
+            background-color: rgba(255,255,255,0.5);
+
+            .old-price {
+                text-decoration: line-through;
+            }
+
+            .new-price {
+                color: red;
+            }
+        }
+
+        .product-star {
+            padding: 0 10px;
+            background-color: white;
+        }
+
         .sidebar-wrapper {
-            
-            
+            padding: 0 10px;
             button {
                 cursor: pointer;
                 margin-top: 20px;
