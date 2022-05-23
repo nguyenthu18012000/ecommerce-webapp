@@ -20,17 +20,17 @@ const StyleLoginComponent = styled.div`
         }
 
         .input-container {
-            border:1px solid;
-            margin-top:15px;
-            margin-bottom:15px;
+            border: 1px solid;
+            margin-top: 25px;
+            margin-bottom: 25px;
             position: relative;
 
             label {
                 font-size: 16px;
-                position:absolute;
-                top:-15px;
-                left:20px;
-                background-color:white;
+                position: absolute;
+                top: -15px;
+                left: 20px;
+                background-color: white;
             }
 
             input {

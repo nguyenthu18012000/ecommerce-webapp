@@ -1,10 +1,6 @@
 import styled from "styled-components";
 
 const StyleStar = styled.div`
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 1;
 
     button {
         background-color: transparent;

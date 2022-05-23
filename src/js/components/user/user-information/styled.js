@@ -21,8 +21,8 @@ const StyleUserInfomationComponent = styled.div`
 
         .input-container {
             border: 1px solid;
-            margin-top: 20px;
-            margin-bottom: 15px;
+            margin-top: 25px;
+            margin-bottom: 25px;
             position: relative;
 
             label {

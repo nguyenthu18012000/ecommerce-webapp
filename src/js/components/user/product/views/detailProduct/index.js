@@ -1,4 +1,4 @@
-import { Carousel } from 'antd';
+import { Carousel, Col, Row } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineArrowRight, AiOutlineRollback } from "react-icons/ai";
 import ReactStars from "react-rating-stars-component";
@@ -171,67 +171,139 @@ const DetailProductComponent = () => {
                 </span>
             </div>
             <div className="detail-container">
-                <div className="content">
-                    <div className="detail-header">
-                        <div className="product-name">
-                            {dataProduct?.name}
-                        </div>
-                        {
-                            dataProduct?.promotions?.length === 0 ?
-                                <div className="product-price">
-                                    {numberWithCommas(dataProduct?.price)}đ
-                                </div> :
-                                <div className="product-price">
-                                    <span className="old-price">
+                <div className="web">
+                    <Row>
+                        <Col xs={24} md={16} sm={16} xl={16}>
+                            <div className="content">
+                                <Carousel className="carousel">
+                                    {images.map((image, key = 0) => (
+                                        <div key={key++}>
+                                            <img className="image" src={image?.src} alt="" />
+                                        </div>
+                                    ))}
+                                </Carousel>
+                            </div>
+                        </Col>
+                        <Col xs={24} md={8} sm={8} xl={8}>
+                            <StarRating className="product-star" star={avgStar} />
+                            <div className="product-name">
+                                {dataProduct?.name}
+                            </div>
+                            {
+                                dataProduct?.promotions?.length === 0 ?
+                                    <div className="product-price">
                                         {numberWithCommas(dataProduct?.price)}đ
-                                    </span>
-                                    {
-                                        dataProduct?.promotions ?
-                                            <span className="new-price">
-                                                {numberWithCommas(dataProduct?.promotions[0]?.priceSale)}đ
-                                            </span> :
-                                            <span></span>
-                                    }
+                                    </div> :
+                                    <div className="product-price">
+                                        <span className="old-price">
+                                            {numberWithCommas(dataProduct?.price)}đ
+                                        </span>
+                                        {
+                                            dataProduct?.promotions ?
+                                                <span className="new-price">
+                                                    {numberWithCommas(dataProduct?.promotions[0]?.priceSale)}đ
+                                                </span> :
+                                                <span></span>
+                                        }
+                                    </div>
+                            }
+                            <div className="sidebar-wrapper">
+                                {
+                                    isAuthenticate ?
+                                        <div>
+                                            <button
+                                                onClick={handleClickBtnAddProduct}
+                                            >
+                                                Thêm vào giỏ hàng
+                                                <AiOutlineArrowRight className="scale1_5" />
+                                            </button>
+                                        </div> :
+                                        <div>
+                                            <button
+                                                onClick={showModal}
+                                            >
+                                                Thêm vào giỏ hàng
+                                                <AiOutlineArrowRight className="scale1_5" />
+                                            </button>
+                                        </div>
+                                }
+                                <div>
+                                    <div className="more-info">
+                                        <FaShippingFast className="scale1_5" />
+                                        Hoàn trả hàng dễ dàng
+                                    </div>
+                                    <div className="more-info">
+                                        <ImLoop className="scale1_5" />
+                                        Không phù hợp? Bạn có thể hoàn trả hàng trong 7 ngày từ khi nhận sản phẩm
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                </div>
+                <div className="mobile">
+                    <div className="content">
+                        <div className="detail-header">
+                            <div className="product-name">
+                                {dataProduct?.name}
+                            </div>
+                            {
+                                dataProduct?.promotions?.length === 0 ?
+                                    <div className="product-price">
+                                        {numberWithCommas(dataProduct?.price)}đ
+                                    </div> :
+                                    <div className="product-price">
+                                        <span className="old-price">
+                                            {numberWithCommas(dataProduct?.price)}đ
+                                        </span>
+                                        {
+                                            dataProduct?.promotions ?
+                                                <span className="new-price">
+                                                    {numberWithCommas(dataProduct?.promotions[0]?.priceSale)}đ
+                                                </span> :
+                                                <span></span>
+                                        }
+                                    </div>
+                            }
+                            <StarRating className="product-star" star={avgStar} />
+                        </div>
+                        <Carousel className="carousel">
+                            {images.map((image, key = 0) => (
+                                <div key={key++}>
+                                    <img className="image" src={image?.src} alt="" />
+                                </div>
+                            ))}
+                        </Carousel>
+                    </div>
+                    <div className="sidebar-wrapper">
+                        {
+                            isAuthenticate ?
+                                <div>
+                                    <button
+                                        onClick={handleClickBtnAddProduct}
+                                    >
+                                        Thêm vào giỏ hàng
+                                        <AiOutlineArrowRight className="scale1_5" />
+                                    </button>
+                                </div> :
+                                <div>
+                                    <button
+                                        onClick={showModal}
+                                    >
+                                        Thêm vào giỏ hàng
+                                        <AiOutlineArrowRight className="scale1_5" />
+                                    </button>
                                 </div>
                         }
-                        <StarRating className="product-star" star={avgStar} />
-                    </div>
-                    <Carousel className="carousel">
-                        {images.map((image, key = 0) => (
-                            <div key={key++}>
-                                <img className="image" src={image?.src} alt="" />
+                        <div>
+                            <div className="more-info">
+                                <FaShippingFast className="scale1_5" />
+                                Hoàn trả hàng dễ dàng
                             </div>
-                        ))}
-                    </Carousel>
-                </div>
-                <div className="sidebar-wrapper">
-                    {
-                        isAuthenticate ?
-                            <div>
-                                <button
-                                    onClick={handleClickBtnAddProduct}
-                                >
-                                    Thêm vào giỏ hàng
-                                    <AiOutlineArrowRight className="scale1_5" />
-                                </button>
-                            </div> :
-                            <div>
-                                <button
-                                    onClick={showModal}
-                                >
-                                    Thêm vào giỏ hàng
-                                    <AiOutlineArrowRight className="scale1_5" />
-                                </button>
+                            <div className="more-info">
+                                <ImLoop className="scale1_5" />
+                                Không phù hợp? Bạn có thể hoàn trả hàng trong 7 ngày từ khi nhận sản phẩm
                             </div>
-                    }
-                    <div>
-                        <div className="more-info">
-                            <FaShippingFast className="scale1_5" />
-                            Hoàn trả hàng dễ dàng
-                        </div>
-                        <div className="more-info">
-                            <ImLoop className="scale1_5" />
-                            Không phù hợp? Bạn có thể hoàn trả hàng trong 7 ngày từ khi nhận sản phẩm
                         </div>
                     </div>
                 </div>
