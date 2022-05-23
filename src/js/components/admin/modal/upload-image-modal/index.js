@@ -1,4 +1,4 @@
-import { Modal, Button, Divider, Radio, Spin } from 'antd';
+import { Modal, Button, Divider, Radio, Spin, Pagination } from 'antd';
 import { useState } from 'react';
 import ListImage from '../../list-image';
 import UploadImage from '../../upload-image';
@@ -17,6 +17,8 @@ const UploadImageModal = (props) => {
     const [visible, setVisible] = useState(false)
     const [optionModal, setOptionModal] = useState(OPTION_MODAL.STORAGE)
     const [listImage, setListImage] = useState([])
+    const [loading, setLoading] = useState()
+    const [count, setCount] = useState(1)
 
     const showModal = () => {
         getListImage();
@@ -33,14 +35,17 @@ const UploadImageModal = (props) => {
         setVisible(false);
     }
 
-    const getListImage = async () => {
-        await imageService.getAll({ page: 0, perPage: 20 }, (res) => {
-            setListImage(res.rows)
-        })
+    const getListImage = (page = 0) => {
+        setLoading(true)
+        imageService.getAll({ page: page, perPage: 20 }, (res) => {
+            setListImage(res.rows);
+            setCount(res.count);
+            setLoading(false);
+        }, () => setLoading(false))
     }
 
     const deleteImage = async (id) => {
-        await imageService.deleteImage({ id: id }, (res) => {
+        imageService.deleteImage({ id: id }, (res) => {
             getListImage();
         })
     }
@@ -49,6 +54,12 @@ const UploadImageModal = (props) => {
         getListImage();
         setOptionModal(value);
     };
+
+    const onChangePage = (page, pageSize) => {
+        console.log(page);
+        console.log(pageSize);
+        getListImage(page - 1)
+    }
 
     return (
         <>
@@ -65,15 +76,19 @@ const UploadImageModal = (props) => {
             >
                 <div style={{ position: 'relative' }}>
                     <div style={{ paddingBottom: 5 }}>
-                        <Radio.Group onChange={handleOption} value={optionModal} style={{ marginBottom: 3 }}>
+                        <Radio.Group onChange={handleOption} value={optionModal} style={{ marginBottom: 3, display: 'flex' }}>
                             <Radio.Button value={OPTION_MODAL.STORAGE}>Storage</Radio.Button>
                             <Radio.Button value={OPTION_MODAL.UPLOAD_IMAGE}>Upload image</Radio.Button>
+                            {
+                                optionModal === OPTION_MODAL.STORAGE && <Pagination style={{ margin: 'auto' }} defaultCurrent={1} total={count} pageSize={20} onChange={onChangePage} />
+                            }
                         </Radio.Group>
+
                         <Divider style={{ margin: 3 }} />
                     </div>
                     {optionModal === OPTION_MODAL.STORAGE ?
                         <div>
-                            {listImage.length !== 0 ?
+                            {!loading && listImage.length !== 0 ?
                                 <ListImage
                                     listImage={listImage}
                                     currentImages={currentImages}
@@ -85,7 +100,7 @@ const UploadImageModal = (props) => {
                                     deleteFunction={deleteImage}
                                     sendCheckList={sendCheckList}
                                 /> :
-                                <Spin size="large" />
+                                <Spin size="large" style={{ textAlign: 'center' }} />
                             }
                         </div> :
                         <div>
