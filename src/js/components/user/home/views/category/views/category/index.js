@@ -9,7 +9,7 @@ const ElementCategoryComponent = ({ category }) => {
 
     const getImage = () => {
         imageService.getImageByIds(
-            [category.image],
+            [category?.image],
             (data) => {
                 setImage(data);
             },

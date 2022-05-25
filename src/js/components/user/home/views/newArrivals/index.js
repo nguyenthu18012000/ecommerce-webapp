@@ -29,7 +29,7 @@ const NewArrivalsComponent = ({ dataProducts }) => {
         <StyleNewArrivalsComponent>
             <div>
                 <div className="carousel-title">
-                    <h3 className='title'>Mới nhất</h3>
+                    <h3 className='title'>Sản phẩm mới nhất</h3>
                 </div>
                 <div className="">
 
@@ -38,7 +38,7 @@ const NewArrivalsComponent = ({ dataProducts }) => {
             <Carousel className="carousel" responsive={responsive}>
 
                 {dataProducts.map(dataProduct => (
-                    <div key={dataProduct.id} className="margin-product">
+                    <div key={dataProduct?.id} className="margin-product">
                         <ProductComponent dataProduct={dataProduct} />
                     </div>
                 ))}

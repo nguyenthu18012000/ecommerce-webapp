@@ -62,7 +62,7 @@ const HomeComponent = () => {
     return (
         <>
             {dataBanners?.map(banner => (
-                <BannerComponent key={banner.bannerSrc} dataBanner={banner} />
+                <BannerComponent key={banner?.bannerSrc} dataBanner={banner} />
             ))}
             <StillInterestedComponent dataProducts={dataStillInterested} />
             <NewArrivalsComponent dataProducts={newestProduct} />

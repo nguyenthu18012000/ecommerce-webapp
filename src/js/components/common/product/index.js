@@ -15,7 +15,7 @@ const ProductComponent = ({ dataProduct = {} }) => {
 
     const getImageBg = () => {
         imageService.getImageByIds(
-            dataProduct.imageBg,
+            dataProduct?.imageBg,
             (data) => {
                 setImageBg(data);
             },

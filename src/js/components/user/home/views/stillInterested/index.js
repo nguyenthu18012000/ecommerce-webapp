@@ -31,22 +31,11 @@ const StillInterestedComponent = ({ dataProducts }) => {
                 <div className="carousel-title">
                     <h3 className='title'>Sản phẩm hàng đầu</h3>
                 </div>
-                {/* <div className="keyword">
-                    <span>
-                        <Link className="link-keyword">Giày superstar</Link>
-                    </span>
-                    <span>
-                        <Link className="link-keyword">Giày nam superstar</Link>
-                    </span>
-                    <span>
-                        <Link className="link-keyword">Giày slip-on superstar</Link>
-                    </span>
-                </div> */}
             </div>
 
             <Carousel className='carousel' responsive={responsive}>
                 {dataProducts.map(dataProduct => (
-                    <div key={dataProduct.id} className="margin-product">
+                    <div key={dataProduct?.id} className="margin-product">
                         <ProductComponent dataProduct={dataProduct} />
                     </div>
                 ))}
