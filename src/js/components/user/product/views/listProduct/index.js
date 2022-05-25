@@ -90,13 +90,13 @@ const ListProductComponent = () => {
                 s = s.concat(`?maxPrice=${maxPrice}`);
             }
         }
-        if (page !== "") {
-            if (s !== "") {
-                s = s.concat(`&page=${page}`);
-            } else {
-                s = s.concat(`?page=${page}`);
-            }
-        }
+        // if (page !== "") {
+        //     if (s !== "") {
+        //         s = s.concat(`&page=${page}`);
+        //     } else {
+        //         s = s.concat(`?page=${page}`);
+        //     }
+        // }
         history.push(`/product${s}`);
     }
     const handleChangeMaxPrice = (e) => {
@@ -128,13 +128,13 @@ const ListProductComponent = () => {
         } else {
             s = s.concat(`?maxPrice=${e.target.value}`);
         }
-        if (page !== "") {
-            if (s !== "") {
-                s = s.concat(`&page=${page}`);
-            } else {
-                s = s.concat(`?page=${page}`);
-            }
-        }
+        // if (page !== "") {
+        //     if (s !== "") {
+        //         s = s.concat(`&page=${page}`);
+        //     } else {
+        //         s = s.concat(`?page=${page}`);
+        //     }
+        // }
         history.push(`/product${s}`);
     }
     const handleChangeCategory = (e) => {
@@ -166,13 +166,13 @@ const ListProductComponent = () => {
                 s = s.concat(`?maxPrice=${maxPrice}`);
             }
         }
-        if (page !== "") {
-            if (s !== "") {
-                s = s.concat(`&page=${page}`);
-            } else {
-                s = s.concat(`?page=${page}`);
-            }
-        }
+        // if (page !== "") {
+        //     if (s !== "") {
+        //         s = s.concat(`&page=${page}`);
+        //     } else {
+        //         s = s.concat(`?page=${page}`);
+        //     }
+        // }
         history.push(`/product${s}`);
     }
     // const getListProducts = () => {

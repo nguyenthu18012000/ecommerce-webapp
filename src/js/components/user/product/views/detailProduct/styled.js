@@ -255,22 +255,27 @@ const StyleDetailProductComponent = styled.div`
                 }
                 
                 .cmt-detail {
+                    width: 100%;
                     
                     .comment-title {
                         font-size: 20px;
                         margin-bottom: 10px;
                     }
                     
-                    .user-name {
-                        display: inline;
-                        font-size: 15px;
-                        font-weight: bold;
-                        margin-left: 1.5%;
-                    }
-                    
-                    .number-star {
-                        display: inline;
-                        transform: scale(0.7);
+                    .user {
+                        width: 100%;
+
+                        .user-name {
+                            display: inline-flex;
+                            font-size: 15px;
+                            font-weight: bold;
+                            margin-left: 1.5%;
+                        }
+                        
+                        .number-star {
+                            display: inline-flex;
+                            transform: scale(0.8);
+                        }
                     }
                     
                     .user-comment {
@@ -279,6 +284,8 @@ const StyleDetailProductComponent = styled.div`
                         margin-bottom: 30px;
                         font-size: 16px;
                         white-space: pre-wrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
                     }
                     
                     .add-comment {

@@ -1,4 +1,4 @@
-import { Carousel, Col, Row } from 'antd';
+import { Button, Carousel, Col, Input, Row } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineArrowRight, AiOutlineRollback } from "react-icons/ai";
 import ReactStars from "react-rating-stars-component";
@@ -59,22 +59,29 @@ const DetailProductComponent = () => {
         setNewComment(e.target.value);
     }
     const handleClickBtnAddComment = () => {
-        commentService.createNewComment(
-            {
-                productId: id_product,
-                star: rateStar,
-                content: newComment
-            },
-            () => {
-                getDataCommentById();
-                setNewComment("");
-                // toastCustom({
-                //     mess: "Thành công",
-                //     type: "success",
-                // });
-            },
-            () => { }
-        )
+        if (newComment !== "") {
+            commentService.createNewComment(
+                {
+                    productId: id_product,
+                    star: rateStar,
+                    content: newComment
+                },
+                () => {
+                    getDataCommentById();
+                    setNewComment("");
+                    // toastCustom({
+                    //     mess: "Thành công",
+                    //     type: "success",
+                    // });
+                },
+                () => { }
+            )
+        } else {
+            toastCustom({
+                mess: "Bạn không thể để trống ",
+                type: "warn",
+            });
+        }
     }
     const ratingChanged = (newRating) => {
         setRateStar(newRating);
@@ -354,8 +361,12 @@ const DetailProductComponent = () => {
                             }
                             {dataComment.map((comment, key = 0) => (
                                 <div key={key++}>
-                                    <div>
-                                        <span className="user-name">{comment?.User?.fullname}</span>
+                                    <div className="user">
+                                        {
+                                            comment?.User?.fullname ?
+                                                <span className="user-name">{comment?.User?.fullname}</span> :
+                                                <span className="user-name">Khách hàng ẩn danh</span>
+                                        }
                                         <span className="number-star">
                                             <ReactStars classNames="number-star"
                                                 count={5}
@@ -375,7 +386,7 @@ const DetailProductComponent = () => {
                             {
                                 isAuthenticate ?
                                     <div className="add-comment">
-                                        <TextareaAutosize
+                                        <textarea
                                             className="new-comment"
                                             onChange={handleChangeInputComment}
                                             value={newComment}
